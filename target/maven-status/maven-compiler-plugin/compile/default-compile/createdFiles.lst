@@ -1,0 +1,5 @@
+com/gssk/gssk/model/Person.class
+com/gssk/gssk/service/PersonService.class
+com/gssk/gssk/repository/PersonRepository.class
+com/gssk/gssk/controller/PersonController.class
+com/gssk/gssk/GsskApplication.class
