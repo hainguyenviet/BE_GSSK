@@ -1,5 +1,11 @@
-/Users/viet-hainguyen/IdeaProjects/scb/GSSK/src/main/java/com/gssk/gssk/repository/PersonRepository.java
-/Users/viet-hainguyen/IdeaProjects/scb/GSSK/src/main/java/com/gssk/gssk/service/PersonService.java
-/Users/viet-hainguyen/IdeaProjects/scb/GSSK/src/main/java/com/gssk/gssk/GsskApplication.java
-/Users/viet-hainguyen/IdeaProjects/scb/GSSK/src/main/java/com/gssk/gssk/model/Person.java
-/Users/viet-hainguyen/IdeaProjects/scb/GSSK/src/main/java/com/gssk/gssk/controller/PersonController.java
+/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK/BE_GSSK/src/main/java/com/gssk/gssk/repository/Relative.java
+/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK/BE_GSSK/src/main/java/com/gssk/gssk/repository/HealthRecordRepository.java
+/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK/BE_GSSK/src/main/java/com/gssk/gssk/controller/PersonController.java
+/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK/BE_GSSK/src/main/java/com/gssk/gssk/repository/PersonRepository.java
+/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK/BE_GSSK/src/main/java/com/gssk/gssk/GsskApplication.java
+/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK/BE_GSSK/src/main/java/com/gssk/gssk/repository/IllnessRepository.java
+/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK/BE_GSSK/src/main/java/com/gssk/gssk/service/PersonService.java
+/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK/BE_GSSK/src/main/java/com/gssk/gssk/model/HealthRecord.java
+/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK/BE_GSSK/src/main/java/com/gssk/gssk/model/Person.java
+/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK/BE_GSSK/src/main/java/com/gssk/gssk/model/Relative.java
+/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK/BE_GSSK/src/main/java/com/gssk/gssk/model/Illness.java

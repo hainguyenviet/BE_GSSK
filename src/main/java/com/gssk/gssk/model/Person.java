@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -24,5 +25,19 @@ public class Person {
     private String lastName;
     @Column(name = "birthday")
     private Date birthDay;
+    @Column(name = "id_card")
+    private String idCard;
+    @Column(name = "email")
+    private String email;
+    @Column(name= "phone_number")
+    private String phoneNumber;
+    @Column(name= "gender")
+    private String gender;
+
+    @OneToMany
+    private List<Relative> relativeList;
+
+    @OneToOne
+    private HealthRecord healthRecord;
 
 }
