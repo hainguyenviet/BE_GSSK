@@ -23,7 +23,7 @@ public class HealthRecord {
     private Boolean isTwin;
 
     @Column(name = "is_adopted")
-    private Boolean isApdopted;
+    private Boolean isAdopted;
 
     @Column(name = "height")
     private Integer height;
@@ -37,8 +37,8 @@ public class HealthRecord {
     @Column(name = "birth_control")
     private Integer birthControl;
 
-    @Column(name = "pregnan_time")
-    private Integer pregnanTime;
+    @Column(name = "pregnant_time")
+    private Integer pregnantTime;
 
     @Column(name = "first_born_age")
     private Integer firstBornAge;
@@ -60,6 +60,10 @@ public class HealthRecord {
 
     @Column(name = "work_out_type")
     private String workOutType;
+
+    @OneToOne
+    @Column(name = "pid")
+    private Person pid;
 
     @OneToMany
     private List<Illness> illnessList;

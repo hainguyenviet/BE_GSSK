@@ -14,6 +14,6 @@ public class Relative extends Person {
     private Person pid;
     @Column(name="relation")
     private String relation;
-
-
+    @Column(name="name")
+    private String name;
 }
