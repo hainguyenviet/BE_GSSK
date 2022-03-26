@@ -62,7 +62,7 @@ public class HealthRecord {
     private String workOutType;
 
     @OneToOne
-    @Column(name = "pid")
+    @JoinColumn(name = "pid")
     private Person pid;
 
     @OneToMany

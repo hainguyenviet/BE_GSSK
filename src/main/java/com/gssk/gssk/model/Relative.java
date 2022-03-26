@@ -10,10 +10,12 @@ import javax.persistence.*;
 public class Relative extends Person {
 
     @ManyToOne
-    @Column(name = "pid")
+    @JoinColumn(name = "pid")
     private Person pid;
+
     @Column(name="relation")
     private String relation;
+
     @Column(name="name")
     private String name;
 }

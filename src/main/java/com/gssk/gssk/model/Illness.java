@@ -22,6 +22,6 @@ public class Illness {
     @Column(name="name")
     private String name;
     @ManyToOne
-    @Column(name="hid")
+    @JoinColumn(name="hid")
     private HealthRecord hid;
 }
