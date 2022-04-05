@@ -11,6 +11,7 @@ import java.util.List;
 @Table(name = "genogram")
 public class Genogram {
 
+    @Id
     @Column(name = "key")
     private String id;
     @Column(name="name")

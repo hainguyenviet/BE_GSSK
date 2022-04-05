@@ -1,6 +1,5 @@
 package com.gssk.gssk.service;
 
-import com.gssk.gssk.model.Person;
 import com.gssk.gssk.model.Relative;
 import com.gssk.gssk.repository.RelativeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
