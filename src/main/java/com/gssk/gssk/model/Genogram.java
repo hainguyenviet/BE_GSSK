@@ -1,5 +1,6 @@
 package com.gssk.gssk.model;
 
+import com.gssk.gssk.service.RelativeService;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -33,6 +34,18 @@ public class Genogram {
     public void removeAttb(String target)
     {
         attb.remove(target);
+    }
+
+    public Genogram(Relative person)
+    {
+        RelativeService relativeService=new RelativeService(person.getRelativeList());
+        id=person.getId();
+        sex=person.getGender();
+        name=person.getFirstName()+" "+person.getLastName();
+        husband=relativeService.getRelativeByRelation("husband").getId();
+        wife=relativeService.getRelativeByRelation("wife").getId();
+        f_key=relativeService.getRelativeByRelation("father").getId();
+        m_key=relativeService.getRelativeByRelation("mother").getId();
     }
 
 }
