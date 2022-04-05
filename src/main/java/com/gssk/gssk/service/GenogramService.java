@@ -34,13 +34,14 @@ public class GenogramService {
 
         return result;
     }
-    public Genogram updateAttribute(String argv,String attr,Genogram target)
+    public Genogram updateAttribute(String argv,Genogram target,String attr[])
     {
         Genogram update=target;
         switch (argv)
         {
-            //case "add": update.addAttb(attb);
-            //case "remove":update.removeAttb(attb);
+            //case "add": update.addAttb(attr[0]);
+            //case "remove":update.removeAttb(attr[0]);
+            //case "replace":update.replaceAttb(attr);
         }
         return update;
     }
