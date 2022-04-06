@@ -38,17 +38,19 @@ public class Genogram {
     {
         attb.remove(target);
     }
-
+    public void replaceAttb(String target[])
+    {
+        attb.set(attb.indexOf(target[0]),target[1]);
+    }
     public Genogram(Relative person)
     {
-        RelativeService relativeService=new RelativeService(person.getRelativeList());
-        id=person.getId();
         sex=person.getGender();
         name=person.getFirstName()+" "+person.getLastName();
-        husband=relativeService.getRelativeByRelation("husband").getId();
-        wife=relativeService.getRelativeByRelation("wife").getId();
-        f_key=relativeService.getRelativeByRelation("father").getId();
-        m_key=relativeService.getRelativeByRelation("mother").getId();
+        HealthRecord HR=person.getHealthRecord();
+        for (Illness i:HR.getIllnessList()
+             ) {
+            attb.add(i.getId());
+        }
     }
 
     public Genogram() {

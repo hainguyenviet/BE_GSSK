@@ -7,7 +7,7 @@ import com.gssk.gssk.repository.GenogramRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.Null;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,13 +34,14 @@ public class GenogramService {
 
         return result;
     }
-    public Genogram updateAttribute(String argv,String attr,Genogram target)
+    public Genogram updateAttribute(String argv,Genogram target,String attr[])
     {
         Genogram update=target;
         switch (argv)
         {
-            //case "add": update.addAttb(attb);
-            //case "remove":update.removeAttb(attb);
+            //case "add": update.addAttb(attr[0]);
+            //case "remove":update.removeAttb(attr[0]);
+            //case "replace":update.replaceAttb(attr);
         }
         return update;
     }
