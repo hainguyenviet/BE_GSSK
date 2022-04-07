@@ -30,6 +30,10 @@ public class Genogram {
     private String husband;
     @Column(name="attributes")
     private List<String> attb ;
+    public void getKey()
+    {
+        id = id(person);
+    }
     public void addAttb(String target)
     {
         attb.add(target);
