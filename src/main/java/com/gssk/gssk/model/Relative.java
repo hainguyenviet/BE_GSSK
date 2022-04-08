@@ -1,6 +1,7 @@
 package com.gssk.gssk.model;
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -12,6 +13,12 @@ public class Relative extends Person {
     @ManyToOne
     @JoinColumn(name = "pid")
     private Person pid;
+    
+    @Id
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @Column(name = "relativeId")
+    private String rid;
 
     @Column(name="relation")
     private String relation;
