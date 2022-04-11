@@ -44,6 +44,7 @@ public class Genogram {
     }
     public Genogram(Relative person)
     {
+        id= person.getRid();
         sex=person.getGender();
         name=person.getFirstName()+" "+person.getLastName();
         HealthRecord HR=person.getHealthRecord();
@@ -53,7 +54,14 @@ public class Genogram {
         }
     }
 
-    public Genogram() {
-
+    public Genogram(Person person) {
+        id= person.getId();
+        sex=person.getGender();
+        name=person.getFirstName()+" "+person.getLastName();
+        HealthRecord HR=person.getHealthRecord();
+        for (Illness i:HR.getIllnessList()
+        ) {
+            attb.add(i.getId());
+        }
     }
 }
