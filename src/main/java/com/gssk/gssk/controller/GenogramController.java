@@ -19,8 +19,8 @@ public class GenogramController {
     @Autowired
     GenogramService genogramService;
 
-    @GetMapping
-    public List<Genogram> ConvertFromPerson(Person person) { return genogramService.ConvertFromPerson(person); }
+    @GetMapping("/{cv}")
+    public List<Genogram> ConvertFromPerson(@PathVariable("cv") Person person) { return genogramService.ConvertFromPerson(person); }
 
 
     @GetMapping(value="/{id}", produces = "application/json")
