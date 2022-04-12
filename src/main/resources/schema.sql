@@ -16,7 +16,7 @@ CREATE TABLE tbl_person (
 );
 
 CREATE TABLE tbl_relative (
-                        rid VARCHAR(250) AUTO_INCREMENT PRIMARY KEY,
+                        rid VARCHAR(250) AUTO_INCREMENT,
                         pid VARCHAR(250) NOT NULL,
                         relation VARCHAR(250) NOT NULL,
                         name VARCHAR(250) NOT NULL

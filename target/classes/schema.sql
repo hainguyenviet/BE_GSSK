@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS tbl_person;
 DROP TABLE IF EXISTS tbl_relative;
 DROP TABLE IF EXISTS tbl_health_record;
 DROP TABLE IF EXISTS tbl_illness;
+DROP TABLE IF EXISTS tbl_genogram;
 
 CREATE TABLE tbl_person (
                           id VARCHAR(250) AUTO_INCREMENT  PRIMARY KEY,
@@ -15,6 +16,7 @@ CREATE TABLE tbl_person (
 );
 
 CREATE TABLE tbl_relative (
+                        rid VARCHAR(250) AUTO_INCREMENT,
                         pid VARCHAR(250) NOT NULL,
                         relation VARCHAR(250) NOT NULL,
                         name VARCHAR(250) NOT NULL
@@ -44,6 +46,17 @@ CREATE TABLE tbl_health_record (
                         workOutVolume INT(250),
                         workOutType VARCHAR(250),
                         pid VARCHAR(250) NOT NULL
+);
+
+CREATE TABLE tbl_genogram(
+                        id VARCHAR(250) PRIMARY KEY,
+                        name VARCHAR(250) NOT NULL,
+                        gender VARCHAR(5) NOT NULL,
+                        motherKey VARCHAR(250) NOT NULL,
+                        fatherKey VARCHAR(250) NOT NULL,
+                        wife VARCHAR(250) UNIQUE,
+                        husband VARCHAR(250) UNIQUE,
+                        attributes VARCHAR(250) NOT NULL
 );
 
 ALTER TABLE tbl_relative ADD FOREIGN KEY (pid) REFERENCES tbl_person(id);

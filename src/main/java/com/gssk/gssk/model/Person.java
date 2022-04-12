@@ -10,6 +10,7 @@ import java.util.*;
 @Data
 @Entity
 @Table(name = "tbl_person")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Person {
 
     @Id

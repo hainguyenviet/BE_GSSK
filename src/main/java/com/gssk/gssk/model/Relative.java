@@ -10,15 +10,15 @@ import javax.persistence.*;
 @Table(name = "tbl_relative")
 public class Relative extends Person {
 
-    @ManyToOne
-    @JoinColumn(name = "pid")
-    private Person pid;
-    
-    @Id
+
     @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     @Column(name = "relativeId")
     private String rid;
+
+    @ManyToOne
+    @JoinColumn(name = "pid")
+    private Person pid;
 
     @Column(name="relation")
     private String relation;
