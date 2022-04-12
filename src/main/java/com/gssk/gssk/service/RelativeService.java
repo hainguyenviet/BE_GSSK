@@ -11,11 +11,11 @@ import java.util.List;
 public class RelativeService
 {
     RelativeRepository relativeRepository;
-    private List<Relative> r;
+    private List<Relative> relatives;
     @Autowired
     public Relative getRelativeByRelation(String relation) {return relativeRepository.findById(relation).get();}
 
     public RelativeService(List<Relative> relativeList) {
-        this.r = relativeList;
+        this.relatives = relativeList;
     }
 }

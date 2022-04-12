@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "tbl_relative")
+
 public class Relative extends Person {
 
 

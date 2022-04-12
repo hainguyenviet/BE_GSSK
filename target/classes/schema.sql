@@ -47,7 +47,10 @@ CREATE TABLE tbl_health_record (
                         workOutType VARCHAR(250),
                         pid VARCHAR(250) NOT NULL
 );
+<<<<<<< HEAD
 
+=======
+>>>>>>> d396155928e19058d7c37887c6fc145ecd96d373
 CREATE TABLE tbl_genogram(
                         id VARCHAR(250) PRIMARY KEY,
                         name VARCHAR(250) NOT NULL,
@@ -58,7 +61,10 @@ CREATE TABLE tbl_genogram(
                         husband VARCHAR(250) UNIQUE,
                         attributes VARCHAR(250) NOT NULL
 );
+<<<<<<< HEAD
 
+=======
+>>>>>>> d396155928e19058d7c37887c6fc145ecd96d373
 ALTER TABLE tbl_relative ADD FOREIGN KEY (pid) REFERENCES tbl_person(id);
 ALTER TABLE tbl_illness ADD FOREIGN KEY (hid) REFERENCES tbl_health_record(id);
 ALTER TABLE tbl_health_record ADD FOREIGN KEY (pid) REFERENCES tbl_person(id);
