@@ -30,7 +30,7 @@ public class GenogramService {
         return result;
     }
 
-    public List<Genogram> ConvertFromPerson(Relative person)
+    public List<Genogram> ConvertFromPerson(Person person)
     {
         List<Relative> relatives= person.getRelativeList();
         List<Genogram> GenogramList=new ArrayList<>();
