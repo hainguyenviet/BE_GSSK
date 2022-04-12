@@ -29,6 +29,7 @@ public class Genogram {
     @Column(name="husband")
     private String husband;
     @Column(name="attributes")
+    @ElementCollection
     private List<String> attb ;
     public void addAttb(String target)
     {

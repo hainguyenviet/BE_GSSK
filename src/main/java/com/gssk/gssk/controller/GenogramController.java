@@ -2,6 +2,7 @@ package com.gssk.gssk.controller;
 
 
 import com.gssk.gssk.model.Genogram;
+import com.gssk.gssk.model.Person;
 import com.gssk.gssk.model.Relative;
 import com.gssk.gssk.service.GenogramService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,8 @@ public class GenogramController {
     GenogramService genogramService;
 
     @GetMapping
-    public List<Genogram> ConvertFromPerson(Relative person) { return genogramService.ConvertFromPerson(person); }
+    public List<Genogram> ConvertFromPerson(Person person) { return genogramService.ConvertFromPerson(person); }
 
-    @GetMapping
-    public List<Genogram> getAllNodes() { return (List<Genogram>) genogramService.getAllNodes(); }
 
     @GetMapping(value="/{id}", produces = "application/json")
     public Genogram genogram(@PathVariable("id") String id) {return genogramService.FindByID(id);}
