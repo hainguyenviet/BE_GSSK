@@ -1,10 +1,5 @@
-DROP TABLE IF EXISTS tbl_person;
-DROP TABLE IF EXISTS tbl_relative;
-DROP TABLE IF EXISTS tbl_health_record;
-DROP TABLE IF EXISTS tbl_illness;
-DROP TABLE IF EXISTS tbl_genogram;
 
-CREATE TABLE tbl_person (
+CREATE TABLE IF not EXISTS tbl_person (
                           id VARCHAR(250) PRIMARY KEY,
                           first_name VARCHAR(250) NOT NULL,
                           last_name VARCHAR(250) NOT NULL,
@@ -15,40 +10,40 @@ CREATE TABLE tbl_person (
                           gender VARCHAR(2) NOT NULL
 );
 
-CREATE TABLE tbl_relative (
+CREATE TABLE IF not EXISTS tbl_relative (
                         rid VARCHAR(250) ,
                         pid VARCHAR(250) NOT NULL,
                         relation VARCHAR(250) NOT NULL,
                         name VARCHAR(250) NOT NULL
 );
 
-CREATE TABLE tbl_illness (
+CREATE TABLE IF not EXISTS tbl_illness (
                         id VARCHAR(250)   PRIMARY KEY,
                         code VARCHAR(250) NOT NULL,
                         name VARCHAR(250) NOT NULL,
                         hid VARCHAR(250) NOT NULL
 );
 
-CREATE TABLE tbl_health_record (
+CREATE TABLE IF not EXISTS tbl_health_record (
                         id VARCHAR(250) PRIMARY KEY,
                         isTwin BOOLEAN,
                         isAdopted BOOLEAN,
-                        height INT,
-                        weight INT,
-                        firstPeriodAge INT,
-                        birthControl INT,
-                        pregnantTime INT,
-                        firstBornAge INT,
+                        height smallINT,
+                        weight smallINT,
+                        firstPeriodAge smallINT,
+                        birthControl smallINT,
+                        pregnantTime smallINT,
+                        firstBornAge smallINT,
                         isSmoke BOOLEAN,
-                        smokeTime INT,
+                        smokeTime smallINT,
                         giveUpSmokeAge VARCHAR(250),
-                        wineVolume INT,
-                        workOutVolume INT,
+                        wineVolume smallINT,
+                        workOutVolume smallINT,
                         workOutType VARCHAR(250),
                         pid VARCHAR(250) NOT NULL
 );
 
-CREATE TABLE tbl_genogram(
+CREATE TABLE IF not EXISTS tbl_genogram(
                         id VARCHAR(250) PRIMARY KEY,
                         name VARCHAR(250) NOT NULL,
                         gender VARCHAR(5) NOT NULL,

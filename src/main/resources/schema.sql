@@ -1,5 +1,5 @@
 
-CREATE TABLE tbl_person (
+CREATE TABLE IF not EXISTS tbl_person (
                           id VARCHAR(250) PRIMARY KEY,
                           first_name VARCHAR(250) NOT NULL,
                           last_name VARCHAR(250) NOT NULL,
@@ -8,23 +8,23 @@ CREATE TABLE tbl_person (
                           email VARCHAR(250),
                           phoneNumber VARCHAR(15) UNIQUE NOT NULL,
                           gender VARCHAR(2) NOT NULL
-)IF not EXISTS tbl_person;
+);
 
-CREATE TABLE tbl_relative (
+CREATE TABLE IF not EXISTS tbl_relative (
                         rid VARCHAR(250) ,
                         pid VARCHAR(250) NOT NULL,
                         relation VARCHAR(250) NOT NULL,
                         name VARCHAR(250) NOT NULL
-)IF not EXISTS tbl_relative;
+);
 
-CREATE TABLE tbl_illness (
+CREATE TABLE IF not EXISTS tbl_illness (
                         id VARCHAR(250)   PRIMARY KEY,
                         code VARCHAR(250) NOT NULL,
                         name VARCHAR(250) NOT NULL,
                         hid VARCHAR(250) NOT NULL
-)IF not EXISTS tbl_illness;
+);
 
-CREATE TABLE tbl_health_record (
+CREATE TABLE IF not EXISTS tbl_health_record (
                         id VARCHAR(250) PRIMARY KEY,
                         isTwin BOOLEAN,
                         isAdopted BOOLEAN,
@@ -41,9 +41,9 @@ CREATE TABLE tbl_health_record (
                         workOutVolume smallINT,
                         workOutType VARCHAR(250),
                         pid VARCHAR(250) NOT NULL
-)IF not EXISTS tbl_health_record;
+);
 
-CREATE TABLE tbl_genogram(
+CREATE TABLE IF not EXISTS tbl_genogram(
                         id VARCHAR(250) PRIMARY KEY,
                         name VARCHAR(250) NOT NULL,
                         gender VARCHAR(5) NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE tbl_genogram(
                         wife VARCHAR(250) UNIQUE,
                         husband VARCHAR(250) UNIQUE,
                         attributes VARCHAR(250) NOT NULL
-)IF not EXISTS tbl_genogram;
+);
 
 ALTER TABLE tbl_relative ADD FOREIGN KEY (pid) REFERENCES tbl_person(id);
 ALTER TABLE tbl_illness ADD FOREIGN KEY (hid) REFERENCES tbl_health_record(id);
