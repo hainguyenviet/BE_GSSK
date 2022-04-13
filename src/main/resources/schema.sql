@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS tbl_illness;
 DROP TABLE IF EXISTS tbl_genogram;
 
 CREATE TABLE tbl_person (
-                          id VARCHAR(250) AUTO_INCREMENT  PRIMARY KEY,
+                          id VARCHAR(250) PRIMARY KEY,
                           first_name VARCHAR(250) NOT NULL,
                           last_name VARCHAR(250) NOT NULL,
                           birthday DATE,
@@ -16,34 +16,34 @@ CREATE TABLE tbl_person (
 );
 
 CREATE TABLE tbl_relative (
-                        rid VARCHAR(250) AUTO_INCREMENT,
+                        rid VARCHAR(250) ,
                         pid VARCHAR(250) NOT NULL,
                         relation VARCHAR(250) NOT NULL,
                         name VARCHAR(250) NOT NULL
 );
 
 CREATE TABLE tbl_illness (
-                        id VARCHAR(250) AUTO_INCREMENT  PRIMARY KEY,
+                        id VARCHAR(250)   PRIMARY KEY,
                         code VARCHAR(250) NOT NULL,
                         name VARCHAR(250) NOT NULL,
                         hid VARCHAR(250) NOT NULL
 );
 
 CREATE TABLE tbl_health_record (
-                        id VARCHAR(250) AUTO_INCREMENT  PRIMARY KEY,
+                        id VARCHAR(250) PRIMARY KEY,
                         isTwin BOOLEAN,
                         isAdopted BOOLEAN,
-                        height INT(250),
-                        weight INT(250),
-                        firstPeriodAge INT(250),
-                        birthControl INT(250),
-                        pregnantTime INT(250),
-                        firstBornAge INT(250),
+                        height INT,
+                        weight INT,
+                        firstPeriodAge INT,
+                        birthControl INT,
+                        pregnantTime INT,
+                        firstBornAge INT,
                         isSmoke BOOLEAN,
-                        smokeTime INT(250),
+                        smokeTime INT,
                         giveUpSmokeAge VARCHAR(250),
-                        wineVolume INT(250),
-                        workOutVolume INT(250),
+                        wineVolume INT,
+                        workOutVolume INT,
                         workOutType VARCHAR(250),
                         pid VARCHAR(250) NOT NULL
 );
