@@ -1,8 +1,3 @@
-DROP TABLE IF EXISTS tbl_person;
-DROP TABLE IF EXISTS tbl_relative;
-DROP TABLE IF EXISTS tbl_health_record;
-DROP TABLE IF EXISTS tbl_illness;
-DROP TABLE IF EXISTS tbl_genogram;
 
 CREATE TABLE tbl_person (
                           id VARCHAR(250) PRIMARY KEY,
@@ -13,40 +8,40 @@ CREATE TABLE tbl_person (
                           email VARCHAR(250),
                           phoneNumber VARCHAR(15) UNIQUE NOT NULL,
                           gender VARCHAR(2) NOT NULL
-);
+)IF not EXISTS tbl_person;
 
 CREATE TABLE tbl_relative (
                         rid VARCHAR(250) ,
                         pid VARCHAR(250) NOT NULL,
                         relation VARCHAR(250) NOT NULL,
                         name VARCHAR(250) NOT NULL
-);
+)IF not EXISTS tbl_relative;
 
 CREATE TABLE tbl_illness (
                         id VARCHAR(250)   PRIMARY KEY,
                         code VARCHAR(250) NOT NULL,
                         name VARCHAR(250) NOT NULL,
                         hid VARCHAR(250) NOT NULL
-);
+)IF not EXISTS tbl_illness;
 
 CREATE TABLE tbl_health_record (
                         id VARCHAR(250) PRIMARY KEY,
                         isTwin BOOLEAN,
                         isAdopted BOOLEAN,
-                        height INT,
-                        weight INT,
-                        firstPeriodAge INT,
-                        birthControl INT,
-                        pregnantTime INT,
-                        firstBornAge INT,
+                        height smallINT,
+                        weight smallINT,
+                        firstPeriodAge smallINT,
+                        birthControl smallINT,
+                        pregnantTime smallINT,
+                        firstBornAge smallINT,
                         isSmoke BOOLEAN,
-                        smokeTime INT,
+                        smokeTime smallINT,
                         giveUpSmokeAge VARCHAR(250),
-                        wineVolume INT,
-                        workOutVolume INT,
+                        wineVolume smallINT,
+                        workOutVolume smallINT,
                         workOutType VARCHAR(250),
                         pid VARCHAR(250) NOT NULL
-);
+)IF not EXISTS tbl_health_record;
 
 CREATE TABLE tbl_genogram(
                         id VARCHAR(250) PRIMARY KEY,
@@ -57,7 +52,7 @@ CREATE TABLE tbl_genogram(
                         wife VARCHAR(250) UNIQUE,
                         husband VARCHAR(250) UNIQUE,
                         attributes VARCHAR(250) NOT NULL
-);
+)IF not EXISTS tbl_genogram;
 
 ALTER TABLE tbl_relative ADD FOREIGN KEY (pid) REFERENCES tbl_person(id);
 ALTER TABLE tbl_illness ADD FOREIGN KEY (hid) REFERENCES tbl_health_record(id);
