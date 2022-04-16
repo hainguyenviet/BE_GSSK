@@ -20,8 +20,6 @@ public class GenogramController {
     @Autowired
     GenogramService genogramService;
     PersonService personService;
-    @GetMapping("/{cv}")
-    public List<Genogram> ConvertFromPerson(@PathVariable("cv") Person person) { return genogramService.ConvertFromPerson(person); }
 
     @GetMapping
     public List<Genogram> getAllGenogram(){return (List<Genogram>)genogramService.getAllNodes();}
@@ -29,10 +27,10 @@ public class GenogramController {
     @GetMapping(value="/{id}", produces = "application/json")
     public Genogram genogram(@PathVariable("id") String id) {return genogramService.FindByID(id);}
 
-    @GetMapping
-    public List<Genogram> generateGenofromID(String id){
+    @GetMapping(value = "cv/{id}", produces = "application/json")
+    public List<Genogram> generateGenofromID(@PathVariable("id") String id){
         Person person=personService.getPersonById(id);
-        return (List<Genogram>)genogramService.ConvertFromPerson(person);
+        return genogramService.ConvertFromPerson(person);
     }
 
 
