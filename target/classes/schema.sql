@@ -5,7 +5,7 @@ CREATE TABLE IF not EXISTS tbl_person (
                           last_name VARCHAR(250) NOT NULL,
                           birthday DATE,
                           idCard VARCHAR(250) UNIQUE NOT NULL,
-                          email VARCHAR(250),
+                          email VARCHAR(250) UNIQUE,
                           phoneNumber VARCHAR(15) UNIQUE NOT NULL,
                           gender VARCHAR(2) NOT NULL
 );

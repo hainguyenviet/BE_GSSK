@@ -9,7 +9,7 @@ import java.util.*;
 
 @Data
 @Entity
-@Table(name = "tbl_person")
+@Table(name = "tbl_person", uniqueConstraints = {@UniqueConstraint(columnNames = {"id_card", "email", "phone_number"})})
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Person {
 

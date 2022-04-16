@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "tbl_genogram")
+@Table(name = "tbl_genogram", uniqueConstraints = {@UniqueConstraint(columnNames = {"wife", "husband"})})
 public class Genogram {
 
     @Id
