@@ -9,7 +9,7 @@ import java.util.*;
 
 @Data
 @Entity
-@Table(name = "tbl_person", uniqueConstraints = {@UniqueConstraint(columnNames = {"id_card", "email", "phone_number"})})
+@Table(name = "tbl_person", uniqueConstraints = {@UniqueConstraint(name = "cmnd", columnNames = "id_card"), @UniqueConstraint(name = "email", columnNames = "email"), @UniqueConstraint(name = "sdt", columnNames = "phone_number")})
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Person {
 
@@ -37,7 +37,7 @@ public class Person {
     @OneToMany
     private List<Relative> relativeList;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private HealthRecord healthRecord;
 
     public List<String> To_Genome()//to return a list of string for making genome.
