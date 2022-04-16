@@ -5,6 +5,7 @@ import com.gssk.gssk.model.Genogram;
 import com.gssk.gssk.model.Person;
 import com.gssk.gssk.model.Relative;
 import com.gssk.gssk.service.GenogramService;
+import com.gssk.gssk.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +19,7 @@ import java.util.List;
 public class GenogramController {
     @Autowired
     GenogramService genogramService;
-
+    PersonService personService;
     @GetMapping("/{cv}")
     public List<Genogram> ConvertFromPerson(@PathVariable("cv") Person person) { return genogramService.ConvertFromPerson(person); }
 
@@ -27,4 +28,12 @@ public class GenogramController {
 
     @GetMapping(value="/{id}", produces = "application/json")
     public Genogram genogram(@PathVariable("id") String id) {return genogramService.FindByID(id);}
+
+    @GetMapping
+    public List<Genogram> generateGenofromID(String id){
+        Person person=personService.getPersonById(id);
+        return (List<Genogram>)genogramService.ConvertFromPerson(person);
+    }
+
+
 }
