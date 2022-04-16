@@ -28,9 +28,9 @@ public class GenogramController {
     public Genogram genogram(@PathVariable("id") String id) {return genogramService.FindByID(id);}
 
     @GetMapping(value = "cv/{id}", produces = "application/json")
-    public List<Genogram> generateGenofromID(@PathVariable("id") String id){
+    public Genogram generateGenofromID(@PathVariable("id") String id){
         Person person=personService.getPersonById(id);
-        return genogramService.ConvertFromPerson(person);
+        return new Genogram(person);
     }
 
 
