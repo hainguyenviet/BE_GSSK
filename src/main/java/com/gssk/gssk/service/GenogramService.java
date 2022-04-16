@@ -5,6 +5,7 @@ import com.gssk.gssk.model.Person;
 import com.gssk.gssk.model.Relative;
 import com.gssk.gssk.repository.GenogramRepository;
 import com.gssk.gssk.repository.RelativeRepository;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,6 +51,10 @@ public class GenogramService {
 
         return GenogramList;
     }
+
+    @SneakyThrows
+    public Genogram addGeno(Genogram genogram){ return genogramNodeRepository.save(genogram); }
+
     public Genogram updateAttribute(String argv,Genogram target,String attr[])
     {
         Genogram update=target;
