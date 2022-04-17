@@ -4,6 +4,7 @@ import com.gssk.gssk.model.Genogram;
 import com.gssk.gssk.model.Person;
 import com.gssk.gssk.model.Relative;
 import com.gssk.gssk.repository.GenogramRepository;
+import com.gssk.gssk.repository.PersonRepository;
 import com.gssk.gssk.repository.RelativeRepository;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,12 @@ import java.util.List;
 public class GenogramService {
     @Autowired
     GenogramRepository genogramNodeRepository;
+    @Autowired
+    PersonRepository personRepository;
     public Iterable<Genogram> getAllNodes(){return genogramNodeRepository.findAll();}
     public Genogram FindByID(String id){return genogramNodeRepository.findById(id).get();}
 
-    public Genogram ConnectingDot(Genogram target,List<Relative> rel)
+    /*public Genogram ConnectingDot(Genogram target,List<Relative> rel)
     {
         RelativeService relativeService=new RelativeService(rel);
         Genogram result=target;
@@ -50,10 +53,18 @@ public class GenogramService {
 
 
         return GenogramList;
-    }
+    }*/
 
     @SneakyThrows
-    public Genogram addGeno(Genogram genogram){ return genogramNodeRepository.save(genogram); }
+    public Genogram ConvertPersonToGenogram(String id){
+        Genogram genogram = new Genogram();
+        Person person = personRepository.findById(id).get();
+        genogram.setId(person.getId());
+        genogram.setName(person.getFirstName() + " " + person.getLastName());
+        genogram.setSex(person.getGender());
+        return genogramNodeRepository.save(genogram);
+    }
+
 
     public Genogram updateAttribute(String argv,Genogram target,String attr[])
     {

@@ -31,6 +31,11 @@ public class Genogram {
     @Column(name="attributes")
     @ElementCollection
     private List<String> attb ;
+
+    public Genogram() {
+
+    }
+
     public void addAttb(String target)
     {
         attb.add(target);
