@@ -5,10 +5,9 @@ import com.gssk.gssk.model.Person;
 import com.gssk.gssk.model.Relative;
 import com.gssk.gssk.repository.GenogramRepository;
 import com.gssk.gssk.repository.PersonRepository;
-
+import com.gssk.gssk.repository.RelativeRepository;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 
@@ -21,6 +20,8 @@ public class GenogramService {
     GenogramRepository genogramNodeRepository;
     @Autowired
     PersonRepository personRepository;
+    @Autowired
+    RelativeRepository relativeRepository;
 
     public Iterable<Genogram> getAllNodes(){return genogramNodeRepository.findAll();}
     public Genogram FindByID(String id){return genogramNodeRepository.findById(id).get();}
@@ -56,9 +57,6 @@ public class GenogramService {
 
         return GenogramList;
     }*/
-
-
-
 
     @SneakyThrows
     public Genogram ConvertPersonToGenogram(String id){
