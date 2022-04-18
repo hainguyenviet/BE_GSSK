@@ -20,6 +20,9 @@ public class GenogramService {
     GenogramRepository genogramNodeRepository;
     @Autowired
     PersonRepository personRepository;
+    @Autowired
+    RelativeRepository relativeRepository;
+
     public Iterable<Genogram> getAllNodes(){return genogramNodeRepository.findAll();}
     public Genogram FindByID(String id){return genogramNodeRepository.findById(id).get();}
 
@@ -63,19 +66,6 @@ public class GenogramService {
         genogram.setName(person.getFirstName() + " " + person.getLastName());
         genogram.setSex(person.getGender());
         return genogramNodeRepository.save(genogram);
-    }
-
-
-    public Genogram updateAttribute(String argv,Genogram target,String attr[])
-    {
-        Genogram update=target;
-        switch (argv)
-        {
-            //case "add": update.addAttb(attr[0]);
-            //case "remove":update.removeAttb(attr[0]);
-            //case "replace":update.replaceAttb(attr);
-        }
-        return update;
     }
 
 }

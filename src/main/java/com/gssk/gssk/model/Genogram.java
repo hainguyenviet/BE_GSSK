@@ -36,7 +36,7 @@ public class Genogram {
 
     }
 
-    public void addAttb(String target)
+    /*public void addAttb(String target)
     {
         attb.add(target);
     }
@@ -58,7 +58,7 @@ public class Genogram {
              ) {
             attb.add(i.getId());
         }
-    }
+    }*/
 
     public Genogram(Person person) {
         id= person.getId();

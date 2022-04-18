@@ -2,10 +2,7 @@ package com.gssk.gssk.controller;
 
 
 import com.gssk.gssk.model.Genogram;
-import com.gssk.gssk.model.Person;
-import com.gssk.gssk.model.Relative;
 import com.gssk.gssk.service.GenogramService;
-import com.gssk.gssk.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +13,6 @@ import java.util.List;
 public class GenogramController {
     @Autowired
     GenogramService genogramService;
-    PersonService personService;
 
     @GetMapping
     public List<Genogram> getAllGenogram(){return (List<Genogram>)genogramService.getAllNodes();}
