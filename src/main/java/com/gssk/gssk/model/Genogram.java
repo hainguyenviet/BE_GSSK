@@ -1,9 +1,6 @@
 package com.gssk.gssk.model;
 
-import com.gssk.gssk.service.RelativeService;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
