@@ -36,38 +36,13 @@ public class Genogram {
 
     }
 
-    /*public void addAttb(String target)
-    {
-        attb.add(target);
-    }
-    public void removeAttb(String target)
-    {
-        attb.remove(target);
-    }
-    public void replaceAttb(String target[])
-    {
-        attb.set(attb.indexOf(target[0]),target[1]);
-    }
-    public Genogram(Relative person)
-    {
-        id= person.getRid();
-        sex=person.getGender();
-        name=person.getFirstName()+" "+person.getLastName();
-        HealthRecord HR=person.getHealthRecord();
-        for (Illness i:HR.getIllnessList()
-             ) {
-            attb.add(i.getId());
-        }
-    }*/
-
-    public Genogram(Person person) {
-        id= person.getId();
-        sex=person.getGender();
-        name=person.getFirstName()+" "+person.getLastName();
-        HealthRecord HR=person.getHealthRecord();
-        for (Illness i:HR.getIllnessList()
-        ) {
-            attb.add(i.getId());
-        }
+    public Genogram(String id, String name, String sex, String m_key, String f_key, String wife, String husband, List<String> attb){
+        id = this.getId();
+        name = this.getName();
+        sex = this.getSex();
+        m_key = this.getM_key();
+        f_key = this.getF_key();
+        wife = this.getWife();
+        husband = this.getHusband();
     }
 }

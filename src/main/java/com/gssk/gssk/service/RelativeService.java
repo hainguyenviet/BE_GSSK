@@ -14,6 +14,6 @@ public class RelativeService
     @Autowired
     RelativeRepository relativeRepository;
 
-    public Relative getRelativeByRelation(String relation) {return relativeRepository.findById(relation).get();}
-    
+    public Iterable<Relative> getAllRelatives () { return relativeRepository.findAll(); }
+
 }
