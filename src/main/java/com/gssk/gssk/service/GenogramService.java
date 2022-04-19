@@ -67,25 +67,51 @@ public class GenogramService {
             genogramDTO.setName(relativeDTO.getName());
             genogramDTO.setSex(relativeDTO.getGender());
 
-            // Set các khóa quan hệ nếu thân nhân có mối quan hệ là con
-            if (Objects.equals(relativeDTO.getRelation(), "child")){
-                // Set khóa cha, mẹ
-                if(Objects.equals(genogram.getSex(), "male")){
-                    genogramDTO.setF_key(genogram.getId());
-                    Relative motherKey1 = relativeRepository.findByRelationIs("wife");
-                    genogramDTO.setM_key(motherKey1.getRid());
-                }
-                else {
-                    genogramDTO.setM_key(genogram.getId());
-                    Relative fatherKey1 = relativeRepository.findByRelationIs("husband");
-                    genogramDTO.setF_key(fatherKey1.getRid());
-                }
+            // Nếu người điền form là nam
+            if (Objects.equals(genogram.getSex(), "male")){
+                // Set các khóa quan hệ nếu thân nhân là nam
+                if (Objects.equals(genogramDTO.getSex(), "male")) {
+                    // Nếu thân nhân có mối quan hệ con cái
+                    if (Objects.equals(relativeDTO.getRelation(), "child")) {
+                        // Set khóa cha, mẹ
+                        genogramDTO.setF_key(genogram.getId());
+                        genogramDTO.setM_key(relativeRepository.findByRelationIs("wife").getRid());
 
-                //Set khóa vợ hoặc chồng của người con nếu có
-                if(Objects.equals(relativeDTO.getGender(), "male")){
-                    
+                        //Set khóa vợ
+                        if (relativeRepository.findByRelationIs("daughter in law") != null) {
+                            genogramDTO.setWife(relativeRepository.findByRelationIs("daughter in law").getRid());
+                        }
+                    }
+                    // Nếu thân nhân có mối quan hệ là cha
+                    if (Objects.equals(genogramDTO.getId(), genogram.getF_key())){
+                        // Set khóa cha, mẹ
+                        if (relativeRepository.findByRelationIs("grandfather") != null ){
+                            genogramDTO.setF_key(relativeRepository.findByRelationIs("grandfather").getRid());
+                        }
+                        if (relativeRepository.findByRelationIs("grandmother") != null ){
+                            genogramDTO.setM_key(relativeRepository.findByRelationIs("grandmother").getRid());
+                        }
+                        // Set khóa vợ
+                        genogramDTO.setWife(relativeRepository.findByRelationIs("mother").getRid());
+                    }
+                }
+                // Set các khóa quan hệ nếu thân nhân là nữ
+                if (Objects.equals(genogramDTO.getSex(), "female")){
+                    // Nếu thân nhân có mối quan hệ con cái
+                    if (Objects.equals(relativeDTO.getRelation(), "child")) {
+                        // Set khóa cha, mẹ
+                        genogramDTO.setF_key(genogram.getId());
+                        genogramDTO.setM_key(relativeRepository.findByRelationIs("wife").getRid());
+
+                        //Set khóa chồng
+                        if (relativeRepository.findByRelationIs("son in law") != null) {
+                            genogramDTO.setHusband(relativeRepository.findByRelationIs("son in law").getRid());
+                        }
+
+                    }
                 }
             }
+
             Genogram genogram1 = modelMapper.map(genogramDTO,Genogram.class);
             genogramList.add(genogram1);
         }
