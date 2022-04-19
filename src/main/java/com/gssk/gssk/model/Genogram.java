@@ -36,6 +36,12 @@ public class Genogram {
 
     }
 
+    public Genogram(String id, String name, String sex){
+        id = this.getId();
+        name=this.getName();
+        sex = this.getSex();
+    }
+
     public Genogram(String id, String name, String sex, String m_key, String f_key, String wife, String husband, List<String> attb){
         id = this.getId();
         name = this.getName();

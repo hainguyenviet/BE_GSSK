@@ -5,14 +5,6 @@ import com.gssk.gssk.repository.PersonRepository;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-
-import javax.persistence.*;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 
 @Service
@@ -31,6 +23,23 @@ public class PersonService {
     @SneakyThrows
     public Person addNewPerson(Person person) {
         return personRepository.save(person);
+    }
+
+    public Person updatePerson(String id, Person personRequest){
+        Person person = personRepository.findById(id).get();
+        person.setFirstName(personRequest.getFirstName());
+        person.setLastName(personRequest.getLastName());
+        person.setBirthDay(person.getBirthDay());
+        person.setIdCard(personRequest.getIdCard());
+        person.setEmail(personRequest.getEmail());
+        person.setPhoneNumber(personRequest.getPhoneNumber());
+        person.setGender(personRequest.getGender());
+        return personRepository.save(person);
+    }
+
+    public void deletePerson(String id){
+        Person person = personRepository.findById(id).get();
+        personRepository.delete(person);
     }
 
 }
