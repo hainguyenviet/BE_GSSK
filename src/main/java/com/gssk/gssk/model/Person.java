@@ -43,7 +43,7 @@ public class Person implements Serializable {
     @JoinColumn(name = "fk_id", referencedColumnName = "id")
     private List<Relative> relativeList;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = HealthRecord.class, cascade = CascadeType.ALL)
     private HealthRecord healthRecord;
 
 }

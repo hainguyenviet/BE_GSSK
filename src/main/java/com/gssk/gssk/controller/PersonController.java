@@ -30,4 +30,10 @@ public class PersonController {
         return personService.addNewPerson(person);
     }
 
+    @DeleteMapping(value = "/delete/{id}")
+    public void deletePerson(@PathVariable("id") String id) { personService.deletePerson(id); }
+
+    @PutMapping(value = "/update/{id}", produces = "application/json")
+    public Person updatePerson(@PathVariable("id") String id, Person personRequest) { return personService.updatePerson(id, personRequest); }
+
 }

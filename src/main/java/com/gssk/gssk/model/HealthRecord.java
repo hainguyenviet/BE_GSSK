@@ -5,6 +5,7 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
@@ -19,15 +20,19 @@ public class HealthRecord {
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private String id;
 
+    //@NotNull
     @Column(name = "is_twin")
     private Boolean isTwin;
 
+    //@NotNull
     @Column(name = "is_adopted")
     private Boolean isAdopted;
 
+    //@NotNull
     @Column(name = "height")
     private Integer height;
 
+    //@NotNull
     @Column(name = "weight")
     private Integer weight;
 
@@ -43,6 +48,7 @@ public class HealthRecord {
     @Column(name = "first_born_age")
     private Integer firstBornAge;
 
+    //@NotNull
     @Column(name = "is_smoke")
     private Boolean isSmoke;
 
@@ -60,10 +66,6 @@ public class HealthRecord {
 
     @Column(name = "work_out_type")
     private String workOutType;
-
-    @OneToOne
-    @JoinColumn(name = "pid")
-    private Person pid;
 
     @OneToMany
     private List<Illness> illnessList;
