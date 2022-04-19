@@ -70,19 +70,11 @@ public class GenogramService {
             // Nếu thân nhân có mối quan hệ là cha
             if (Objects.equals(genogramDTO.getId(), genogram.getF_key())){
                 // Set khóa cha, mẹ
-                if (relativeRepository.findByRelation("paternal grandfather") != null ){
-                    for (Relative temp: relativeRepository.findByRelation("paternal grandfather")){
-                        if(Objects.equals(temp.getGender(), "male")){
-                            genogramDTO.setF_key(temp.getRid());
-                        }
-                    }
+                if (relativeRepository.findByRelationIs("paternal grandfather") != null ){
+                    genogramDTO.setF_key(this.relativeRepository.findByRelationIs("paternal grandfather").getRid());
                 }
-                if (relativeRepository.findByRelation("paternal grandmother") != null ){
-                    for (Relative temp: relativeRepository.findByRelation("paternal grandmother")){
-                        if(Objects.equals(temp.getGender(), "female")){
-                            genogramDTO.setM_key(temp.getRid());
-                        }
-                    }
+                if (relativeRepository.findByRelationIs("paternal grandmother") != null ){
+                    genogramDTO.setM_key(this.relativeRepository.findByRelationIs("paternal grandmother").getRid());
                 }
                 // Set khóa vợ
                 genogramDTO.setWife(relativeRepository.findByRelationIs("mother").getRid());
@@ -91,19 +83,11 @@ public class GenogramService {
             // Nếu thân nhân có mối quan hệ là mẹ
             if (Objects.equals(genogramDTO.getId(), genogram.getM_key())){
                 // Set khóa cha, mẹ
-                if (relativeRepository.findByRelation("maternal grandfather") != null ){
-                    for (Relative temp: relativeRepository.findByRelation("maternal grandfather")){
-                        if(Objects.equals(temp.getGender(), "male")){
-                            genogramDTO.setF_key(temp.getRid());
-                        }
-                    }
+                if (relativeRepository.findByRelationIs("maternal grandfather") != null ){
+                    genogramDTO.setF_key(this.relativeRepository.findByRelationIs("maternal grandfather").getRid());
                 }
-                if (relativeRepository.findByRelation("maternal grandmother") != null ){
-                    for (Relative temp: relativeRepository.findByRelation("maternal grandmother")){
-                        if(Objects.equals(temp.getGender(), "female")){
-                            genogramDTO.setM_key(temp.getRid());
-                        }
-                    }
+                if (relativeRepository.findByRelationIs("maternal grandmother") != null ){
+                    genogramDTO.setM_key(this.relativeRepository.findByRelationIs("maternal grandmother").getRid());
                 }
                 // Set khóa chồng
                 genogramDTO.setHusband(relativeRepository.findByRelationIs("father").getRid());
@@ -158,24 +142,16 @@ public class GenogramService {
             if (Objects.equals(relativeDTO.getRelation(), "uncle 1") || Objects.equals(relativeDTO.getRelation(), "uncle 2") || Objects.equals(relativeDTO.getRelation(), "aunt 1")
                 || Objects.equals(relativeDTO.getRelation(), "aunt 2")){
                 // Set cha, mẹ
-                if (relativeRepository.findByRelation("paternal grandfather") != null ){
-                    for (Relative temp: relativeRepository.findByRelation("paternal grandfather")){
-                        if(Objects.equals(temp.getGender(), "male")){
-                            genogramDTO.setF_key(temp.getRid());
-                        }
-                    }
+                if (relativeRepository.findByRelationIs("paternal grandfather") != null ){
+                    genogramDTO.setF_key(this.relativeRepository.findByRelationIs("paternal grandfather").getRid());
                 }
-                if (relativeRepository.findByRelation("paternal grandmother") != null ){
-                    for (Relative temp: relativeRepository.findByRelation("paternal grandmother")){
-                        if(Objects.equals(temp.getGender(), "female")){
-                            genogramDTO.setM_key(temp.getRid());
-                        }
-                    }
+                if (relativeRepository.findByRelationIs("paternal grandmother") != null ){
+                    genogramDTO.setM_key(this.relativeRepository.findByRelationIs("paternal grandmother").getRid());
                 }
             }
 
             // Nếu thân nhân có môí quan hệ là anh, chị em ruột của mẹ
-            // uncle 3 = cậu (anh trai mẹ), uncle 4 
+            // uncle 3 = cậu (anh trai mẹ), uncle 4
 
             // Nếu người điền form là nam
             if (Objects.equals(genogram.getSex(), "male")){
