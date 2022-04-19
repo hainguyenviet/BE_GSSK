@@ -20,19 +20,19 @@ public class HealthRecord {
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private String id;
 
-    //@NotNull
+    @NotNull
     @Column(name = "is_twin")
     private Boolean isTwin;
 
-    //@NotNull
+    @NotNull
     @Column(name = "is_adopted")
     private Boolean isAdopted;
 
-    //@NotNull
+    @NotNull
     @Column(name = "height")
     private Integer height;
 
-    //@NotNull
+    @NotNull
     @Column(name = "weight")
     private Integer weight;
 
@@ -48,7 +48,7 @@ public class HealthRecord {
     @Column(name = "first_born_age")
     private Integer firstBornAge;
 
-    //@NotNull
+    @NotNull
     @Column(name = "is_smoke")
     private Boolean isSmoke;
 
@@ -67,8 +67,7 @@ public class HealthRecord {
     @Column(name = "work_out_type")
     private String workOutType;
 
-    @OneToMany
+    @OneToMany(targetEntity = Illness.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "healthID", referencedColumnName = "id")
     private List<Illness> illnessList;
-
-
 }

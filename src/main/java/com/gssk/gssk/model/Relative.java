@@ -31,4 +31,16 @@ public class Relative {
 
     @Column(name = "age")
     private int age;
+
+    @Column(name = "illness_name")
+    private String illnessName;
+
+    @Column(name = "age_detected")
+    private int age_detected;
+
+    @Column(name = "death_age")
+    private int death_age;
+
+    @Column(name = "death_cause")
+    private String deathCause;
 }
