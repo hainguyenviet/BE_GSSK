@@ -34,6 +34,7 @@ public class PersonService {
         person.setEmail(personRequest.getEmail());
         person.setPhoneNumber(personRequest.getPhoneNumber());
         person.setGender(personRequest.getGender());
+        person.setHealthRecord(personRequest.getHealthRecord());
         person.setRelativeList(personRequest.getRelativeList());
         return personRepository.save(person);
     }

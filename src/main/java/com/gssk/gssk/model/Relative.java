@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @Entity
@@ -32,11 +33,13 @@ public class Relative {
     @Column(name = "age")
     private int age;
 
+    @ElementCollection
     @Column(name = "illness_name")
-    private String illnessName;
+    private List<String> illnessName;
 
+    @ElementCollection
     @Column(name = "age_detected")
-    private int age_detected;
+    private List<Integer> age_detected;
 
     @Column(name = "death_age")
     private int death_age;

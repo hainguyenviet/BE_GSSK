@@ -2,13 +2,12 @@ package com.gssk.gssk.service;
 
 import com.gssk.gssk.dto.GenogramDTO;
 import com.gssk.gssk.model.Genogram;
+import com.gssk.gssk.model.Illness;
 import com.gssk.gssk.model.Person;
 import com.gssk.gssk.model.Relative;
 import com.gssk.gssk.dto.PersonDTO;
 import com.gssk.gssk.dto.RelativeDTO;
-import com.gssk.gssk.repository.GenogramRepository;
-import com.gssk.gssk.repository.PersonRepository;
-import com.gssk.gssk.repository.RelativeRepository;
+import com.gssk.gssk.repository.*;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Streamable;
@@ -29,6 +28,10 @@ public class GenogramService {
     PersonRepository personRepository;
     @Autowired
     RelativeRepository relativeRepository;
+    @Autowired
+    HealthRecordRepository healthRecordRepository;
+    @Autowired
+    IllnessRepository illnessRepository;
 
     public Iterable<Genogram> getAllNodes(){return genogramNodeRepository.findAll();}
     public Genogram FindByID(String id){return genogramNodeRepository.findById(id).get();}
@@ -38,6 +41,15 @@ public class GenogramService {
         List<Genogram> genogramList = new ArrayList<>();
         Iterable<Relative> relatives = relativeRepository.findAll();
         List<Relative> relativeList = Streamable.of(relatives).toList();
+        Iterable<Illness> illnesses = illnessRepository.findAll();
+        List<Illness> illnessList = Streamable.of(illnesses).toList();
+        List<String> attributes = new ArrayList<>();
+
+        for (Illness i:illnessList){
+            attributes.add(i.getName());
+        }
+
+
 
         // Truyền thông tin người điền form sang genogram
         Person person = personRepository.findById(id).get();
@@ -56,6 +68,7 @@ public class GenogramService {
         if (this.relativeRepository.findByRelationIs("mother") != null){
             genogram.setM_key(this.relativeRepository.findByRelationIs("mother").getRid());
         }
+        genogram.setAttb(attributes);
         genogramList.add(genogram);
 
         // Truyền thông tin thân nhân sang genogram
@@ -66,6 +79,7 @@ public class GenogramService {
             genogramDTO.setId(relativeDTO.getRid());
             genogramDTO.setName(relativeDTO.getName());
             genogramDTO.setSex(relativeDTO.getGender());
+            genogramDTO.setAttb(relativeDTO.getIllnessName());
 
             // Nếu thân nhân có mối quan hệ là cha
             if (Objects.equals(genogramDTO.getId(), genogram.getF_key())){
@@ -138,9 +152,8 @@ public class GenogramService {
             }
 
             // Nếu thân nhân có mối quan hệ là anh, chị em ruột của cha
-            // uncle 1 = bác trai, uncle 2 = chú, aunt 1 = bác gái, aunt 2 = cô
-            if (Objects.equals(relativeDTO.getRelation(), "uncle 1") || Objects.equals(relativeDTO.getRelation(), "uncle 2") || Objects.equals(relativeDTO.getRelation(), "aunt 1")
-                || Objects.equals(relativeDTO.getRelation(), "aunt 2")){
+            // uncle 1 = bác trai, uncle 2 = chú, aunt 1 = cô
+            if (Objects.equals(relativeDTO.getRelation(), "uncle 1") || Objects.equals(relativeDTO.getRelation(), "uncle 2") || Objects.equals(relativeDTO.getRelation(), "aunt 1")){
                 // Set cha, mẹ
                 if (relativeRepository.findByRelationIs("paternal grandfather") != null ){
                     genogramDTO.setF_key(this.relativeRepository.findByRelationIs("paternal grandfather").getRid());
@@ -151,7 +164,16 @@ public class GenogramService {
             }
 
             // Nếu thân nhân có môí quan hệ là anh, chị em ruột của mẹ
-            // uncle 3 = cậu (anh trai mẹ), uncle 4
+            // uncle 3 = cậu, aunt 2 = dì
+            if (Objects.equals(relativeDTO.getRelation(), "uncle 3") || Objects.equals(relativeDTO.getRelation(), "aunt 2")){
+                // Set cha, mẹ
+                if (relativeRepository.findByRelationIs("maternal grandfather") != null ){
+                    genogramDTO.setF_key(this.relativeRepository.findByRelationIs("maternal grandfather").getRid());
+                }
+                if (relativeRepository.findByRelationIs("maternal grandmother") != null ){
+                    genogramDTO.setM_key(this.relativeRepository.findByRelationIs("maternal grandmother").getRid());
+                }
+            }
 
             // Nếu người điền form là nam
             if (Objects.equals(genogram.getSex(), "male")){

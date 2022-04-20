@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,6 +17,5 @@ public class GenogramDTO {
     private String f_key;
     private String wife;
     private String husband;
-
-
+    private List<String> attb;
 }

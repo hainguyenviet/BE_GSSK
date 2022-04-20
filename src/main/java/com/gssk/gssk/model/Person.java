@@ -39,12 +39,13 @@ public class Person implements Serializable {
     @Column(name= "gender")
     private String gender;
 
+    @OneToOne(targetEntity = HealthRecord.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "pID", referencedColumnName = "id")
+    private HealthRecord healthRecord;
+
     @OneToMany(targetEntity = Relative.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_id", referencedColumnName = "id")
     private List<Relative> relativeList;
 
-    @OneToOne(targetEntity = HealthRecord.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "pID", referencedColumnName = "id")
-    private HealthRecord healthRecord;
 
 }
