@@ -37,8 +37,8 @@ public class HealthRecord {
     private Integer weight;
 
     @NotNull
-    @Column(name = "have_relative")
-    private Boolean haveRelative;
+    @Column(name = "is_parent_relative")
+    private Boolean isParentRelative;
 
     @Column(name = "first_period_age")
     private Integer firstPeriodAge;
