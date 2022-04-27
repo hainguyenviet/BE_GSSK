@@ -39,6 +39,12 @@ public class PersonService {
         return personRepository.save(person);
     }
 
+    public Person addEvaluates(String id, Person personRequest){
+        Person person = personRepository.findById(id).get();
+        person.setEvaluates(personRequest.getEvaluates());
+        return personRepository.save(person);
+    }
+
     public void deletePerson(String id){
         Person person = personRepository.findById(id).get();
         personRepository.delete(person);

@@ -28,4 +28,12 @@ public class Account implements Serializable {
     @NotNull
     @Column(name="password")
     private String password;
+
+    @NotNull
+    @Column(name="fullname")
+    private String fullname;
+
+    @NotNull
+    @Column(name="role")
+    private String role;
 }

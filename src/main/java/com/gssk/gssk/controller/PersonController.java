@@ -36,4 +36,7 @@ public class PersonController {
     @PutMapping(value = "/update/{id}", produces = "application/json")
     public Person updatePerson(@PathVariable("id") String id, Person personRequest) { return personService.updatePerson(id, personRequest); }
 
+    @PutMapping(value = "evaluate/{id}", produces = "application/json")
+    public Person addEvaluates(@PathVariable("id") String id, Person personRequest) { return personService.addEvaluates(id, personRequest); }
+
 }

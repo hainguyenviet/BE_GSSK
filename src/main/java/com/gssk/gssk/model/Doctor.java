@@ -22,7 +22,4 @@ public class Doctor extends Account{
     @Column(name = "hospital")
     private String hospital; //benh vien noi lam viec
 
-    @ElementCollection
-    @Column(name = "evaluates")
-    private List<String> evaluates;
 }
