@@ -11,9 +11,8 @@ import java.util.*;
 
 @Data
 @Entity
-@Table(name = "tbl_account", uniqueConstraints = {@UniqueConstraint(name = "username", columnNames = "username")})
-public class Account implements Serializable {
-    static final long serialVersionUID = 5L;
+@Table(name = "tbl_account", uniqueConstraints = {@UniqueConstraint(name = "email_acc", columnNames = "email")})
+public class Account {
     @Id
     @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
@@ -22,8 +21,8 @@ public class Account implements Serializable {
     private String id;
 
     @NotNull
-    @Column(name="username")
-    private String username;
+    @Column(name="email")
+    private String email;
 
     @NotNull
     @Column(name="password")
@@ -32,8 +31,4 @@ public class Account implements Serializable {
     @NotNull
     @Column(name="fullname")
     private String fullname;
-
-    @NotNull
-    @Column(name="role")
-    private String role;
 }
