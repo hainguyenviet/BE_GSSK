@@ -54,6 +54,15 @@ CREATE TABLE IF not EXISTS tbl_genogram(
                         attributes VARCHAR(250) NOT NULL
 );
 
+CREATE TABLE IF not EXISTS tbl_account(
+                        id VARCHAR(250) PRIMARY KEY,
+                        full_name VARCHAR(250) NOT NULL,
+                        email VARCHAR(250) UNIQUE NOT NULL,
+                        password VARCHAR(250) NOT NULL,
+                        is_locked BOOLEAN,
+                        is_enabled BOOLEAN
+);
+
 ALTER TABLE tbl_relative ADD FOREIGN KEY (pid) REFERENCES tbl_person(id);
 ALTER TABLE tbl_illness ADD FOREIGN KEY (hid) REFERENCES tbl_health_record(id);
 ALTER TABLE tbl_health_record ADD FOREIGN KEY (pid) REFERENCES tbl_person(id);

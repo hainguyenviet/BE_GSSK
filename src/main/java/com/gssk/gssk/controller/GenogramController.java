@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("geno")
+@CrossOrigin
+@RequestMapping("/api/genogram")
 public class GenogramController {
     @Autowired
     GenogramService genogramService;
@@ -20,7 +21,7 @@ public class GenogramController {
     @GetMapping(value="/{id}", produces = "application/json")
     public Genogram genogram(@PathVariable("id") String id) {return genogramService.FindByID(id);}
 
-    @PostMapping(value = "cv/{id}", produces = "application/json")
+    @PostMapping(value = "convert/{id}", produces = "application/json")
     public void generateGenofromID(@PathVariable("id") String id){
         genogramService.ConvertPersonToGenogram(id);
     }

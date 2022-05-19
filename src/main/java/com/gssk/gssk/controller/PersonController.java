@@ -9,7 +9,8 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("person")
+@CrossOrigin
+@RequestMapping("/api/person")
 public class PersonController {
 
     @Autowired
@@ -25,7 +26,7 @@ public class PersonController {
         return personService.getPersonById(id);
     }
 
-    @PostMapping( produces = "application/json")
+    @PostMapping(value = "/create", produces = "application/json")
     public Person createPerson(@RequestBody Person person) {
         return personService.addNewPerson(person);
     }
