@@ -18,11 +18,11 @@ public class GenogramController {
     @GetMapping
     public List<Genogram> getAllGenogram(){return (List<Genogram>)genogramService.getAllNodes();}
 
-    @GetMapping(value="/{id}", produces = "application/json")
-    public Genogram genogram(@PathVariable("id") String id) {return genogramService.FindByID(id);}
+    @GetMapping(value="/{key}", produces = "application/json")
+    public List<Genogram> genogram(@PathVariable("key") String key) {return (List<Genogram>)genogramService.getGenogram(key);}
 
-    @PostMapping(value = "convert/{id}", produces = "application/json")
-    public void generateGenofromID(@PathVariable("id") String id){
-        genogramService.ConvertPersonToGenogram(id);
+    @PostMapping(value = "convert/{key}", produces = "application/json")
+    public void generateGenofromID(@PathVariable("key") String key){
+        genogramService.ConvertPersonToGenogram(key);
     }
 }

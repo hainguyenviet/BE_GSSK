@@ -4,7 +4,6 @@ import com.gssk.gssk.model.Relative;
 import org.springframework.data.repository.CrudRepository;
 
 public interface RelativeRepository extends CrudRepository<Relative, String> {
-    Relative findByRelationIs(String relation);
 
 }
 

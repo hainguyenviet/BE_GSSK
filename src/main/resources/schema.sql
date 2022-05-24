@@ -51,7 +51,8 @@ CREATE TABLE IF not EXISTS tbl_genogram(
                         fatherKey VARCHAR(250) NOT NULL,
                         wife VARCHAR(250) UNIQUE,
                         husband VARCHAR(250) UNIQUE,
-                        attributes VARCHAR(250) NOT NULL
+                        attributes VARCHAR(250) NOT NULL,
+                        list_id VARCHAR(250) NOT NULL
 );
 
 CREATE TABLE IF not EXISTS tbl_account(

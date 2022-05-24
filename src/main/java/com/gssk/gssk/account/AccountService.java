@@ -5,6 +5,7 @@ import com.gssk.gssk.account.AccountRepository;
 import com.gssk.gssk.registration.token.ConfirmationToken;
 import com.gssk.gssk.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,6 +29,10 @@ public class AccountService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return accountRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG)));
+        /*boolean userExists = accountRepository.findByEmail(email).isPresent();
+        if (!userExists){
+
+        }*/
     }
 
     public String signUpUser(Account account) {

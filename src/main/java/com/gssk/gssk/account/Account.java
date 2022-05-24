@@ -54,6 +54,16 @@ public class Account implements UserDetails {
         this.password = password;
         this.role = role;
     }
+
+    public Account(Account account){
+        this.id = account.id;
+        this.email = account.email;
+        this.password = account.password;
+        this.role = account.role;
+        this.locked = account.locked;
+        this.enabled = account.enabled;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.name());
@@ -93,4 +103,10 @@ public class Account implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
+    /*private static class InnerAccount extends Account implements UserDetails{
+        public InternalAccount(Account account){
+            Account account1 = new Account(account);
+        }
+    }*/
 }

@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GenogramDTO {
-    private String id;
+    private String key;
     private String name;
     private String sex;
     private String m_key;
@@ -18,4 +18,5 @@ public class GenogramDTO {
     private String wife;
     private String husband;
     private List<String> attb;
+    private String listID;
 }

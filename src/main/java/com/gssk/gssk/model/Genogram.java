@@ -15,7 +15,7 @@ public class Genogram {
 
     @Id
     @Column(name = "key")
-    private String id;
+    private String key;
     @Column(name="name")
     private String name;
     @Column(name="sex")
@@ -30,25 +30,12 @@ public class Genogram {
     private String husband;
     @Column(name="attributes")
     @ElementCollection
-    private List<String> attb ;
+    private List<String> attb;
+    @Column(name="list_id")
+    private String listID;
 
     public Genogram() {
 
     }
 
-    public Genogram(String id, String name, String sex){
-        id = this.getId();
-        name=this.getName();
-        sex = this.getSex();
-    }
-
-    public Genogram(String id, String name, String sex, String m_key, String f_key, String wife, String husband, List<String> attb){
-        id = this.getId();
-        name = this.getName();
-        sex = this.getSex();
-        m_key = this.getM_key();
-        f_key = this.getF_key();
-        wife = this.getWife();
-        husband = this.getHusband();
-    }
 }

@@ -18,6 +18,8 @@ public class Relative {
     @Column(name = "relativeId")
     private String rid;
 
+
+
     @NotNull
     @Column(name="relation")
     private String relation;
