@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 @Transactional(readOnly = true)
 public interface AccountRepository extends CrudRepository<Account, Long> {
-    Optional<Account> findByEmail(String email);
+    Account findByEmail(String email);
 
     @Transactional
     @Modifying

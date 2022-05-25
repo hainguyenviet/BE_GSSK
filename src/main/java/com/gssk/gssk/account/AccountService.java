@@ -5,6 +5,7 @@ import com.gssk.gssk.account.AccountRepository;
 import com.gssk.gssk.registration.token.ConfirmationToken;
 import com.gssk.gssk.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,6 +14,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -28,16 +32,19 @@ public class AccountService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return accountRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG)));
-        /*boolean userExists = accountRepository.findByEmail(email).isPresent();
-        if (!userExists){
-
-        }*/
+        //return accountRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG)));
+        List<SimpleGrantedAuthority> roles = null;
+        Account account = accountRepository.findByEmail(email);
+        if (account != null){
+            roles = Arrays.asList(new SimpleGrantedAuthority(account.getRole().toString()));
+            return new User(account.getUsername(), account.getPassword(), roles);
+        }
+        else throw new UsernameNotFoundException("User not found");
     }
 
     public String signUpUser(Account account) {
-        boolean userExists = accountRepository.findByEmail(account.getEmail()).isPresent();
-        if (userExists) {
+        Account userExists = accountRepository.findByEmail(account.getEmail());
+        if (userExists != null) {
             throw new IllegalStateException("email already taken");
         }
         String encodedPassword = bCryptPasswordEncoder.encode(account.getPassword());
