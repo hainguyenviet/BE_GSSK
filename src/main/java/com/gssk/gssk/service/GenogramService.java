@@ -61,26 +61,31 @@ public class GenogramService {
         List<Relative> relativeList = person.getRelativeList();
         Genogram genogram = new Genogram();
         genogram.setKey(person.getId());
-        genogram.setName(person.getFirstName() + " " + person.getLastName());
-        genogram.setSex(person.getGender());
-        if (Objects.equals(genogram.getSex(), "male")){
+        genogram.setN(person.getFirstName() + " " + person.getLastName());
+        if (Objects.equals(person.getGender(), "male")){
+            genogram.setS("M");
+        }
+        else if (Objects.equals(person.getGender(), "female")){
+            genogram.setS("F");
+        }
+        if (Objects.equals(genogram.getS(), "male")){
             for (Relative r : relativeList){
                 if (Objects.equals(r.getRelation(), "wife")){
-                    genogram.setWife(r.getRid());
+                    genogram.setUx(r.getRid());
                 }
             }
         }
         for (Relative r : relativeList){
             if (Objects.equals(r.getRelation(), "father")){
-                genogram.setF_key(r.getRid());
+                genogram.setF(r.getRid());
             }
         }
         for (Relative r : relativeList){
             if (Objects.equals(r.getRelation(), "mother")){
-                genogram.setM_key(r.getRid());
+                genogram.setM(r.getRid());
             }
         }
-        genogram.setAttb(attributes);
+        genogram.setA(attributes);
         int len = 8;
         StringBuilder sb = new StringBuilder(len);
         for (int i=0; i<len; i++){
@@ -95,39 +100,44 @@ public class GenogramService {
             RelativeDTO relativeDTO = modelMapper.map(r, RelativeDTO.class);
             GenogramDTO genogramDTO = new GenogramDTO();
             genogramDTO.setKey(relativeDTO.getRid());
-            genogramDTO.setName(relativeDTO.getName());
-            genogramDTO.setSex(relativeDTO.getGender());
-            genogramDTO.setAttb(relativeDTO.getIllnessName());
+            genogramDTO.setN(relativeDTO.getName());
+            if (Objects.equals(relativeDTO.getGender(), "male")){
+                genogramDTO.setS("M");
+            }
+            else if (Objects.equals(relativeDTO.getGender(), "female")){
+                genogramDTO.setS("F");
+            }
+            genogramDTO.setA(relativeDTO.getIllnessName());
             genogramDTO.setListID(genogram.getListID());
 
             // Nếu thân nhân có mối quan hệ là cha
-            if (Objects.equals(genogramDTO.getKey(), genogram.getF_key())){
+            if (Objects.equals(genogramDTO.getKey(), genogram.getF())){
                 // Set khóa cha, mẹ
                 for (Relative r1 : relativeList){
                     if (Objects.equals(r1.getRelation(), "paternal grandfather")){
-                        genogramDTO.setF_key(r1.getRid());
+                        genogramDTO.setF(r1.getRid());
                     }
                     if (Objects.equals(r1.getRelation(), "paternal grandmother")){
-                        genogramDTO.setM_key(r1.getRid());
+                        genogramDTO.setM(r1.getRid());
                     }
                     if (Objects.equals(r1.getRelation(), "mother")){
-                        genogramDTO.setWife(r1.getRid());
+                        genogramDTO.setUx(r1.getRid());
                     }
                 }
             }
 
             // Nếu thân nhân có mối quan hệ là mẹ
-            if (Objects.equals(genogramDTO.getKey(), genogram.getM_key())){
+            if (Objects.equals(genogramDTO.getKey(), genogram.getM())){
                 // Set khóa cha, mẹ
                 for (Relative r1 : relativeList){
                     if (Objects.equals(r1.getRelation(), "maternal grandfather")){
-                        genogramDTO.setF_key(r1.getRid());
+                        genogramDTO.setF(r1.getRid());
                     }
                     if (Objects.equals(r1.getRelation(), "maternal grandmother")){
-                        genogramDTO.setM_key(r1.getRid());
+                        genogramDTO.setM(r1.getRid());
                     }
                     if (Objects.equals(r1.getRelation(), "father")){
-                        genogramDTO.setHusband(r1.getRid());
+                        genogramDTO.setVir(r1.getRid());
                     }
                 }
             }
@@ -136,10 +146,10 @@ public class GenogramService {
             if (Objects.equals(relativeDTO.getRelation(), "brother")){
                 for (Relative r1 : relativeList){
                     if (Objects.equals(r1.getRelation(), "father")){
-                        genogramDTO.setF_key(r1.getRid());
+                        genogramDTO.setF(r1.getRid());
                     }
                     if (Objects.equals(r1.getRelation(), "mother")){
-                        genogramDTO.setM_key(r1.getRid());
+                        genogramDTO.setM(r1.getRid());
                     }
                 }
             }
@@ -148,10 +158,10 @@ public class GenogramService {
             if (Objects.equals(relativeDTO.getRelation(), "sister")){
                 for (Relative r1 : relativeList){
                     if (Objects.equals(r1.getRelation(), "father")){
-                        genogramDTO.setF_key(r1.getRid());
+                        genogramDTO.setF(r1.getRid());
                     }
                     if (Objects.equals(r1.getRelation(), "mother")){
-                        genogramDTO.setM_key(r1.getRid());
+                        genogramDTO.setM(r1.getRid());
                     }
                 }
             }
@@ -161,7 +171,7 @@ public class GenogramService {
                 // Set vợ
                 for (Relative r1 : relativeList){
                     if (Objects.equals(r1.getRelation(), "paternal grandmother")){
-                        genogramDTO.setWife(r1.getRid());
+                        genogramDTO.setUx(r1.getRid());
                     }
                 }
             }
@@ -171,7 +181,7 @@ public class GenogramService {
                 // Set chồng
                 for (Relative r1 : relativeList){
                     if (Objects.equals(r1.getRelation(), "paternal grandfather")){
-                        genogramDTO.setHusband(r1.getRid());
+                        genogramDTO.setVir(r1.getRid());
                     }
                 }
             }
@@ -181,7 +191,7 @@ public class GenogramService {
                 // Set vợ
                 for (Relative r1 : relativeList){
                     if (Objects.equals(r1.getRelation(), "maternal grandmother")){
-                        genogramDTO.setWife(r1.getRid());
+                        genogramDTO.setUx(r1.getRid());
                     }
                 }
             }
@@ -191,7 +201,7 @@ public class GenogramService {
                 // Set vợ
                 for (Relative r1 : relativeList){
                     if (Objects.equals(r1.getRelation(), "maternal grandfather")){
-                        genogramDTO.setHusband(r1.getRid());
+                        genogramDTO.setVir(r1.getRid());
                     }
                 }
             }
@@ -202,10 +212,10 @@ public class GenogramService {
                 // Set cha, mẹ
                 for (Relative r1 : relativeList){
                     if (Objects.equals(r1.getRelation(), "paternal grandfather")){
-                        genogramDTO.setF_key(r1.getRid());
+                        genogramDTO.setF(r1.getRid());
                     }
                     if (Objects.equals(r1.getRelation(), "paternal grandmother")){
-                        genogramDTO.setM_key(r1.getRid());
+                        genogramDTO.setM(r1.getRid());
                     }
                 }
             }
@@ -216,23 +226,23 @@ public class GenogramService {
                 // Set cha, mẹ
                 for (Relative r1 : relativeList){
                     if (Objects.equals(r1.getRelation(), "maternal grandfather")){
-                        genogramDTO.setF_key(r1.getRid());
+                        genogramDTO.setF(r1.getRid());
                     }
                     if (Objects.equals(r1.getRelation(), "maternal grandmother")){
-                        genogramDTO.setM_key(r1.getRid());
+                        genogramDTO.setM(r1.getRid());
                     }
                 }
             }
 
             // Nếu người điền form là nam
-            if (Objects.equals(genogram.getSex(), "male")){
+            if (Objects.equals(genogram.getS(), "male")){
                 // Nếu thân nhân có mối quan hệ con cái
                 if (Objects.equals(relativeDTO.getRelation(), "child")) {
                     // Set khóa cha, mẹ
-                    genogramDTO.setF_key(genogram.getKey());
+                    genogramDTO.setF(genogram.getKey());
                     for (Relative r1 : relativeList){
                         if (Objects.equals(r1.getRelation(), "wife")){
-                            genogramDTO.setM_key(r1.getRid());
+                            genogramDTO.setM(r1.getRid());
                         }
                     }
                 }
@@ -240,14 +250,14 @@ public class GenogramService {
             }
 
             // Nếu người điền form là nữ
-            if (Objects.equals(genogram.getSex(), "female")){
+            if (Objects.equals(genogram.getS(), "female")){
                 // Nếu thân nhân có mối quan hệ con cái
                 if (Objects.equals(relativeDTO.getRelation(), "child")) {
                     // Set khóa cha, mẹ
-                    genogramDTO.setM_key(genogram.getKey());
+                    genogramDTO.setM(genogram.getKey());
                     for (Relative r1 : relativeList){
                         if (Objects.equals(r1.getRelation(), "husband")){
-                            genogramDTO.setF_key(r1.getRid());
+                            genogramDTO.setF(r1.getRid());
                         }
                     }
                 }

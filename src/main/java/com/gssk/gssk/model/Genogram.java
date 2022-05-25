@@ -17,20 +17,20 @@ public class Genogram {
     @Column(name = "key")
     private String key;
     @Column(name="name")
-    private String name;
+    private String n;
     @Column(name="sex")
-    private String sex;
+    private String s;
     @Column(name="motherKey")
-    private String m_key;
+    private String m;
     @Column(name="fatherKey")
-    private String f_key;
+    private String f;
     @Column(name="wife")
-    private String wife;
+    private String ux;
     @Column(name="husband")
-    private String husband;
+    private String vir;
     @Column(name="attributes")
     @ElementCollection
-    private List<String> attb;
+    private List<String> a;
     @Column(name="list_id")
     private String listID;
 
