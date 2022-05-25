@@ -272,4 +272,54 @@ public class GenogramService {
 
         genogramNodeRepository.saveAll(genogramList);
     }
+    
+    public List<String> setRelativeAttr(String attr,List<String>attrList_target)
+    {
+        //Dead sẽ là ưu tiên hàng đầu để xét thêm vào attr
+        //Lưu ý chỉ add attr của dead vào hàng cuối nhưng đừng lo, cái này sẽ xếp luôn dead vào hàng cuối
+        List<String> result=attrList_target;
+        boolean redundant=false;
+
+        for (String item:result
+        ) {
+            if (item.equals(attr) ) {
+                redundant = true;
+            }
+        }
+        if (redundant)
+            return result;
+
+        if (attr.equals("DEAD"))
+        {
+            result.add(attr);
+        }
+        else
+        {
+            //Note: Cứ để "ME" vào bất cứ khi nào chả sao, vì sẽ có sắp xếp sau đó ở dưới
+            if(attr.length()>1)
+                result.add(0,attr);
+            else
+                result.add(attr);
+        }
+
+        boolean flag_me=false;
+        //cái này là để trả ME về hàng đầu chứ sắp xếp lại thấy phiền quá
+        if(attr.length()>1)
+            for (String item:result
+                 ) {
+                    if (item=="ME")
+                    {
+                        result.remove("ME");
+                        flag_me=true;
+            }
+        }
+
+        if (flag_me)
+            result.add(0,"ME");
+
+        return result;
+    }
+
+
+
 }
