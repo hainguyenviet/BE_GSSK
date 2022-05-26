@@ -2,6 +2,7 @@ package com.gssk.gssk.security.config;
 
 import com.gssk.gssk.account.AccountService;
 import com.gssk.gssk.filter.CustomAuthenticationFilter;
+import com.gssk.gssk.filter.CustomAuthorizationFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @AllArgsConstructor
@@ -24,19 +26,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        /*httpSecurity
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/api/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated().and()
-                .formLogin();*/
         httpSecurity.headers().frameOptions().disable();
         httpSecurity.csrf().disable();
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         httpSecurity.authorizeRequests().anyRequest().permitAll();
         httpSecurity.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
+        httpSecurity.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
@@ -48,7 +43,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());
-        //auth.userDetailsService(accountService).passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Bean

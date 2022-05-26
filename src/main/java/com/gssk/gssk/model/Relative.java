@@ -35,8 +35,8 @@ public class Relative {
     @Column(name = "age")
     private int age;
 
-    @ElementCollection
     @Column(name = "illness_name")
+    @Convert(converter = ListToStringConverter.class)
     private List<String> illnessName;
 
     @ElementCollection
@@ -44,7 +44,7 @@ public class Relative {
     private List<Integer> age_detected;
 
     @Column(name = "death_age")
-    private int death_age;
+    private int death_age = -1;
 
     @Column(name = "death_cause")
     private String deathCause;
