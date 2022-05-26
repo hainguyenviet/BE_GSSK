@@ -85,6 +85,7 @@ public class GenogramService {
                 genogram.setM(r.getRid());
             }
         }
+
         genogram.setA(attributes);
         int len = 8;
         StringBuilder sb = new StringBuilder(len);
@@ -272,8 +273,44 @@ public class GenogramService {
 
         genogramNodeRepository.saveAll(genogramList);
     }
-    
-    public List<String> setRelativeAttr(String attr,List<String>attrList_target)
+
+    public List<String> setRelativeAttr(List<String>attrList_target,int disease_amount)
+    {
+        //Dead sẽ là ưu tiên hàng đầu để xét thêm vào attr
+        //Lưu ý chỉ add attr của dead vào hàng cuối nhưng đừng lo, cái này sẽ xếp luôn dead vào hàng cuối
+        List<String> result=new ArrayList<>();
+            for (String item:attrList_target
+            ) {
+                if (item=="ME")
+                {
+                    result.add("ME");
+                }
+            }
+
+
+
+
+        for (String item:attrList_target
+        ) {
+            if (!item.equals("DEAD"))
+            {
+                result.add(disease_amount+item);
+            }
+        }
+
+        for (String item:attrList_target
+        ) {
+            if (item.equals("DEAD"))
+            {
+                result.add(item);
+            }
+        }
+
+        return result;
+
+    }
+
+    public List<String> addRelativeAttr(String attr,List<String>attrList_target)
     {
         //Dead sẽ là ưu tiên hàng đầu để xét thêm vào attr
         //Lưu ý chỉ add attr của dead vào hàng cuối nhưng đừng lo, cái này sẽ xếp luôn dead vào hàng cuối
@@ -296,7 +333,7 @@ public class GenogramService {
         else
         {
             //Note: Cứ để "ME" vào bất cứ khi nào chả sao, vì sẽ có sắp xếp sau đó ở dưới
-            if(attr.length()>1)
+            if(attrList_target.size() >1)
                 result.add(0,attr);
             else
                 result.add(attr);
@@ -304,7 +341,7 @@ public class GenogramService {
 
         boolean flag_me=false;
         //cái này là để trả ME về hàng đầu chứ sắp xếp lại thấy phiền quá
-        if(attr.length()>1)
+        if(attrList_target.size()>1)
             for (String item:result
                  ) {
                     if (item=="ME")
