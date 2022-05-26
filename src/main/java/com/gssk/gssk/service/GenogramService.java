@@ -49,12 +49,12 @@ public class GenogramService {
         Iterable<Illness> illnesses = illnessRepository.findAll();
         List<Illness> illnessList = Streamable.of(illnesses).toList();
         List<String> attributes = new ArrayList<>();
-
+        int checking_dead;
         for (Illness i:illnessList){
             attributes.add(i.getName());
         }
 
-
+        attributes.add("ME");
 
         // Truyền thông tin người điền form sang genogram
         Person person = personRepository.findById(id).get();
@@ -86,7 +86,7 @@ public class GenogramService {
             }
         }
 
-        genogram.setA(attributes);
+        genogram.setA(setRelativeAttr(attributes));
         int len = 8;
         StringBuilder sb = new StringBuilder(len);
         for (int i=0; i<len; i++){
@@ -96,19 +96,26 @@ public class GenogramService {
         genogramList.add(genogram);
 
         // Truyền thông tin thân nhân sang genogram
+
         for (Relative r : relativeList){
+
             ModelMapper modelMapper = new ModelMapper();
             RelativeDTO relativeDTO = modelMapper.map(r, RelativeDTO.class);
             GenogramDTO genogramDTO = new GenogramDTO();
             genogramDTO.setKey(relativeDTO.getRid());
             genogramDTO.setN(relativeDTO.getName());
+            attributes = relativeDTO.getIllnessName();
             if (Objects.equals(relativeDTO.getGender(), "male")){
                 genogramDTO.setS("M");
             }
             else if (Objects.equals(relativeDTO.getGender(), "female")){
                 genogramDTO.setS("F");
             }
-            genogramDTO.setA(relativeDTO.getIllnessName());
+
+            if( r.getDeath_age()!=0)
+              attributes.add("DEAD");
+
+            genogramDTO.setA(setRelativeAttr(attributes));
             genogramDTO.setListID(genogram.getListID());
 
             // Nếu thân nhân có mối quan hệ là cha
@@ -274,16 +281,25 @@ public class GenogramService {
         genogramNodeRepository.saveAll(genogramList);
     }
 
-    public List<String> setRelativeAttr(List<String>attrList_target,int disease_amount)
+    public List<String> setRelativeAttr(List<String>attrList_target)
     {
         //Dead sẽ là ưu tiên hàng đầu để xét thêm vào attr
         //Lưu ý chỉ add attr của dead vào hàng cuối nhưng đừng lo, cái này sẽ xếp luôn dead vào hàng cuối
+        int disease_amount=attrList_target.size();
+
+
         List<String> result=new ArrayList<>();
             for (String item:attrList_target
             ) {
                 if (item=="ME")
                 {
                     result.add("ME");
+                    disease_amount--;
+                }
+
+                if (item.equals("DEAD"))
+                {
+                    disease_amount--;
                 }
             }
 
@@ -292,7 +308,7 @@ public class GenogramService {
 
         for (String item:attrList_target
         ) {
-            if (!item.equals("DEAD"))
+            if (!item.equals("DEAD")&&!!item.equals("ME"))
             {
                 result.add(disease_amount+item);
             }
@@ -332,6 +348,7 @@ public class GenogramService {
         }
         else
         {
+
             //Note: Cứ để "ME" vào bất cứ khi nào chả sao, vì sẽ có sắp xếp sau đó ở dưới
             if(attrList_target.size() >1)
                 result.add(0,attr);
