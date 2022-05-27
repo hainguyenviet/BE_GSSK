@@ -46,13 +46,11 @@ public class GenogramService {
         List<Genogram> genogramList = new ArrayList<>();
         //Iterable<Relative> relatives = relativeRepository.findAll();
         //List<Relative> relativeList = Streamable.of(relatives).toList();
-        Iterable<Illness> illnesses = illnessRepository.findAll();
-        List<Illness> illnessList = Streamable.of(illnesses).toList();
+
+
         List<String> attributes = new ArrayList<>();
-        int checking_dead;
-        for (Illness i:illnessList){
-            attributes.add(i.getName());
-        }
+        ModelMapper modelMapper = new ModelMapper();
+
 
         attributes.add("ME");
 
@@ -62,6 +60,15 @@ public class GenogramService {
         Genogram genogram = new Genogram();
         genogram.setKey(person.getId());
         genogram.setN(person.getFirstName() + " " + person.getLastName());
+        List<Illness> illnessList =  person.getHealthRecord().getIllnessList();
+        for (Illness i:illnessList
+             ) {
+            attributes.add(i.getName());
+        }
+
+
+
+
         if (Objects.equals(person.getGender(), "male")){
             genogram.setS("M");
         }
@@ -99,7 +106,7 @@ public class GenogramService {
 
         for (Relative r : relativeList){
 
-            ModelMapper modelMapper = new ModelMapper();
+
             RelativeDTO relativeDTO = modelMapper.map(r, RelativeDTO.class);
             GenogramDTO genogramDTO = new GenogramDTO();
             genogramDTO.setKey(relativeDTO.getRid());
@@ -112,7 +119,7 @@ public class GenogramService {
                 genogramDTO.setS("F");
             }
 
-            if( r.getDeath_age()!=0)
+            if( r.getDeath_age()>-1)
               attributes.add("DEAD");
 
             genogramDTO.setA(setRelativeAttr(attributes));
@@ -308,7 +315,7 @@ public class GenogramService {
 
         for (String item:attrList_target
         ) {
-            if (!item.equals("DEAD")&&!!item.equals("ME"))
+            if (!item.equals("DEAD")&&!item.equals("ME"))
             {
                 result.add(disease_amount+item);
             }
