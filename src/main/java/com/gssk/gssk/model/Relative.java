@@ -14,7 +14,7 @@ public class Relative {
 
     @Id
     @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid2")
     @Column(name = "relativeId")
     private String rid;
 
