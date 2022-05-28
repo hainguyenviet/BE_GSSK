@@ -15,7 +15,7 @@ public class Illness {
     @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid2")
     @Column(name = "id")
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+//    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private String id;
     @Column(name="code")
     private String code;

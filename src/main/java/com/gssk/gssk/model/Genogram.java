@@ -14,7 +14,7 @@ import java.util.List;
 public class Genogram {
 
     @Id
-    @Column(name = "key")
+    @Column(name = "id")
     private String key;
     @Column(name="name")
     private String n;
