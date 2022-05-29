@@ -17,6 +17,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
+
+
 @Configuration
 @AllArgsConstructor
 @EnableWebSecurity
@@ -29,7 +33,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.headers().frameOptions().disable();
         httpSecurity.csrf().disable();
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        httpSecurity.authorizeRequests().anyRequest().permitAll();
+        httpSecurity.authorizeRequests().antMatchers(POST, "/api/person").permitAll();
+        httpSecurity.authorizeRequests().antMatchers(POST, "/api/genogram/convert/**").permitAll();
+        httpSecurity.authorizeRequests().antMatchers(GET, "/api/genogram/all").hasRole("ADMIN");
+        httpSecurity.authorizeRequests().antMatchers(GET, "/api/genogram/**").permitAll();
+        httpSecurity.authorizeRequests().antMatchers(GET, "/api/person/all").hasRole("ADMIN");
+        httpSecurity.authorizeRequests().antMatchers(GET, "/api/person/**").permitAll();
         httpSecurity.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
         httpSecurity.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }

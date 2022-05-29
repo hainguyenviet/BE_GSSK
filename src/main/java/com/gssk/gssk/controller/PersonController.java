@@ -16,7 +16,7 @@ public class PersonController {
     @Autowired
     PersonService personService;
 
-    @GetMapping
+    @GetMapping(value = "/all", produces = "application/json")
     public List<Person> getAllPerson() {
         return (List<Person>) personService.getAllPerson();
     }

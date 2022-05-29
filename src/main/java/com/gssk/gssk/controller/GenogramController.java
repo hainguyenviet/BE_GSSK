@@ -15,7 +15,7 @@ public class GenogramController {
     @Autowired
     GenogramService genogramService;
 
-    @GetMapping
+    @GetMapping(value = "/all", produces = "application/json")
     public List<Genogram> getAllGenogram(){return (List<Genogram>)genogramService.getAllNodes();}
 
     @GetMapping(value="/{key}", produces = "application/json")
