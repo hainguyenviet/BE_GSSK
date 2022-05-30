@@ -16,9 +16,9 @@ public class Person implements Serializable {
     static final long serialVersionUID = 5L;
     @Id
     @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid2")
     @Column(name = "id")
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+//     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private String id;
     @NotNull
     @Column(name="first_name")
@@ -38,8 +38,8 @@ public class Person implements Serializable {
     private String phoneNumber;
     @Column(name= "gender")
     private String gender;
-    @ElementCollection
     @Column(name = "evaluates")
+    @Convert(converter = ListToStringConverter.class)
     private List<String> evaluates;
 
     @OneToOne(targetEntity = HealthRecord.class, cascade = CascadeType.ALL)
@@ -49,6 +49,4 @@ public class Person implements Serializable {
     @OneToMany(targetEntity = Relative.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_id", referencedColumnName = "id")
     private List<Relative> relativeList;
-
-
 }
