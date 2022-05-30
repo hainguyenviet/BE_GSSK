@@ -29,7 +29,7 @@ public class Genogram {
     @Column(name="husband")
     private String vir;
     @Column(name="attributes")
-    @ElementCollection
+    @Convert(converter = ListToStringConverter.class)
     private List<String> a;
     @Column(name="list_id")
     private String listID;
