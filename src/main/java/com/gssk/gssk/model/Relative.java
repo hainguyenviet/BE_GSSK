@@ -13,10 +13,9 @@ import java.util.List;
 public class Relative {
 
     @Id
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid2")
+    @GeneratedValue(generator="identity")
     @Column(name = "relativeId")
-    private String rid;
+    private Long rid;
 
     @NotNull
     @Column(name="relation")

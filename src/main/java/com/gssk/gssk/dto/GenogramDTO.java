@@ -10,13 +10,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GenogramDTO {
-    private String key;
+    private Long key;
     private String n;
     private String s;
-    private String m;
-    private String f;
-    private String ux;
-    private String vir;
+    private Long m;
+    private Long f;
+    private Long ux;
+    private Long vir;
     private List<String> a;
     private String listID;
 }

@@ -298,7 +298,7 @@ public class GenogramService {
         List<String> result=new ArrayList<>();
             for (String item:attrList_target
             ) {
-                if (item=="ME")
+                if (Objects.equals(item, "ME"))
                 {
                     result.add("ME");
                     disease_amount--;
@@ -368,7 +368,7 @@ public class GenogramService {
         if(attrList_target.size()>1)
             for (String item:result
                  ) {
-                    if (item=="ME")
+                    if (Objects.equals(item, "ME"))
                     {
                         result.remove("ME");
                         flag_me=true;

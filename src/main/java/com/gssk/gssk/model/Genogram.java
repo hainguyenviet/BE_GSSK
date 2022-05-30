@@ -15,19 +15,19 @@ public class Genogram {
 
     @Id
     @Column(name = "id")
-    private String key;
+    private Long key;
     @Column(name="name")
     private String n;
     @Column(name="sex")
     private String s;
     @Column(name="motherKey")
-    private String m;
+    private Long m;
     @Column(name="fatherKey")
-    private String f;
+    private Long f;
     @Column(name="wife")
-    private String ux;
+    private Long ux;
     @Column(name="husband")
-    private String vir;
+    private Long vir;
     @Column(name="attributes")
     @Convert(converter = ListToStringConverter.class)
     private List<String> a;

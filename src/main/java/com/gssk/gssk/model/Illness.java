@@ -12,11 +12,9 @@ import javax.persistence.*;
 public class Illness {
 
     @Id
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid2")
+    @GeneratedValue(generator="identity")
     @Column(name = "id")
-//    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
-    private String id;
+    private Long id;
     @Column(name="code")
     private String code;
     @Column(name="name")

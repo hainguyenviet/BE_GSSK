@@ -14,11 +14,9 @@ import java.util.List;
 public class HealthRecord {
 
     @Id
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid2")
+    @GeneratedValue(generator="identity")
     @Column(name = "id")
-//    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
-    private String id;
+    private Long id;
 
     @NotNull
     @Column(name = "is_twin")
