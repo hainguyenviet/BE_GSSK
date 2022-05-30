@@ -22,7 +22,7 @@ public class PersonController {
     }
 
     @GetMapping(value="/{id}", produces = "application/json")
-    public Person person(@PathVariable("id") String id){
+    public Person person(@PathVariable("id") Long id){
         return personService.getPersonById(id);
     }
 
@@ -32,12 +32,12 @@ public class PersonController {
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public void deletePerson(@PathVariable("id") String id) { personService.deletePerson(id); }
+    public void deletePerson(@PathVariable("id") Long id) { personService.deletePerson(id); }
 
     @PutMapping(value = "/update/{id}", produces = "application/json")
-    public Person updatePerson(@PathVariable("id") String id, Person personRequest) { return personService.updatePerson(id, personRequest); }
+    public Person updatePerson(@PathVariable("id") Long id, Person personRequest) { return personService.updatePerson(id, personRequest); }
 
     @PutMapping(value = "evaluate/{id}", produces = "application/json")
-    public Person addEvaluates(@PathVariable("id") String id, Person personRequest) { return personService.addEvaluates(id, personRequest); }
+    public Person addEvaluates(@PathVariable("id") Long id, Person personRequest) { return personService.addEvaluates(id, personRequest); }
 
 }

@@ -14,7 +14,7 @@ import java.util.List;
 public class HealthRecord {
 
     @Id
-    @GeneratedValue(generator="identity")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 

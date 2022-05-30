@@ -13,7 +13,7 @@ import java.util.List;
 public class Relative {
 
     @Id
-    @GeneratedValue(generator="identity")
+    @GeneratedValue(generator = "identity")
     @Column(name = "relativeId")
     private Long rid;
 

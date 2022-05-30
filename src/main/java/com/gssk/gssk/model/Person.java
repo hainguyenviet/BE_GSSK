@@ -15,7 +15,7 @@ import java.util.*;
 public class Person implements Serializable {
     static final long serialVersionUID = 5L;
     @Id
-    @GeneratedValue(generator="identity")
+    @GeneratedValue(generator = "identity")
     @Column(name = "id")
     private Long id;
     @NotNull

@@ -19,10 +19,10 @@ public class GenogramController {
     public List<Genogram> getAllGenogram(){return (List<Genogram>)genogramService.getAllNodes();}
 
     @GetMapping(value="/{key}", produces = "application/json")
-    public List<Genogram> genogram(@PathVariable("key") String key) {return (List<Genogram>)genogramService.getGenogram(key);}
+    public List<Genogram> genogram(@PathVariable("key") Long key) {return (List<Genogram>)genogramService.getGenogram(key);}
 
     @PostMapping(value = "convert/{key}", produces = "application/json")
-    public void generateGenofromID(@PathVariable("key") String key){
+    public void generateGenofromID(@PathVariable("key") Long key){
         genogramService.ConvertPersonToGenogram(key);
     }
 }

@@ -14,6 +14,6 @@ public interface GenogramRepository extends CrudRepository<Genogram,String> {
 
     @Transactional
     @Modifying
-    @Query("SELECT DISTINCT e FROM Genogram g, Genogram e WHERE g.key = ?1 AND g.listID = e.listID ")
-    List<Genogram> findByKey (String key);
+    @Query("SELECT e FROM Genogram g, Genogram e WHERE g.key = ?1 AND g.listID = e.listID ")
+    List<Genogram> findByKey (Long key);
 }

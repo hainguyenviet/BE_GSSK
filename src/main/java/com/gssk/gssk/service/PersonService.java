@@ -16,7 +16,7 @@ public class PersonService {
         return personRepository.findAll();
     }
 
-    public Person getPersonById(String id) {
+    public Person getPersonById(Long id) {
         return personRepository.findById(id).get();
     }
 
@@ -25,7 +25,7 @@ public class PersonService {
         return personRepository.save(person);
     }
 
-    public Person updatePerson(String id, Person personRequest){
+    public Person updatePerson(Long id, Person personRequest){
         Person person = personRepository.findById(id).get();
         person.setFirstName(personRequest.getFirstName());
         person.setLastName(personRequest.getLastName());
@@ -39,13 +39,13 @@ public class PersonService {
         return personRepository.save(person);
     }
 
-    public Person addEvaluates(String id, Person personRequest){
+    public Person addEvaluates(Long id, Person personRequest){
         Person person = personRepository.findById(id).get();
         person.setEvaluates(personRequest.getEvaluates());
         return personRepository.save(person);
     }
 
-    public void deletePerson(String id){
+    public void deletePerson(Long id){
         Person person = personRepository.findById(id).get();
         personRepository.delete(person);
     }

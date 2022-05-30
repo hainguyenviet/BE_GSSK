@@ -33,12 +33,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.headers().frameOptions().disable();
         httpSecurity.csrf().disable();
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        httpSecurity.authorizeRequests().antMatchers(POST, "/api/person").permitAll();
+        /*httpSecurity.authorizeRequests().antMatchers(POST, "/api/person").permitAll();
         httpSecurity.authorizeRequests().antMatchers(POST, "/api/genogram/convert/**").permitAll();
         httpSecurity.authorizeRequests().antMatchers(GET, "/api/genogram/all").hasRole("ADMIN");
         httpSecurity.authorizeRequests().antMatchers(GET, "/api/genogram/**").permitAll();
         httpSecurity.authorizeRequests().antMatchers(GET, "/api/person/all").hasRole("ADMIN");
-        httpSecurity.authorizeRequests().antMatchers(GET, "/api/person/**").permitAll();
+        httpSecurity.authorizeRequests().antMatchers(GET, "/api/person/**").permitAll();*/
+        httpSecurity.authorizeRequests().anyRequest().permitAll();
         httpSecurity.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
         httpSecurity.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }

@@ -5,19 +5,15 @@ import com.gssk.gssk.model.Genogram;
 import com.gssk.gssk.model.Illness;
 import com.gssk.gssk.model.Person;
 import com.gssk.gssk.model.Relative;
-import com.gssk.gssk.dto.PersonDTO;
 import com.gssk.gssk.dto.RelativeDTO;
 import com.gssk.gssk.repository.*;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
 
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,10 +35,12 @@ public class GenogramService {
 
     public Iterable<Genogram> getAllNodes(){return genogramNodeRepository.findAll();}
     //public Genogram FindByID(String id){return genogramNodeRepository.findById(id).get();}
-    public List<Genogram> getGenogram(String key){return genogramNodeRepository.findByKey(key);}
+    public List<Genogram> getGenogram(Long key){
+        return genogramNodeRepository.findByKey(key);
+    }
 
 
-    public void ConvertPersonToGenogram(String id){
+    public void ConvertPersonToGenogram(Long id){
         List<Genogram> genogramList = new ArrayList<>();
         //Iterable<Relative> relatives = relativeRepository.findAll();
         //List<Relative> relativeList = Streamable.of(relatives).toList();
@@ -75,7 +73,7 @@ public class GenogramService {
         else if (Objects.equals(person.getGender(), "female")){
             genogram.setS("F");
         }
-        if (Objects.equals(genogram.getS(), "male")){
+        if (Objects.equals(genogram.getS(), "M")){
             for (Relative r : relativeList){
                 if (Objects.equals(r.getRelation(), "wife")){
                     genogram.setUx(r.getRid());
@@ -105,8 +103,6 @@ public class GenogramService {
         // Truyền thông tin thân nhân sang genogram
 
         for (Relative r : relativeList){
-
-
             RelativeDTO relativeDTO = modelMapper.map(r, RelativeDTO.class);
             GenogramDTO genogramDTO = new GenogramDTO();
             genogramDTO.setKey(relativeDTO.getRid());
@@ -124,6 +120,11 @@ public class GenogramService {
 
             genogramDTO.setA(setRelativeAttr(attributes));
             genogramDTO.setListID(genogram.getListID());
+
+            if (Objects.equals(genogramDTO.getKey(), genogram.getUx())){
+                // Set khóa cha, mẹ
+                genogramDTO.setVir(person.getId());
+            }
 
             // Nếu thân nhân có mối quan hệ là cha
             if (Objects.equals(genogramDTO.getKey(), genogram.getF())){
@@ -250,7 +251,7 @@ public class GenogramService {
             }
 
             // Nếu người điền form là nam
-            if (Objects.equals(genogram.getS(), "male")){
+            if (Objects.equals(genogram.getS(), "M")){
                 // Nếu thân nhân có mối quan hệ con cái
                 if (Objects.equals(relativeDTO.getRelation(), "child")) {
                     // Set khóa cha, mẹ
@@ -265,7 +266,7 @@ public class GenogramService {
             }
 
             // Nếu người điền form là nữ
-            if (Objects.equals(genogram.getS(), "female")){
+            if (Objects.equals(genogram.getS(), "F")){
                 // Nếu thân nhân có mối quan hệ con cái
                 if (Objects.equals(relativeDTO.getRelation(), "child")) {
                     // Set khóa cha, mẹ
