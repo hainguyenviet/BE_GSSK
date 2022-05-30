@@ -49,6 +49,4 @@ public class Person implements Serializable {
     @OneToMany(targetEntity = Relative.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_id", referencedColumnName = "id")
     private List<Relative> relativeList;
-
-
 }
