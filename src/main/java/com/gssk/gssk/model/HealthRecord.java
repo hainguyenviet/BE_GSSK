@@ -15,7 +15,7 @@ public class HealthRecord {
 
     @Id
     @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid2")
     @Column(name = "id")
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private String id;
