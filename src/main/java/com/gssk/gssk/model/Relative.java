@@ -14,7 +14,7 @@ public class Relative {
 
     @Id
     @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid2")
     @Column(name = "relativeId")
     private String rid;
 
@@ -33,16 +33,17 @@ public class Relative {
     @Column(name = "age")
     private int age;
 
-    @ElementCollection
     @Column(name = "illness_name")
+    @Convert(converter = ListToStringConverter.class)
     private List<String> illnessName;
 
-    @ElementCollection
+
     @Column(name = "age_detected")
-    private List<Integer> age_detected;
+    @Convert(converter = ListToStringConverter.class)
+    private List<String> age_detected;
 
     @Column(name = "death_age")
-    private int death_age=-1;
+    private int death_age = -1;
 
     @Column(name = "death_cause")
     private String deathCause;
