@@ -24,12 +24,16 @@ public class Genogram {
     @Column(name="sex")
     private String s;
     @Column(name="motherKey")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long m;
     @Column(name="fatherKey")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long f;
     @Column(name="wife")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long ux;
     @Column(name="husband")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long vir;
     @Column(name="attributes")
     @Convert(converter = ListToStringConverter.class)
