@@ -36,9 +36,6 @@ public class Person implements Serializable {
     private String phoneNumber;
     @Column(name= "gender")
     private String gender;
-    @Column(name = "evaluates")
-    @Convert(converter = ListToStringConverter.class)
-    private List<String> evaluates;
 
     @OneToOne(targetEntity = HealthRecord.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "pID", referencedColumnName = "id")

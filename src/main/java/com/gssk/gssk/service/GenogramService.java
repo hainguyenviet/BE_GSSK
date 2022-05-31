@@ -14,6 +14,7 @@ import org.modelmapper.ModelMapper;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,8 +37,16 @@ public class GenogramService {
     public Iterable<Genogram> getAllNodes(){return genogramNodeRepository.findAll();}
 
     public List<Genogram> getGenogram(Long key){
-        return genogramNodeRepository.findByKey(key);
+        List<Genogram> result = genogramNodeRepository.findByKey(key);
+        for (Genogram g : result){
+            String test = String.join(",", g.getA());
+            if (Objects.equals(test, "")){
+                g.setA(Collections.emptyList());
+            }
+        }
+        return result;
     }
+
 
 
     public void ConvertPersonToGenogram(Long id){
@@ -121,7 +130,7 @@ public class GenogramService {
             genogramDTO.setKey(relativeDTO.getRid());
             // SET NAME
             genogramDTO.setN(relativeDTO.getName());
-            attributes = relativeDTO.getIllnessName();
+            List<String> relativeAttributes = relativeDTO.getIllnessName();
 
             // SET GENDER
             if (Objects.equals(relativeDTO.getGender(), "male")){
@@ -133,9 +142,13 @@ public class GenogramService {
             ///////////////////////////////////////////////////
             // INPUT DEAD
             if( r.getDeath_age()>-1)
-              attributes.add("DEAD");
+                relativeAttributes.add("DEAD");
             // SET ATTRIBUTE
-            genogramDTO.setA(setRelativeAttr(attributes));
+            if (relativeAttributes.isEmpty()){
+                genogramDTO.setA(Collections.<String> emptyList());
+            } else {
+                genogramDTO.setA(setRelativeAttr(relativeAttributes));
+            }
             // SET CONSTRAINT LIST ID
             genogramDTO.setListID(genogram.getListID());
 
@@ -458,53 +471,6 @@ public class GenogramService {
 
     }
 
-    public List<String> addRelativeAttr(String attr,List<String>attrList_target)
-    {
-        //Dead sẽ là ưu tiên hàng đầu để xét thêm vào attr
-        //Lưu ý chỉ add attr của dead vào hàng cuối nhưng đừng lo, cái này sẽ xếp luôn dead vào hàng cuối
-        List<String> result=attrList_target;
-        boolean redundant=false;
-
-        for (String item:result
-        ) {
-            if (item.equals(attr) ) {
-                redundant = true;
-            }
-        }
-        if (redundant)
-            return result;
-
-        if (attr.equals("DEAD"))
-        {
-            result.add(attr);
-        }
-        else
-        {
-
-            //Note: Cứ để "ME" vào bất cứ khi nào chả sao, vì sẽ có sắp xếp sau đó ở dưới
-            if(attrList_target.size() >1)
-                result.add(0,attr);
-            else
-                result.add(attr);
-        }
-
-        boolean flag_me=false;
-        //cái này là để trả ME về hàng đầu chứ sắp xếp lại thấy phiền quá
-        if(attrList_target.size()>1)
-            for (String item:result
-                 ) {
-                    if (Objects.equals(item, "ME"))
-                    {
-                        result.remove("ME");
-                        flag_me=true;
-            }
-        }
-
-        if (flag_me)
-            result.add(0,"ME");
-
-        return result;
-    }
 
 
 

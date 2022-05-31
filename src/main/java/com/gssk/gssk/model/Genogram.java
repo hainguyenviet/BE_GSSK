@@ -1,6 +1,8 @@
 package com.gssk.gssk.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gssk.gssk.service.RelativeService;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -31,6 +33,7 @@ public class Genogram {
     private Long vir;
     @Column(name="attributes")
     @Convert(converter = ListToStringConverter.class)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<String> a;
     @Column(name="list_id")
     @JsonIgnore
@@ -39,6 +42,8 @@ public class Genogram {
     public Genogram() {
 
     }
+
+
 
 
 }
