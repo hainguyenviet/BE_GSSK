@@ -34,7 +34,7 @@ public class GenogramService {
     static SecureRandom rnd = new SecureRandom();
 
     public Iterable<Genogram> getAllNodes(){return genogramNodeRepository.findAll();}
-    //public Genogram FindByID(String id){return genogramNodeRepository.findById(id).get();}
+
     public List<Genogram> getGenogram(Long key){
         return genogramNodeRepository.findByKey(key);
     }
@@ -42,8 +42,6 @@ public class GenogramService {
 
     public void ConvertPersonToGenogram(Long id){
         List<Genogram> genogramList = new ArrayList<>();
-        //Iterable<Relative> relatives = relativeRepository.findAll();
-        //List<Relative> relativeList = Streamable.of(relatives).toList();
 
 
         List<String> attributes = new ArrayList<>();
@@ -66,13 +64,15 @@ public class GenogramService {
 
 
 
-
+        // SET GENDER
         if (Objects.equals(person.getGender(), "male")){
             genogram.setS("M");
         }
         else if (Objects.equals(person.getGender(), "female")){
             genogram.setS("F");
         }
+        ///////////////////////////////////////////////
+        // SET HUSBAND / WIFE KEY
         if (Objects.equals(genogram.getS(), "M")){
             for (Relative r : relativeList){
                 if (Objects.equals(r.getRelation(), "wife")){
@@ -80,6 +80,15 @@ public class GenogramService {
                 }
             }
         }
+        if (Objects.equals(genogram.getS(), "F")){
+            for (Relative r : relativeList){
+                if (Objects.equals(r.getRelation(), "husband")){
+                    genogram.setVir(r.getRid());
+                }
+            }
+        }
+        ///////////////////////////////////////////////
+        // SET FATHER - MOTHER KEY
         for (Relative r : relativeList){
             if (Objects.equals(r.getRelation(), "father")){
                 genogram.setF(r.getRid());
@@ -90,101 +99,218 @@ public class GenogramService {
                 genogram.setM(r.getRid());
             }
         }
-
+        //////////////////////////////////////////////
+        // SET ATTRIBUTES
         genogram.setA(setRelativeAttr(attributes));
         int len = 8;
         StringBuilder sb = new StringBuilder(len);
         for (int i=0; i<len; i++){
             sb.append(Generator.charAt(rnd.nextInt(Generator.length())));
         }
+        /////////////////////////////////////////////
+        // SET CONSTRAINT LIST ID
         genogram.setListID(sb.toString());
         genogramList.add(genogram);
 
-        // Truyền thông tin thân nhân sang genogram
 
+        // CONVERT RELATIVE LIST TO GENOGRAM
         for (Relative r : relativeList){
             RelativeDTO relativeDTO = modelMapper.map(r, RelativeDTO.class);
             GenogramDTO genogramDTO = new GenogramDTO();
+            // SET KEY
             genogramDTO.setKey(relativeDTO.getRid());
+            // SET NAME
             genogramDTO.setN(relativeDTO.getName());
             attributes = relativeDTO.getIllnessName();
+
+            // SET GENDER
             if (Objects.equals(relativeDTO.getGender(), "male")){
                 genogramDTO.setS("M");
             }
             else if (Objects.equals(relativeDTO.getGender(), "female")){
                 genogramDTO.setS("F");
             }
-
+            ///////////////////////////////////////////////////
+            // INPUT DEAD
             if( r.getDeath_age()>-1)
               attributes.add("DEAD");
-
+            // SET ATTRIBUTE
             genogramDTO.setA(setRelativeAttr(attributes));
+            // SET CONSTRAINT LIST ID
             genogramDTO.setListID(genogram.getListID());
 
+            // IF RELATIVE IS PERSON'S WIFE
             if (Objects.equals(genogramDTO.getKey(), genogram.getUx())){
-                // Set khóa cha, mẹ
+                // SET HUSBAND KEY
                 genogramDTO.setVir(person.getId());
+                for (Relative r1 : relativeList){
+                    // SET FATHER KEY
+                    if (Objects.equals(r1.getRelation(), "father in law")) {
+                        genogramDTO.setF(r1.getRid());
+                    }
+                    // SET MOTHER KEY
+                    if (Objects.equals(r1.getRelation(), "mother in law")) {
+                        genogramDTO.setM(r1.getRid());
+                    }
+                }
             }
 
-            // Nếu thân nhân có mối quan hệ là cha
-            if (Objects.equals(genogramDTO.getKey(), genogram.getF())){
-                // Set khóa cha, mẹ
+            // IF RELATIVE IS PERSON'S FATHER IN LAW
+            if (Objects.equals(relativeDTO.getRelation(), "father in law")){
                 for (Relative r1 : relativeList){
+                    // SET WIFE
+                    if (Objects.equals(r1.getRelation(), "mother in law")) {
+                        genogramDTO.setUx(r1.getRid());
+                    }
+                    // SET MOTHER KEY
+                    if (Objects.equals(r1.getRelation(), "paternal grandmother in law")) {
+                        genogramDTO.setM(r1.getRid());
+                    }
+                    // SET FATHER KEY
+                    if (Objects.equals(r1.getRelation(), "paternal grandfather in law")) {
+                        genogramDTO.setF(r1.getRid());
+                    }
+                }
+            }
+
+            // IF RELATIVE IS PERSON'S MOTHER IN LAW
+            if (Objects.equals(relativeDTO.getRelation(), "mother in law")){
+                for (Relative r1 : relativeList){
+                    // SET WIFE
+                    if (Objects.equals(r1.getRelation(), "father in law")) {
+                        genogramDTO.setVir(r1.getRid());
+                    }
+                    // SET MOTHER KEY
+                    if (Objects.equals(r1.getRelation(), "maternal grandmother in law")) {
+                        genogramDTO.setM(r1.getRid());
+                    }
+                    // SET FATHER KEY
+                    if (Objects.equals(r1.getRelation(), "maternal grandfather in law")) {
+                        genogramDTO.setF(r1.getRid());
+                    }
+                }
+            }
+
+            // IF RELATIVE IS PERSON'S PATERNAL GRANDFATHER / GRANDMOTHER IN LAW
+            if (Objects.equals(relativeDTO.getRelation(), "paternal grandfather in law")){
+                for (Relative r1 : relativeList){
+                    // SET WIFE
+                    if (Objects.equals(r1.getRelation(), "paternal grandmother in law")) {
+                        genogramDTO.setUx(r1.getRid());
+                    }
+                }
+            }
+            if (Objects.equals(relativeDTO.getRelation(), "paternal grandmother in law")){
+                for (Relative r1 : relativeList){
+                    // SET HUSBAND
+                    if (Objects.equals(r1.getRelation(), "paternal grandfather in law")) {
+                        genogramDTO.setVir(r1.getRid());
+                    }
+                }
+            }
+
+            // IF RELATIVE IS PERSON'S MATERNAL GRANDFATHER / GRANDMOTHER IN LAW
+            if (Objects.equals(relativeDTO.getRelation(), "maternal grandfather in law")){
+                for (Relative r1 : relativeList){
+                    // SET WIFE
+                    if (Objects.equals(r1.getRelation(), "maternal grandmother in law")) {
+                        genogramDTO.setUx(r1.getRid());
+                    }
+                }
+            }
+            if (Objects.equals(relativeDTO.getRelation(), "maternal grandmother in law")){
+                for (Relative r1 : relativeList){
+                    // SET HUSBAND
+                    if (Objects.equals(r1.getRelation(), "maternal grandfather in law")) {
+                        genogramDTO.setVir(r1.getRid());
+                    }
+                }
+            }
+
+            // IF RELATIVE IS PERSON'S HUSBAND
+            else if (Objects.equals(genogramDTO.getKey(), genogram.getVir())){
+                // SET WIFE KEY
+                genogramDTO.setUx(person.getId());
+                for (Relative r1 : relativeList){
+                    // SET FATHER KEY
+                    if (Objects.equals(r1.getRelation(), "father in law")) {
+                        genogramDTO.setF(r1.getRid());
+                    }
+                    // SET MOTHER KEY
+                    if (Objects.equals(r1.getRelation(), "mother in law")) {
+                        genogramDTO.setM(r1.getRid());
+                    }
+                }
+            }
+            ///////////////////////////////////////////////////
+
+            // IF RELATIVE IS PERSON'S FATHER
+            if (Objects.equals(genogramDTO.getKey(), genogram.getF())){
+                for (Relative r1 : relativeList){
+                    // SET FATHER KEY
                     if (Objects.equals(r1.getRelation(), "paternal grandfather")){
                         genogramDTO.setF(r1.getRid());
                     }
+                    // SET MOTHER KEY
                     if (Objects.equals(r1.getRelation(), "paternal grandmother")){
                         genogramDTO.setM(r1.getRid());
                     }
+                    // SET WIFE KEY
                     if (Objects.equals(r1.getRelation(), "mother")){
                         genogramDTO.setUx(r1.getRid());
                     }
                 }
             }
 
-            // Nếu thân nhân có mối quan hệ là mẹ
+            // IF RELATIVE IS PERSON'S MOTHER
             if (Objects.equals(genogramDTO.getKey(), genogram.getM())){
-                // Set khóa cha, mẹ
                 for (Relative r1 : relativeList){
+                    // SET FATHER KEY
                     if (Objects.equals(r1.getRelation(), "maternal grandfather")){
                         genogramDTO.setF(r1.getRid());
                     }
+                    // SET MOTHER KEY
                     if (Objects.equals(r1.getRelation(), "maternal grandmother")){
                         genogramDTO.setM(r1.getRid());
                     }
+                    // SET HUSBAND KEY
                     if (Objects.equals(r1.getRelation(), "father")){
                         genogramDTO.setVir(r1.getRid());
                     }
                 }
             }
 
-            // Nếu thân nhân có mối quan hệ là anh, em trai ruột
+            // IF RELATIVE IS PERSON'S BROTHER
             if (Objects.equals(relativeDTO.getRelation(), "brother")){
                 for (Relative r1 : relativeList){
+                    // SET FATHER KEY
                     if (Objects.equals(r1.getRelation(), "father")){
                         genogramDTO.setF(r1.getRid());
                     }
+                    // SET MOTHER KEY
                     if (Objects.equals(r1.getRelation(), "mother")){
                         genogramDTO.setM(r1.getRid());
                     }
                 }
             }
 
-            // Nếu thân nhân có mối quan hệ là chị, em gái ruột
+            // IF RELATIVE IS PERSON'S SISTER
             if (Objects.equals(relativeDTO.getRelation(), "sister")){
                 for (Relative r1 : relativeList){
+                    // SET FATHER KEY
                     if (Objects.equals(r1.getRelation(), "father")){
                         genogramDTO.setF(r1.getRid());
                     }
+                    // SET MOTHER KEY
                     if (Objects.equals(r1.getRelation(), "mother")){
                         genogramDTO.setM(r1.getRid());
                     }
                 }
             }
 
-            // Nếu thân nhân có mối quan hệ là ông nội
+            // IF RELATIVE IS PERSON'S PATERNAL GRANDFATHER
             if (Objects.equals(relativeDTO.getRelation(), "paternal grandfather")){
-                // Set vợ
+                // SET WIFE KEY
                 for (Relative r1 : relativeList){
                     if (Objects.equals(r1.getRelation(), "paternal grandmother")){
                         genogramDTO.setUx(r1.getRid());
@@ -192,9 +318,9 @@ public class GenogramService {
                 }
             }
 
-            // Nếu thân nhân có mối quan hệ là bà nội
+            // IF RELATIVE IS PERSON'S PATERNAL GRANDMOTHER
             if (Objects.equals(relativeDTO.getRelation(), "paternal grandmother")){
-                // Set chồng
+                // SET HUSBAND KEY
                 for (Relative r1 : relativeList){
                     if (Objects.equals(r1.getRelation(), "paternal grandfather")){
                         genogramDTO.setVir(r1.getRid());
@@ -202,9 +328,9 @@ public class GenogramService {
                 }
             }
 
-            // Nếu thân nhân có mối quan hệ là ông ngoại
+            // IF RELATIVE IS PERSON'S MATERNAL GRANDFATHER
             if (Objects.equals(relativeDTO.getRelation(), "maternal grandfather")){
-                // Set vợ
+                // SET WIFE KEY
                 for (Relative r1 : relativeList){
                     if (Objects.equals(r1.getRelation(), "maternal grandmother")){
                         genogramDTO.setUx(r1.getRid());
@@ -212,9 +338,9 @@ public class GenogramService {
                 }
             }
 
-            // Nếu thân nhân có mối quan hệ là bà ngoại
+            // IF RELATIVE IS PERSON'S MATERNAL GRANDMOTHER
             if (Objects.equals(relativeDTO.getRelation(), "maternal grandmother")){
-                // Set vợ
+                // SET HUSBAND KEY
                 for (Relative r1 : relativeList){
                     if (Objects.equals(r1.getRelation(), "maternal grandfather")){
                         genogramDTO.setVir(r1.getRid());
@@ -222,40 +348,43 @@ public class GenogramService {
                 }
             }
 
-            // Nếu thân nhân có mối quan hệ là anh, chị em ruột của cha
+            // IF RELATIVE IS FATHER'S UNCLE OR AUNT
             // uncle 1 = bác trai, uncle 2 = chú, aunt 1 = cô
             if (Objects.equals(relativeDTO.getRelation(), "uncle 1") || Objects.equals(relativeDTO.getRelation(), "uncle 2") || Objects.equals(relativeDTO.getRelation(), "aunt 1")){
-                // Set cha, mẹ
                 for (Relative r1 : relativeList){
+                    // SET FATHER KEY
                     if (Objects.equals(r1.getRelation(), "paternal grandfather")){
                         genogramDTO.setF(r1.getRid());
                     }
+                    // SET MOTHER KEY
                     if (Objects.equals(r1.getRelation(), "paternal grandmother")){
                         genogramDTO.setM(r1.getRid());
                     }
                 }
             }
 
-            // Nếu thân nhân có môí quan hệ là anh, chị em ruột của mẹ
+            // IF RELATIVE IS MOTHER'S UNCLE OR AUNT
             // uncle 3 = cậu, aunt 2 = dì
             if (Objects.equals(relativeDTO.getRelation(), "uncle 3") || Objects.equals(relativeDTO.getRelation(), "aunt 2")){
-                // Set cha, mẹ
                 for (Relative r1 : relativeList){
+                    // SET FATHER KEY
                     if (Objects.equals(r1.getRelation(), "maternal grandfather")){
                         genogramDTO.setF(r1.getRid());
                     }
+                    // SET MOTHER KEY
                     if (Objects.equals(r1.getRelation(), "maternal grandmother")){
                         genogramDTO.setM(r1.getRid());
                     }
                 }
             }
 
-            // Nếu người điền form là nam
-            if (Objects.equals(genogram.getS(), "M")){
-                // Nếu thân nhân có mối quan hệ con cái
-                if (Objects.equals(relativeDTO.getRelation(), "child")) {
-                    // Set khóa cha, mẹ
+            // IF RELATIVE IS PERSON'S CHILD
+            if (Objects.equals(relativeDTO.getRelation(), "child")) {
+                // IF PERSON IS MALE
+                if (Objects.equals(genogram.getS(), "M")) {
+                    // SET FATHER KEY
                     genogramDTO.setF(genogram.getKey());
+                    // SET MOTHER KEY
                     for (Relative r1 : relativeList){
                         if (Objects.equals(r1.getRelation(), "wife")){
                             genogramDTO.setM(r1.getRid());
@@ -263,24 +392,19 @@ public class GenogramService {
                     }
                 }
 
-            }
-
-            // Nếu người điền form là nữ
-            if (Objects.equals(genogram.getS(), "F")){
-                // Nếu thân nhân có mối quan hệ con cái
-                if (Objects.equals(relativeDTO.getRelation(), "child")) {
-                    // Set khóa cha, mẹ
+                // IF PERSON IS FEMALE
+                if (Objects.equals(genogram.getS(), "F")) {
+                    // SET MOTHER KEY
                     genogramDTO.setM(genogram.getKey());
+                    // SET FATHER KEY
                     for (Relative r1 : relativeList){
                         if (Objects.equals(r1.getRelation(), "husband")){
                             genogramDTO.setF(r1.getRid());
                         }
                     }
                 }
-
-                //
-
             }
+
 
             Genogram genogram1 = modelMapper.map(genogramDTO,Genogram.class);
             genogramList.add(genogram1);

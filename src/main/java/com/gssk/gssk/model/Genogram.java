@@ -40,15 +40,5 @@ public class Genogram {
 
     }
 
-    public Genogram(Long key, String n, String s, Long m, Long f, Long ux, Long vir, List<String> a){
-        this.key=key;
-        this.n=n;
-        this.s=s;
-        this.m=m;
-        this.f=f;
-        this.ux=ux;
-        this.vir=vir;
-        this.a=a;
-    }
 
 }
