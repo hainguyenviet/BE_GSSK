@@ -1,11 +1,9 @@
 package com.gssk.gssk.registration;
 
-import com.gssk.gssk.account.Account;
-import com.gssk.gssk.account.AccountService;
-import com.gssk.gssk.account.Role;
+import com.gssk.gssk.account.AppUser;
+import com.gssk.gssk.account.AppUserService;
+import com.gssk.gssk.account.ERole;
 import com.gssk.gssk.email.EmailSender;
-import com.gssk.gssk.registration.EmailValidator;
-import com.gssk.gssk.registration.RegistrationRequest;
 import com.gssk.gssk.registration.token.ConfirmationToken;
 import com.gssk.gssk.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
@@ -18,7 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class RegistrationService {
 
-    private final AccountService accountService;
+    private final AppUserService appUserService;
     private final EmailValidator emailValidator;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
@@ -28,12 +26,13 @@ public class RegistrationService {
         if (!isValidEmail) {
             throw new IllegalStateException("email not valid");
         }
-        String token = accountService.signUpUser(new Account(
+        String token = appUserService.signUpUser(new AppUser(
                 request.getFullName(),
                 request.getEmail(),
                 request.getPassword(),
-                Role.USER
-        ));
+                ERole.USER
+                )
+        );
 
         String link = "http://localhost:8080/api/registration/confirm?token=" + token;
         emailSender.send(request.getEmail(), buildEmail(request.getFullName(), link));
@@ -55,7 +54,7 @@ public class RegistrationService {
         }
 
         confirmationTokenService.setConfirmedAt(token);
-        accountService.enableAccount(confirmationToken.getAccount().getEmail());
+        appUserService.enableAccount(confirmationToken.getAccount().getEmail());
         return "confirmed";
     }
 

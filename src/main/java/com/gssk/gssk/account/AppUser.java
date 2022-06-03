@@ -9,12 +9,15 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table (name = "tbl_account", uniqueConstraints = {@UniqueConstraint(name = "email_register", columnNames = "email")})
-public class Account implements UserDetails {
+@Table (name = "users", uniqueConstraints = {@UniqueConstraint(name = "email_register", columnNames = "email")})
+public class AppUser implements UserDetails {
 
     @SequenceGenerator(
             name = "account_sequence",
@@ -38,31 +41,32 @@ public class Account implements UserDetails {
     @Column(name = "password")
     private String password;
     @Enumerated(EnumType.STRING)
-    @Column(name = "role")
-    private Role role;
+    @Column
+    private ERole role;
     @Column(name = "is_locked")
     private Boolean locked = false;
     @Column(name = "is_enabled")
     private Boolean enabled = false;
 
-    public Account(String fullName,
-                   String email,
-                   String password,
-                   Role role) {
+    public AppUser(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+//    public AppUser(String fullName, String email, String password, Set<Role> roles) {
+//        this.fullName = fullName;
+//        this.email = email;
+//        this.password = password;
+//        this.roles = roles;
+//    }
+
+    public AppUser(String fullName, String email, String password, ERole role) {
         this.fullName = fullName;
         this.email = email;
         this.password = password;
         this.role = role;
     }
 
-    public Account(Account account){
-        this.id = account.id;
-        this.email = account.email;
-        this.password = account.password;
-        this.role = account.role;
-        this.locked = account.locked;
-        this.enabled = account.enabled;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -80,9 +84,6 @@ public class Account implements UserDetails {
         return email;
     }
 
-    public String getFullName(){
-        return fullName;
-    }
 
     @Override
     public boolean isAccountNonExpired() {
@@ -104,9 +105,4 @@ public class Account implements UserDetails {
         return enabled;
     }
 
-    /*private static class InnerAccount extends Account implements UserDetails{
-        public InternalAccount(Account account){
-            Account account1 = new Account(account);
-        }
-    }*/
 }

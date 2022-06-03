@@ -1,7 +1,7 @@
 package com.gssk.gssk.registration.token;
 
 
-import com.gssk.gssk.account.Account;
+import com.gssk.gssk.account.AppUser;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -38,11 +38,11 @@ public class ConfirmationToken {
     private LocalDateTime expiresAt;
     @Column(name = "confirmed_at")
     private LocalDateTime confirmedAt;
-    @ManyToOne(targetEntity = Account.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = AppUser.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id", referencedColumnName = "id")
-    private Account account;
+    private AppUser account;
 
-    public ConfirmationToken(String token, LocalDateTime createdAt, LocalDateTime expiredAt, Account account){
+    public ConfirmationToken(String token, LocalDateTime createdAt, LocalDateTime expiredAt, AppUser account){
         this.token = token;
         this.createdAt = createdAt;
         this.expiresAt = expiredAt;

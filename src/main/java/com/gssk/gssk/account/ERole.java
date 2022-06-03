@@ -1,6 +1,8 @@
 package com.gssk.gssk.account;
 
-public enum Role {
+import java.util.Enumeration;
+
+public enum ERole {
     USER,
     ADMIN
 }
