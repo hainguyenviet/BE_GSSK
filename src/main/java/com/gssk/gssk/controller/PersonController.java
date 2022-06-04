@@ -12,7 +12,7 @@ import java.util.List;
 
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/person")
 public class PersonController {
 
@@ -22,11 +22,13 @@ public class PersonController {
     @Autowired
     AppUserService appUserService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/all", produces = "application/json")
     public List<Person> getAllPerson() {
         return (List<Person>) personService.getAllPerson();
     }
 
+    @PreAuthorize(("hasRole('USER') or hasRole('ADMIN')" ))
     @GetMapping(value="/{id}", produces = "application/json")
     public Person person(@PathVariable("id") Long id){
         return personService.getPersonById(id);
@@ -38,9 +40,11 @@ public class PersonController {
         return personService.addNewPerson(person);
     }
 
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @DeleteMapping(value = "/delete/{id}")
     public void deletePerson(@PathVariable("id") Long id) { personService.deletePerson(id); }
 
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @PutMapping(value = "/update/{id}", produces = "application/json")
     public Person updatePerson(@PathVariable("id") Long id, Person personRequest) { return personService.updatePerson(id, personRequest); }
 

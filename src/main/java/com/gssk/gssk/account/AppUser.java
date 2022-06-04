@@ -53,12 +53,11 @@ public class AppUser implements UserDetails {
         this.password = password;
     }
 
-//    public AppUser(String fullName, String email, String password, Set<Role> roles) {
-//        this.fullName = fullName;
-//        this.email = email;
-//        this.password = password;
-//        this.roles = roles;
-//    }
+    public AppUser(String email, String password, ERole role){
+        this.email = "admin@admin.com";
+        this.password = "gsskadmin2022";
+        this.role = ERole.ADMIN;
+    }
 
     public AppUser(String fullName, String email, String password, ERole role) {
         this.fullName = fullName;
