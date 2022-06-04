@@ -22,29 +22,29 @@ public class PersonController {
     @Autowired
     AppUserService appUserService;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(value = "/all", produces = "application/json")
     public List<Person> getAllPerson() {
         return (List<Person>) personService.getAllPerson();
     }
 
-    @PreAuthorize(("hasRole('USER') or hasRole('ADMIN')" ))
+    @PreAuthorize(("hasAuthority('USER') or hasAuthority('ADMIN')" ))
     @GetMapping(value="/{id}", produces = "application/json")
     public Person person(@PathVariable("id") Long id){
         return personService.getPersonById(id);
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAuthority('USER')")
     @PostMapping(value = "/create", produces = "application/json")
     public Person createPerson(@RequestBody Person person) {
         return personService.addNewPerson(person);
     }
 
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     @DeleteMapping(value = "/delete/{id}")
     public void deletePerson(@PathVariable("id") Long id) { personService.deletePerson(id); }
 
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     @PutMapping(value = "/update/{id}", produces = "application/json")
     public Person updatePerson(@PathVariable("id") Long id, Person personRequest) { return personService.updatePerson(id, personRequest); }
 

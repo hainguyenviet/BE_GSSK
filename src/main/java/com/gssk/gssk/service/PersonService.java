@@ -4,6 +4,7 @@ import com.gssk.gssk.model.Person;
 import com.gssk.gssk.repository.PersonRepository;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 

@@ -33,7 +33,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final AppUserService appUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final Environment env;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
