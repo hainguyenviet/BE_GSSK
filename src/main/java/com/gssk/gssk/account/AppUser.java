@@ -1,16 +1,17 @@
 package com.gssk.gssk.account;
 
 import lombok.*;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -48,16 +49,15 @@ public class AppUser implements UserDetails {
     @Column(name = "is_enabled")
     private Boolean enabled = false;
 
-    public AppUser(String email, String password) {
+    public AppUser(String email, String password, ERole role, Boolean locked, Boolean enabled){
         this.email = email;
         this.password = password;
+        this.role = role;
+        this.locked = locked;
+        this.enabled = enabled;
     }
 
-    public AppUser(String email, String password, ERole role){
-        this.email = "admin@admin.com";
-        this.password = "gsskadmin2022";
-        this.role = ERole.ADMIN;
-    }
+
 
     public AppUser(String fullName, String email, String password, ERole role) {
         this.fullName = fullName;

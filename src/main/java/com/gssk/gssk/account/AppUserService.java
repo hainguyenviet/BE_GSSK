@@ -3,6 +3,9 @@ package com.gssk.gssk.account;
 import com.gssk.gssk.registration.token.ConfirmationToken;
 import com.gssk.gssk.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,15 +29,18 @@ public class AppUserService implements UserDetailsService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
 
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         AppUser user = appUserRepository.findByEmail(email);
-        if (user == null){
+        if (user == null && !Objects.equals(email, "admin")){
             throw new UsernameNotFoundException("User not found in DB");
         }
-        List<SimpleGrantedAuthority> authorities = null;
-        authorities = Arrays.asList(new SimpleGrantedAuthority(user.getRole().toString()));
-        return new User(user.getUsername(), user.getPassword(), authorities);
+        else {
+            List<SimpleGrantedAuthority> authorities = null;
+            authorities = Arrays.asList(new SimpleGrantedAuthority(user.getRole().toString()));
+            return new User(user.getUsername(), user.getPassword(), authorities);
+        }
     }
 
     public String signUpUser(AppUser user) {

@@ -4,6 +4,7 @@ import com.gssk.gssk.account.AppUserService;
 import com.gssk.gssk.filter.CustomAuthenticationFilter;
 import com.gssk.gssk.filter.CustomAuthorizationFilter;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -33,6 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final AppUserService appUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

@@ -34,7 +34,7 @@ public class PersonController {
         return personService.getPersonById(id);
     }
 
-    @PreAuthorize("hasAuthority('USER')")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     @PostMapping(value = "/create", produces = "application/json")
     public Person createPerson(@RequestBody Person person) {
         return personService.addNewPerson(person);
