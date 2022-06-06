@@ -74,10 +74,10 @@ public class GenogramService {
 
 
         // SET GENDER
-        if (Objects.equals(person.getGender(), "male")){
+        if (Objects.equals(person.getGender(), "Nam")){
             genogram.setS("M");
         }
-        else if (Objects.equals(person.getGender(), "female")){
+        else if (Objects.equals(person.getGender(), "Nữ")){
             genogram.setS("F");
         }
         ///////////////////////////////////////////////
@@ -137,10 +137,10 @@ public class GenogramService {
             }
 
             // SET GENDER
-            if (Objects.equals(relativeDTO.getGender(), "male")){
+            if (Objects.equals(relativeDTO.getGender(), "Nam")){
                 genogramDTO.setS("M");
             }
-            else if (Objects.equals(relativeDTO.getGender(), "female")){
+            else if (Objects.equals(relativeDTO.getGender(), "Nữ")){
                 genogramDTO.setS("F");
             }
             ///////////////////////////////////////////////////
