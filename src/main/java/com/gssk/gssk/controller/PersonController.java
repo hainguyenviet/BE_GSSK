@@ -22,7 +22,7 @@ public class PersonController {
     @Autowired
     AppUserService appUserService;
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    //@PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(value = "/all", produces = "application/json")
     public List<Person> getAllPerson() {
         return (List<Person>) personService.getAllPerson();

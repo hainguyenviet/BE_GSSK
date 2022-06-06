@@ -1,11 +1,8 @@
 package com.gssk.gssk.account;
 
-import com.gssk.gssk.registration.token.ConfirmationToken;
-import com.gssk.gssk.registration.token.ConfirmationTokenService;
+//import com.gssk.gssk.registration.token.ConfirmationToken;
+//import com.gssk.gssk.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +11,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -27,7 +23,7 @@ public class AppUserService implements UserDetailsService {
 
     private final AppUserRepository appUserRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final ConfirmationTokenService confirmationTokenService;
+//    private final ConfirmationTokenService confirmationTokenService;
 
 
     @Override
@@ -43,22 +39,22 @@ public class AppUserService implements UserDetailsService {
         }
     }
 
-    public String signUpUser(AppUser user) {
-        AppUser userExists = appUserRepository.findByEmail(user.getEmail());
-        if (userExists != null) {
-            throw new IllegalStateException("email already taken");
-        }
-        String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
-
-        user.setPassword(encodedPassword);
-
-        appUserRepository.save(user);
-
-        String token = UUID.randomUUID().toString();
-        ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15), user);
-        confirmationTokenService.saveConfirmationToken(confirmationToken);
-        return token;
-    }
+//    public String signUpUser(AppUser user) {
+//        AppUser userExists = appUserRepository.findByEmail(user.getEmail());
+//        if (userExists != null) {
+//            throw new IllegalStateException("email already taken");
+//        }
+//        String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
+//
+//        user.setPassword(encodedPassword);
+//
+//        appUserRepository.save(user);
+//
+//        String token = UUID.randomUUID().toString();
+//        ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15), user);
+//        confirmationTokenService.saveConfirmationToken(confirmationToken);
+//        return token;
+//    }
 
     public AppUser getAccount(String email){
         return appUserRepository.findByEmail(email);

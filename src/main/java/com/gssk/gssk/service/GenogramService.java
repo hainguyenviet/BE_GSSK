@@ -145,7 +145,7 @@ public class GenogramService {
             }
             ///////////////////////////////////////////////////
             // INPUT DEAD
-            if( r.getDeath_age()>-1)
+            if( r.getDeath_age()>-1 || Objects.equals(r.getIsDead(), "true"))
                 relativeAttributes.add("DEAD");
             // SET ATTRIBUTE
             if (relativeAttributes.isEmpty()){

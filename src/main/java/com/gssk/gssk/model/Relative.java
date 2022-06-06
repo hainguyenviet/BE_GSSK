@@ -38,6 +38,9 @@ public class Relative {
     @Column(name = "family_order")
     private String familyOrder;
 
+    @Column(name = "is_dead")
+    private String isDead;
+
     @Column(name = "death_age")
     private int death_age = -1;
 
