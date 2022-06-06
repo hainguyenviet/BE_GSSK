@@ -20,11 +20,11 @@ public class HealthRecord {
 
     @NotNull
     @Column(name = "is_twin")
-    private Boolean isTwin;
+    private String isTwin;
 
     @NotNull
     @Column(name = "is_adopted")
-    private Boolean isAdopted;
+    private String isAdopted;
 
     @NotNull
     @Column(name = "height")
@@ -48,7 +48,7 @@ public class HealthRecord {
 
     @NotNull
     @Column(name = "is_smoke")
-    private Boolean isSmoke;
+    private String isSmoke;
 
     @Column(name = "smoke_time")
     private Integer smokeTime;

@@ -29,21 +29,23 @@ public class Relative {
     @Column(name = "gender")
     private String gender;
 
+    @Column(name = "id_card")
+    private String idCard;
+
     @Column(name = "age")
     private int age;
 
-    @Column(name = "illness_name")
-    @Convert(converter = ListToStringConverter.class)
-    private List<String> illnessName;
-
-
-    @Column(name = "age_detected")
-    @Convert(converter = ListToStringConverter.class)
-    private List<String> age_detected;
+    @Column(name = "family_order")
+    private String familyOrder;
 
     @Column(name = "death_age")
     private int death_age = -1;
 
     @Column(name = "death_cause")
     private String deathCause;
+
+    @OneToMany(targetEntity = Illness.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "relativeId", referencedColumnName = "relativeId")
+    private List<Illness> illnessRelative;
+
 }
