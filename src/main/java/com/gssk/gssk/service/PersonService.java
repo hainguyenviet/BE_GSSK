@@ -30,7 +30,7 @@ public class PersonService {
         Person person = personRepository.findById(id).get();
         person.setFirstName(personRequest.getFirstName());
         person.setLastName(personRequest.getLastName());
-        person.setBirthDay(person.getBirthDay());
+        person.setDateOfBirth(person.getDateOfBirth());
         person.setIdCard(personRequest.getIdCard());
         person.setEmail(personRequest.getEmail());
         person.setPhoneNumber(personRequest.getPhoneNumber());

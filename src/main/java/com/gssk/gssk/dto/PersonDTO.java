@@ -14,7 +14,7 @@ public class PersonDTO {
     private Long id;
     private String firstName;
     private String lastName;
-    private Date birthDay;
+    private Date dateOfBirth;
     private String idCard;
     private String email;
     private String phoneNumber;

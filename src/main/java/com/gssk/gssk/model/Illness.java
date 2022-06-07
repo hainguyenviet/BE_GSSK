@@ -17,6 +17,8 @@ public class Illness {
     private Long id;
     @Column(name="code")
     private String code;
+    @Column(name = "ill_name")
+    private String illName;
     @Column(name="name")
     private String name;
     @Column(name="age_detected")

@@ -446,7 +446,14 @@ public class GenogramService {
         ) {
             if (!item.equals("DEAD")&&!item.equals("ME"))
             {
-                result.add(disease_amount+item);
+                if (disease_amount == 1){
+                    result.add("1DISEASE");
+                }
+                else if (disease_amount >1){
+                    result.add("NDISEASE");
+                    break;
+                }
+                //result.add(disease_amount+item);
             }
         }
 

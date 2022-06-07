@@ -25,7 +25,7 @@ public class Person implements Serializable {
     @Column(name="last_name")
     private String lastName;
     @Column(name = "birthday")
-    private Date birthDay;
+    private Date dateOfBirth;
     @NotNull
     @Column(name = "id_card")
     private String idCard;
