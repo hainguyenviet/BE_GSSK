@@ -110,7 +110,12 @@ public class GenogramService {
         }
         //////////////////////////////////////////////
         // SET ATTRIBUTES
-        genogram.setA(setRelativeAttr(attributes));
+        if (Objects.equals(genogram.getS(), "M")){
+            genogram.setA(setRelativeAttr(attributes));
+        }
+        else {
+            genogram.setA(setWomanRelativeAttr(attributes));
+        }
         int len = 8;
         StringBuilder sb = new StringBuilder(len);
         for (int i=0; i<len; i++){
@@ -150,8 +155,10 @@ public class GenogramService {
             // SET ATTRIBUTE
             if (relativeAttributes.isEmpty()){
                 genogramDTO.setA(Collections.<String> emptyList());
-            } else {
+            } else if (Objects.equals(genogramDTO.getS(), "M")){
                 genogramDTO.setA(setRelativeAttr(relativeAttributes));
+            } else if (Objects.equals(genogramDTO.getS(), "F")){
+                genogramDTO.setA(setWomanRelativeAttr(relativeAttributes));
             }
             // SET CONSTRAINT LIST ID
             genogramDTO.setListID(genogram.getListID());
@@ -416,6 +423,60 @@ public class GenogramService {
 
         genogramNodeRepository.saveAll(genogramList);
     }
+
+    public List<String> setWomanRelativeAttr(List<String> disease)
+    {
+        //Dead sẽ là ưu tiên hàng đầu để xét thêm vào attr
+        //Lưu ý chỉ add attr của dead vào hàng cuối nhưng đừng lo, cái này sẽ xếp luôn dead vào hàng cuối
+        int amount=disease.size();
+
+
+        List<String> result=new ArrayList<>();
+        for (String item:disease
+        ) {
+            if (Objects.equals(item, "ME"))
+            {
+                result.add("ME");
+                amount--;
+            }
+
+            if (item.equals("DEAD"))
+            {
+                amount--;
+            }
+        }
+
+
+
+
+        for (String item:disease
+        ) {
+            if (!item.equals("DEAD")&&!item.equals("ME"))
+            {
+                if (amount == 1){
+                    result.add("1DISEASE");
+                }
+                else if (amount >1){
+                    result.add("NDISEASE");
+                    result.add("FDISEASE");
+                    break;
+                }
+                //result.add(disease_amount+item);
+            }
+        }
+
+        for (String item:disease
+        ) {
+            if (item.equals("DEAD"))
+            {
+                result.add(item);
+            }
+        }
+
+        return result;
+
+    }
+
 
     public List<String> setRelativeAttr(List<String>attrList_target)
     {
