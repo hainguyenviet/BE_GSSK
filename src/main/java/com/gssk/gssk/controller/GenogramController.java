@@ -16,7 +16,7 @@ public class GenogramController {
     @Autowired
     GenogramService genogramService;
 
-   // @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(value = "/all", produces = "application/json")
     public List<Genogram> getAllGenogram(){return (List<Genogram>)genogramService.getAllNodes();}
 
