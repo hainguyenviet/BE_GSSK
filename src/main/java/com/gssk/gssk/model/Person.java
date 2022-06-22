@@ -11,7 +11,8 @@ import java.util.*;
 
 @Data
 @Entity
-@Table(name = "tbl_person", uniqueConstraints = {@UniqueConstraint(name = "cmnd", columnNames = "id_card"), @UniqueConstraint(name = "email", columnNames = "email"), @UniqueConstraint(name = "sdt", columnNames = "phone_number")})
+@Table(name = "tbl_person")
+        //uniqueConstraints = {@UniqueConstraint(name = "cmnd", columnNames = "id_card"), @UniqueConstraint(name = "email", columnNames = "email"), @UniqueConstraint(name = "sdt", columnNames = "phone_number")})
 public class Person implements Serializable {
     static final long serialVersionUID = 5L;
     @Id

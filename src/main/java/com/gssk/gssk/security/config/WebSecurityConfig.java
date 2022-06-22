@@ -42,10 +42,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         customAuthenticationFilter.setFilterProcessesUrl("/api/login");
         http.csrf().disable().cors();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/api/login").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/person/create", "/api/genogram/convert/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/person/**", "/api/genogram/**").permitAll()
-                .anyRequest().authenticated();
+//        http.authorizeRequests().antMatchers("/api/login").permitAll()
+//                .antMatchers(HttpMethod.POST, "/api/person/create", "/api/genogram/convert/**").permitAll()
+//                .antMatchers(HttpMethod.GET, "/api/person/**", "/api/genogram/**").permitAll()
+//                .anyRequest().authenticated();
+        http.authorizeRequests().antMatchers("/**").permitAll();
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
