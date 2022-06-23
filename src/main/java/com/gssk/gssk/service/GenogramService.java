@@ -51,7 +51,7 @@ public class GenogramService {
 
     public void ConvertPersonToGenogram(Long id){
         List<Genogram> genogramList = new ArrayList<>();
-
+        String newLine = System.getProperty("line.separator");
 
         List<String> attributes = new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();
@@ -64,13 +64,26 @@ public class GenogramService {
         List<Relative> relativeList = person.getRelativeList();
         Genogram genogram = new Genogram();
         genogram.setKey(person.getId());
-        genogram.setN(person.getFirstName() + " " + person.getLastName());
         List<Illness> illnessList =  person.getHealthRecord().getIllnessList();
+        List<String> illnessName = new ArrayList<>();
         for (Illness i:illnessList
              ) {
-            attributes.add(i.getName());
+            if (!i.getName().isEmpty()){
+                attributes.add(i.getName());
+            }
+            if (!i.getIllName().isEmpty()){
+                illnessName.add(i.getIllName());
+            }
         }
-
+        if(illnessName.isEmpty()){
+            genogram.setN(person.getFirstName() + " " + person.getLastName());
+        }
+        else {
+            String display = String.join(", ", illnessName);
+            String fullName = person.getFirstName() + " " + person.getLastName();
+            String setN = fullName + newLine + display;
+            genogram.setN(setN);
+        }
 
 
         // SET GENDER
@@ -133,13 +146,26 @@ public class GenogramService {
             GenogramDTO genogramDTO = new GenogramDTO();
             // SET KEY
             genogramDTO.setKey(relativeDTO.getRid());
-            // SET NAME
-            genogramDTO.setN(relativeDTO.getName());
             List<Illness> illnessRelative = r.getIllnessRelative();
             List<String> relativeAttributes = new ArrayList<>();
+            List<String> illnessNameRelative = new ArrayList<>();
             for (Illness i : illnessRelative){
-                relativeAttributes.add(i.getName());
+                if (!i.getName().isEmpty()){
+                    relativeAttributes.add(i.getName());
+                }
+                if (!i.getIllName().isEmpty()){
+                    illnessNameRelative.add(i.getIllName());
+                }
             }
+            if (illnessNameRelative.isEmpty()){
+                genogramDTO.setN(relativeDTO.getName());
+            }
+            else {
+                String displayR = String.join(", ", illnessNameRelative);
+                genogramDTO.setN(relativeDTO.getName()
+                        + newLine + displayR);
+            }
+
 
             // SET GENDER
             if (Objects.equals(relativeDTO.getGender(), "Nam")){

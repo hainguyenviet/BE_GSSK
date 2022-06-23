@@ -17,22 +17,20 @@ public class Relative {
     @Column(name = "relativeId")
     private Long rid;
 
-    @NotNull
-    @Column(name="relation")
+
+    @Column(name="relation", nullable = false)
     private String relation;
 
-    @NotNull
-    @Column(name="name")
+
+    @Column(name="name", nullable = false)
     private String name;
 
-    @NotNull
-    @Column(name = "gender")
+
+    @Column(name = "gender", nullable = false)
     private String gender;
 
-    @Column(name = "id_card")
-    private String idCard;
 
-    @Column(name = "age")
+    @Column(name = "age", nullable = false)
     private int age;
 
     @Column(name = "family_order")

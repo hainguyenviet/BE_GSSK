@@ -18,19 +18,19 @@ public class HealthRecord {
     @Column(name = "id")
     private Long id;
 
-    @NotNull
+
     @Column(name = "is_twin")
     private String isTwin;
 
-    @NotNull
+
     @Column(name = "is_adopted")
     private String isAdopted;
 
-    @NotNull
+
     @Column(name = "height")
     private Integer height;
 
-    @NotNull
+
     @Column(name = "weight")
     private Integer weight;
 
@@ -46,7 +46,7 @@ public class HealthRecord {
     @Column(name = "first_born_age")
     private Integer firstBornAge;
 
-    @NotNull
+
     @Column(name = "is_smoke")
     private String isSmoke;
 

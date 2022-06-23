@@ -19,6 +19,5 @@ public class PersonDTO {
     private String email;
     private String phoneNumber;
     private String gender;
-
     private Person person;
 }

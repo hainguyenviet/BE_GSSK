@@ -12,30 +12,31 @@ import java.util.*;
 @Data
 @Entity
 @Table(name = "tbl_person")
-        //uniqueConstraints = {@UniqueConstraint(name = "cmnd", columnNames = "id_card"), @UniqueConstraint(name = "email", columnNames = "email"), @UniqueConstraint(name = "sdt", columnNames = "phone_number")})
-public class Person implements Serializable {
-    static final long serialVersionUID = 5L;
+public class Person {
     @Id
     @GeneratedValue(generator = "identity")
     @Column(name = "id")
     private Long id;
-    @NotNull
-    @Column(name="first_name")
+
+    @Column(name="first_name", nullable = false)
     private String firstName;
-    @NotNull
-    @Column(name="last_name")
+
+    @Column(name="last_name", nullable = false)
     private String lastName;
-    @Column(name = "birthday")
+
+    @Column(name = "birthday", nullable = false)
     private Date dateOfBirth;
-    @NotNull
-    @Column(name = "id_card")
+
+    @Column(name = "id_card", nullable = false)
     private String idCard;
-    @Column(name = "email")
+
+    @Column(name = "email", nullable = false)
     private String email;
-    @NotNull
-    @Column(name= "phone_number")
+
+    @Column(name= "phone_number", nullable = false)
     private String phoneNumber;
-    @Column(name= "gender")
+
+    @Column(name= "gender", nullable = false)
     private String gender;
 
     @OneToOne(targetEntity = HealthRecord.class, cascade = CascadeType.ALL)
