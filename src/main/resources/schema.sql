@@ -1,4 +1,4 @@
--- -- use metree;
+-- use metree;
 --
 -- CREATE TABLE IF not EXISTS tbl_person (
 --                           id VARCHAR(250) PRIMARY KEY,
