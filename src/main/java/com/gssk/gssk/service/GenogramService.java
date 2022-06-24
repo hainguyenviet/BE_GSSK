@@ -136,7 +136,10 @@ public class GenogramService {
         }
         /////////////////////////////////////////////
         // SET CONSTRAINT LIST ID
-        genogram.setListID(sb.toString());
+        String temp = person.getIdCard();
+        String setId = temp.substring(temp.length() - 4);
+        String ListID = sb.toString() + setId;
+        genogram.setListID(ListID);
         genogramList.add(genogram);
 
 
