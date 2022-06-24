@@ -36,6 +36,9 @@ public class Relative {
     @Column(name = "family_order")
     private String familyOrder;
 
+    @Column(name = "family_order_other")
+    private String familyOrderOther;
+
     @Column(name = "is_dead")
     private String isDead;
 
