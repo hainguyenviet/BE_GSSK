@@ -19,6 +19,8 @@ public class Illness {
     private String code;
     @Column(name = "ill_name")
     private String illName;
+    @Column(name = "ill_name_other")
+    private String illNameOther;
     @Column(name="name")
     private String name;
     @Column(name="age_detected")
