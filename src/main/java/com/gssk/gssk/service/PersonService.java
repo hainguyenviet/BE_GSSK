@@ -94,6 +94,13 @@ public class PersonService {
             Relative setDefaultRelative = new Relative("Ông ngoại", "Ông ngoại", "Nam");
             relativeList.add(setDefaultRelative);
         }
+
+        if ((noFather && noMother) && (!noMGF && !noMGM && !noPGF && !noPGM)){
+            Relative setDefaultRelative = new Relative("Mẹ", "Mẹ", "Nữ");
+            Relative setDefaultRelative2 = new Relative("Cha", "Cha", "Nam");
+            relativeList.add(setDefaultRelative);
+            relativeList.add(setDefaultRelative2);
+        }
         return personRepository.save(person);
     }
 
