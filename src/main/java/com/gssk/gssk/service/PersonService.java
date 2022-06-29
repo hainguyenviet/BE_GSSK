@@ -60,35 +60,40 @@ public class PersonService {
             }
         }
         if (noMother && !noFather){
-            Relative setDefaultRelative = new Relative();
-            setDefaultRelative.setName("Mẹ");
-            setDefaultRelative.setRelation("Mẹ");
-            setDefaultRelative.setGender("Nữ");
+            Relative setDefaultRelative = new Relative("Mẹ", "Mẹ", "Nữ");
             relativeList.add(setDefaultRelative);
         }
         else if (!noMother && noFather){
-            Relative setDefaultRelative = new Relative();
-            setDefaultRelative.setName("Cha");
-            setDefaultRelative.setRelation("Cha");
-            setDefaultRelative.setGender("Nam");
+            Relative setDefaultRelative = new Relative("Cha", "Cha", "Nam");
             relativeList.add(setDefaultRelative);
         }
 
         if (hasChild && Objects.equals(person.getGender(), "Nam") && noWife){
-            Relative setDefaultRelative = new Relative();
-            setDefaultRelative.setName("Vợ");
-            setDefaultRelative.setRelation("Vợ");
-            setDefaultRelative.setGender("Nữ");
+            Relative setDefaultRelative = new Relative("Vợ", "Vợ", "Nữ");
             relativeList.add(setDefaultRelative);
         }
         else if (hasChild && Objects.equals(person.getGender(), "Nữ") && noHusband){
-            Relative setDefaultRelative = new Relative();
-            setDefaultRelative.setName("Chồng");
-            setDefaultRelative.setRelation("Chồng");
-            setDefaultRelative.setGender("Nam");
+            Relative setDefaultRelative = new Relative("Chồng", "Chồng", "Nam");
             relativeList.add(setDefaultRelative);
         }
 
+        if (noPGM && !noPGF){
+            Relative setDefaultRelative = new Relative("Bà nội", "Bà nội", "Nữ");
+            relativeList.add(setDefaultRelative);
+        }
+        else if (noPGF && !noPGM){
+            Relative setDefaultRelative = new Relative("Ông nội", "Ông nội", "Nam");
+            relativeList.add(setDefaultRelative);
+        }
+
+        if (noMGM && !noMGF){
+            Relative setDefaultRelative = new Relative("Bà ngoại", "Bà ngoại", "Nữ");
+            relativeList.add(setDefaultRelative);
+        }
+        else if (noMGF && !noMGM){
+            Relative setDefaultRelative = new Relative("Ông ngoại", "Ông ngoại", "Nam");
+            relativeList.add(setDefaultRelative);
+        }
         return personRepository.save(person);
     }
 

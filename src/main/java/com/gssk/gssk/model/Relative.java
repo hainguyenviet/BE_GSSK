@@ -1,5 +1,6 @@
 package com.gssk.gssk.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -51,5 +52,11 @@ public class Relative {
     @OneToMany(targetEntity = Illness.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "relativeId", referencedColumnName = "relativeId")
     private List<Illness> illnessRelative;
+
+    public Relative (String relation, String name, String gender){
+        this.relation = relation;
+        this.name = name;
+        this.gender = gender;
+    }
 
 }
