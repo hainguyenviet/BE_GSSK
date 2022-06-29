@@ -4,8 +4,13 @@ import com.gssk.gssk.model.Person;
 import com.gssk.gssk.repository.PersonRepository;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import javax.transaction.Transactional;
 
 
 @Service
@@ -26,6 +31,9 @@ public class PersonService {
         return personRepository.save(person);
     }
 
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM tbl_relative WHERE fk_id is null ")
     public Person updatePerson(Long id, Person personRequest){
         Person person = personRepository.findById(id).get();
         person.setFirstName(personRequest.getFirstName());
@@ -36,7 +44,10 @@ public class PersonService {
         person.setPhoneNumber(personRequest.getPhoneNumber());
         person.setGender(personRequest.getGender());
         person.setHealthRecord(personRequest.getHealthRecord());
+
         person.setRelativeList(personRequest.getRelativeList());
+
+
         return personRepository.save(person);
     }
 
@@ -45,5 +56,6 @@ public class PersonService {
         Person person = personRepository.findById(id).get();
         personRepository.delete(person);
     }
+
 
 }
