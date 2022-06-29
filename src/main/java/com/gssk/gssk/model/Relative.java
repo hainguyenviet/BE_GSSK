@@ -30,7 +30,7 @@ public class Relative {
     private String gender;
 
 
-    @Column(name = "age", nullable = false)
+    @Column(name = "age")
     private int age;
 
     @Column(name = "family_order")
