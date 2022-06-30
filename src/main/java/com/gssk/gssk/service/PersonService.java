@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,80 +29,6 @@ public class PersonService {
 
     @SneakyThrows
     public Person addNewPerson(Person person) {
-        boolean noMother = true, noFather = true, noHusband = true, noWife =true, hasChild = false,
-                noPGF = true, noPGM = true, noMGF = true, noMGM = true;
-        List<Relative> relativeList = person.getRelativeList();
-        for (Relative r : relativeList){
-            if (Objects.equals(r.getRelation(), "Cha")){
-                noFather = false;
-            }
-            if (Objects.equals(r.getRelation(), "Mẹ")){
-                noMother = false;
-            }
-            if (Objects.equals(r.getRelation(), "Con ruột")){
-                hasChild = true;
-            }
-            if (Objects.equals(r.getRelation(), "Chồng")){
-                noHusband = false;
-            }
-            if (Objects.equals(r.getRelation(), "Vợ")){
-                noWife = false;
-            }
-            if (Objects.equals(r.getRelation(), "Ông nội")){
-                noPGF = false;
-            }
-            if (Objects.equals(r.getRelation(), "Bà nội")){
-                noPGM = false;
-            }
-            if (Objects.equals(r.getRelation(), "Ông ngoại")){
-                noMGF = false;
-            }
-            if (Objects.equals(r.getRelation(), "Bà ngoại")){
-                noMGM = false;
-            }
-        }
-        if (noMother && !noFather){
-            Relative setDefaultRelative = new Relative("Mẹ", "Mẹ", "Nữ");
-            relativeList.add(setDefaultRelative);
-        }
-        else if (!noMother && noFather){
-            Relative setDefaultRelative = new Relative("Cha", "Cha", "Nam");
-            relativeList.add(setDefaultRelative);
-        }
-
-        if (hasChild && Objects.equals(person.getGender(), "Nam") && noWife){
-            Relative setDefaultRelative = new Relative("Vợ", "Vợ", "Nữ");
-            relativeList.add(setDefaultRelative);
-        }
-        else if (hasChild && Objects.equals(person.getGender(), "Nữ") && noHusband){
-            Relative setDefaultRelative = new Relative("Chồng", "Chồng", "Nam");
-            relativeList.add(setDefaultRelative);
-        }
-
-        if (noPGM && !noPGF){
-            Relative setDefaultRelative = new Relative("Bà nội", "Bà nội", "Nữ");
-            relativeList.add(setDefaultRelative);
-        }
-        else if (noPGF && !noPGM){
-            Relative setDefaultRelative = new Relative("Ông nội", "Ông nội", "Nam");
-            relativeList.add(setDefaultRelative);
-        }
-
-        if (noMGM && !noMGF){
-            Relative setDefaultRelative = new Relative("Bà ngoại", "Bà ngoại", "Nữ");
-            relativeList.add(setDefaultRelative);
-        }
-        else if (noMGF && !noMGM){
-            Relative setDefaultRelative = new Relative("Ông ngoại", "Ông ngoại", "Nam");
-            relativeList.add(setDefaultRelative);
-        }
-
-        if ((noFather && noMother) && (!noMGF && !noMGM && !noPGF && !noPGM)){
-            Relative setDefaultRelative = new Relative("Mẹ", "Mẹ", "Nữ");
-            Relative setDefaultRelative2 = new Relative("Cha", "Cha", "Nam");
-            relativeList.add(setDefaultRelative);
-            relativeList.add(setDefaultRelative2);
-        }
         return personRepository.save(person);
     }
 
@@ -113,8 +41,38 @@ public class PersonService {
         person.setEmail(personRequest.getEmail());
         person.setPhoneNumber(personRequest.getPhoneNumber());
         person.setGender(personRequest.getGender());
-        person.setHealthRecord(personRequest.getHealthRecord());
-        person.setRelativeList(personRequest.getRelativeList());
+        List<Relative> newRelativeList = personRequest.getRelativeList();
+        List<Relative> relativeList = person.getRelativeList();
+        List<Relative> toRemove = new ArrayList<>();
+        List<Relative> duplicate = new ArrayList<>();
+
+        if (newRelativeList.isEmpty()){
+            relativeList.clear();
+        }
+        else{
+            for (Relative nr : relativeList) {
+                for (Relative r : newRelativeList) {
+                    if (Objects.equals(nr.getRelation(), r.getRelation())) {
+                        nr.setName(r.getName());
+                        nr.setAge(r.getAge());
+                        nr.setGender(r.getGender());
+                        nr.setDeath_age(r.getDeath_age());
+                        nr.setDeathCause(r.getDeathCause());
+                        nr.setFamilyOrder(r.getFamilyOrder());
+                        nr.setFamilyOrderOther(r.getFamilyOrderOther());
+                        nr.setIsDead(r.getIsDead());
+                        nr.setIllnessRelative(r.getIllnessRelative());
+                        duplicate.add(r);
+                        break;
+                    } else if (newRelativeList.indexOf(r) == (newRelativeList.size() - 1) && (!Objects.equals(nr.getRelation(), r.getRelation()))) {
+                        toRemove.add(nr);
+                    }
+                }
+            }
+            relativeList.removeAll(toRemove);
+            newRelativeList.removeAll(duplicate);
+            relativeList.addAll(newRelativeList);
+        }
         return personRepository.save(person);
     }
 
