@@ -23,7 +23,7 @@ public class AppUserService implements UserDetailsService {
 
     private final AppUserRepository appUserRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-//    private final ConfirmationTokenService confirmationTokenService;
+    //private final ConfirmationTokenService confirmationTokenService;
 
 
     @Override
