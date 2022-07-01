@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -44,6 +45,9 @@ public class AppUser implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column
     private ERole role;
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    private Collection<Role> role = new ArrayList<>();
+
     @Column(name = "is_locked")
     private Boolean locked = false;
     @Column(name = "is_enabled")

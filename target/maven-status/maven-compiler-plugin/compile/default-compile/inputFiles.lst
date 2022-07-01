@@ -1,39 +1,40 @@
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/controller/PersonController.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/registration/EmailValidator.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/model/ListToStringConverter.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/GsskApplication.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/model/Relative.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/account/CommandLineAppStartUpRunner.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/registration/RegistrationService.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/account/AppUser.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/repository/RelativeRepository.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/service/PersonService.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/email/EmailService.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/dto/PersonDTO.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/model/Person.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/repository/PersonRepository.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/dto/RelativeDTO.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/registration/token/ConfirmationToken.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/registration/token/ConfirmationTokenService.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/model/HealthRecord.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/service/RelativeService.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/account/AppUserService.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/controller/ViewController.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/filter/CustomAuthorizationFilter.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/repository/HealthRecordRepository.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/security/PasswordEncoder.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/repository/GenogramRepository.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/controller/GenogramController.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/account/ERole.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/service/GenogramService.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/account/AppUserRepository.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/registration/RegistrationRequest.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/model/Illness.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/dto/GenogramDTO.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/registration/token/ConfirmationTokenRepository.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/registration/RegistrationController.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/filter/CustomAuthenticationFilter.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/security/config/WebSecurityConfig.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/email/EmailSender.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/repository/IllnessRepository.java
-/Users/viet-hainguyen/Project/PROJECT_HEALTH/BE_GSSK_ NEW/src/main/java/com/gssk/gssk/model/Genogram.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\registration\RegistrationController.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\repository\RelativeRepository.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\model\Person.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\account\AppUser.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\repository\IllnessRepository.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\model\Relative.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\security\config\WebSecurityConfig.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\dto\GenogramDTO.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\model\ListToStringConverter.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\repository\PersonRepository.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\registration\token\ConfirmationTokenService.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\filter\CustomAuthenticationFilter.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\registration\token\ConfirmationTokenRepository.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\registration\RegistrationService.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\controller\GenogramController.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\model\Genogram.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\email\EmailSender.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\account\AppUserController.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\account\CommandLineAppStartUpRunner.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\repository\GenogramRepository.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\controller\PersonController.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\registration\token\ConfirmationToken.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\dto\RelativeDTO.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\account\ERole.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\service\RelativeService.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\GsskApplication.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\model\Illness.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\dto\PersonDTO.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\filter\CustomAuthorizationFilter.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\service\GenogramService.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\repository\HealthRecordRepository.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\email\EmailService.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\security\PasswordEncoder.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\model\HealthRecord.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\account\AppUserRepository.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\service\PersonService.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\account\AppUserService.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\registration\EmailValidator.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\controller\ViewController.java
+D:\FAMI\GSSK\BE_GSSK\src\main\java\com\gssk\gssk\registration\RegistrationRequest.java
