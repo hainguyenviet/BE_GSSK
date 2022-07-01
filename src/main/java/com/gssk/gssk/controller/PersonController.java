@@ -51,23 +51,23 @@ public class PersonController {
         return (List<Person>) personService.getAllPerson();
     }
 
-    //@PreAuthorize(("hasAuthority('USER') or hasAuthority('ADMIN')" ))
+    @PreAuthorize(("hasAuthority('ADMIN')" ))
     @GetMapping(value="/{id}", produces = "application/json")
     public Person person(@PathVariable("id") Long id){
         return personService.getPersonById(id);
     }
 
-    //@PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     @PostMapping(value = "/create", produces = "application/json")
     public Person createPerson(@RequestBody Person person) {
         return personService.addNewPerson(person);
     }
 
-    //@PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping(value = "/delete/{id}")
     public void deletePerson(@PathVariable("id") Long id) { personService.deletePerson(id); }
 
-    //@PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     @PutMapping(value = "/update/{id}", produces = "application/json")
     public Person updatePerson(@PathVariable("id") Long id, @RequestBody Person personRequest) { return personService.updatePerson(id, personRequest); }
 
