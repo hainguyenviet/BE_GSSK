@@ -1,5 +1,6 @@
 package com.gssk.gssk.model;
 
+import com.gssk.gssk.account.AppUser;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
@@ -46,4 +47,9 @@ public class Person {
     @OneToMany(targetEntity = Relative.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_id", referencedColumnName = "id")
     private List<Relative> relativeList;
+
+    @OneToOne(targetEntity = AppUser.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private AppUser appUser_id;
+
 }

@@ -1,5 +1,6 @@
 package com.gssk.gssk.account;
 
+import com.gssk.gssk.model.Person;
 import lombok.*;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -44,10 +46,14 @@ public class AppUser implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column
     private ERole role;
+
     @Column(name = "is_locked")
     private Boolean locked = false;
     @Column(name = "is_enabled")
     private Boolean enabled = false;
+
+    @OneToOne(mappedBy = "appUser_id", cascade = CascadeType.ALL)
+    private Person person_id;
 
     public AppUser(String email, String password, ERole role, Boolean locked, Boolean enabled){
         this.email = email;
