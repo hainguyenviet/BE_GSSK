@@ -16,6 +16,7 @@ com\gssk\gssk\registration\token\ConfirmationTokenService.class
 com\gssk\gssk\GsskApplication.class
 com\gssk\gssk\registration\token\ConfirmationToken.class
 com\gssk\gssk\repository\RelativeRepository.class
+com\gssk\gssk\Google_related\Login.class
 com\gssk\gssk\email\EmailService.class
 com\gssk\gssk\dto\PersonDTO.class
 com\gssk\gssk\model\Person.class
@@ -25,6 +26,7 @@ com\gssk\gssk\security\PasswordEncoder.class
 com\gssk\gssk\registration\RegistrationService.class
 com\gssk\gssk\account\AppUserController.class
 com\gssk\gssk\controller\GenogramController.class
+com\gssk\gssk\security\config\WebMVCConfig.class
 com\gssk\gssk\model\HealthRecord.class
 com\gssk\gssk\model\ListToStringConverter.class
 com\gssk\gssk\registration\RegistrationRequest.class

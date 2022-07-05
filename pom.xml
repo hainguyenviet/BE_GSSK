@@ -104,6 +104,14 @@
             <version>2.6.4</version>
         </dependency>
 
+
+        <dependency>
+            <groupId>com.warrenstrange</groupId>
+            <artifactId>googleauth</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
