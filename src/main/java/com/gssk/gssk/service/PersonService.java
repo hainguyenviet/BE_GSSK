@@ -31,8 +31,9 @@ public class PersonService {
         return personRepository.save(person);
     }
 
-
-
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM tbl_relative WHERE fk_id is null ")
     public Person updatePerson(Long id, Person personRequest){
         Person person = personRepository.findById(id).get();
         person.setFirstName(personRequest.getFirstName());
