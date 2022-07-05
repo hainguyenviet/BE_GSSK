@@ -46,7 +46,7 @@ public class PersonController {
 
     //@PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     @PutMapping(value = "/update/{id}", produces = "application/json")
-    public Person updatePerson(@PathVariable("id") Long id, @RequestBody Person personRequest) { return personService.updatePerson(id, personRequest); }
+    public Person updatePerson(@PathVariable("id") Long id, Person personRequest) { return personService.updatePerson(id, personRequest); }
 
 
 
