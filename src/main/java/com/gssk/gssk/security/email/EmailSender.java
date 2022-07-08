@@ -1,4 +1,4 @@
-package com.gssk.gssk.email;
+package com.gssk.gssk.security.email;
 
 public interface EmailSender {
     void send(String to, String email);

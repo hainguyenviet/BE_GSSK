@@ -1,7 +1,9 @@
-package com.gssk.gssk.account;
+package com.gssk.gssk.service;
 
-import com.gssk.gssk.registration.token.ConfirmationToken;
-import com.gssk.gssk.registration.token.ConfirmationTokenService;
+import com.gssk.gssk.model.AppUser;
+import com.gssk.gssk.security.registration.token.ConfirmationToken;
+import com.gssk.gssk.security.registration.token.ConfirmationTokenService;
+import com.gssk.gssk.repository.AppUserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -63,9 +65,25 @@ public class AppUserService implements UserDetailsService {
     public Iterable<AppUser> getAllAccounts(){
         return  appUserRepository.findAll();
     }
-
+    public AppUser getAccountById(Long id) {
+        return appUserRepository.findById(id).get();
+    }
     public int enableAccount(String email){
         return appUserRepository.enableAccount(email);
     }
 
+    public void deleteAccount(Long id) {
+        AppUser appUser = appUserRepository.findById(id).get();
+        appUserRepository.delete(appUser);
+    }
+
+    public AppUser updateAccount(Long id, AppUser appUserRequest){
+        AppUser appUser = appUserRepository.findById(id).get();
+        appUser.setFullName(appUserRequest.getFullName());
+        appUser.setEmail(appUserRequest.getEmail());
+        appUser.setPassword(appUserRequest.getPassword());
+        appUser.setEnabled(appUserRequest.getEnabled());
+        appUser.setLocked(appUserRequest.getLocked());
+        return appUserRepository.save(appUser);
+    }
 }

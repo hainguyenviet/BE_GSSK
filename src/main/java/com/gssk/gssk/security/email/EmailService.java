@@ -1,4 +1,4 @@
-package com.gssk.gssk.email;
+package com.gssk.gssk.security.email;
 
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;

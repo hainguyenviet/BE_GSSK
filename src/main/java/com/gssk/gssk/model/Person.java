@@ -1,13 +1,8 @@
 package com.gssk.gssk.model;
 
-import com.gssk.gssk.account.AppUser;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.*;
 
 @Data
@@ -48,8 +43,8 @@ public class Person {
     @JoinColumn(name = "fk_id", referencedColumnName = "id")
     private List<Relative> relativeList;
 
-    @OneToOne(targetEntity = AppUser.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private AppUser appUser_id;
+//    @OneToOne(targetEntity = AppUser.class, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "user_id", referencedColumnName = "id")
+//    private AppUser appUser_id;
 
 }

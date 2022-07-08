@@ -1,11 +1,11 @@
-package com.gssk.gssk.registration;
+package com.gssk.gssk.security.registration;
 
-import com.gssk.gssk.account.AppUser;
-import com.gssk.gssk.account.AppUserService;
-import com.gssk.gssk.account.ERole;
-import com.gssk.gssk.email.EmailSender;
-import com.gssk.gssk.registration.token.ConfirmationToken;
-import com.gssk.gssk.registration.token.ConfirmationTokenService;
+import com.gssk.gssk.model.AppUser;
+import com.gssk.gssk.service.AppUserService;
+import com.gssk.gssk.security.account.ERole;
+import com.gssk.gssk.security.email.*;
+import com.gssk.gssk.security.registration.token.ConfirmationToken;
+import com.gssk.gssk.security.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

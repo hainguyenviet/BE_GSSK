@@ -1,10 +1,10 @@
-package com.gssk.gssk.account;
+package com.gssk.gssk.security.account;
 
+import com.gssk.gssk.model.AppUser;
+import com.gssk.gssk.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.Objects;
 
 @Component
 public class CommandLineAppStartUpRunner implements CommandLineRunner {

@@ -1,4 +1,4 @@
-package com.gssk.gssk.registration;
+package com.gssk.gssk.security.registration;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;

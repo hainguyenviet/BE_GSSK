@@ -1,7 +1,7 @@
-package com.gssk.gssk.registration.token;
+package com.gssk.gssk.security.registration.token;
 
 
-import com.gssk.gssk.account.AppUser;
+import com.gssk.gssk.model.AppUser;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

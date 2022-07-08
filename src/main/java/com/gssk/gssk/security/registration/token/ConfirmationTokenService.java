@@ -1,4 +1,4 @@
-package com.gssk.gssk.registration.token;
+package com.gssk.gssk.security.registration.token;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

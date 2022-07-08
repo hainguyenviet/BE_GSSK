@@ -1,7 +1,5 @@
-package com.gssk.gssk.registration.token;
+package com.gssk.gssk.security.registration.token;
 
-import com.gssk.gssk.registration.token.ConfirmationToken;
-import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
