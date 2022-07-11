@@ -43,9 +43,9 @@ public class PersonController {
         return personService.addNewPerson(person);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @DeleteMapping(value = "/delete/{id}")
-    public void deletePerson(@PathVariable("id") Long id) { personService.deletePerson(id); }
+//    @PreAuthorize("hasAuthority('ADMIN')")
+//    @DeleteMapping(value = "/delete/{id}")
+//    public void deletePerson(@PathVariable("id") Long id) { personService.deletePerson(id); }
 
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     @PutMapping(value = "/update/{id}", produces = "application/json")

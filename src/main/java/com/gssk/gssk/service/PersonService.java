@@ -43,6 +43,7 @@ public class PersonService {
         person.setEmail(personRequest.getEmail());
         person.setPhoneNumber(personRequest.getPhoneNumber());
         person.setGender(personRequest.getGender());
+        person.setUserId(personRequest.getUserId());
 
         // update health record
         HealthRecord newHealthRecord = personRequest.getHealthRecord(), healthRecord = person.getHealthRecord();

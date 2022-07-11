@@ -5,6 +5,8 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gssk.gssk.security.registration.token.ConfirmationToken;
+import com.gssk.gssk.security.registration.token.ConfirmationTokenService;
 import com.gssk.gssk.service.AppUserService;
 import com.gssk.gssk.model.AppUser;
 import lombok.RequiredArgsConstructor;
@@ -29,11 +31,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/account")
 public class AppUserController {
 
     @Autowired
     AppUserService appUserService;
+
+    @Autowired
+    ConfirmationTokenService confirmationTokenService;
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(value = "/all", produces = "application/json")
@@ -47,9 +52,11 @@ public class AppUserController {
         return appUserService.getAccountById(id);
     }
 
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    @DeleteMapping(value = "/delete/{id}")
-    public void deleteAccount(@PathVariable("id") Long id) { appUserService.deleteAccount(id); }
+//    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+//    @DeleteMapping(value = "/delete/{id}")
+//    public void deleteAccount(@PathVariable("id") Long id) {
+//        appUserService.deleteAccount(id);
+//    }
 
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     @PutMapping(value = "/update/{id}", produces = "application/json")

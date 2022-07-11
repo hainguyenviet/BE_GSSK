@@ -43,6 +43,9 @@ public class Person {
     @JoinColumn(name = "fk_id", referencedColumnName = "id")
     private List<Relative> relativeList;
 
+    @Column(name= "user_id", nullable = false)
+    private String userId;
+
 //    @OneToOne(targetEntity = AppUser.class, cascade = CascadeType.ALL)
 //    @JoinColumn(name = "user_id", referencedColumnName = "id")
 //    private AppUser appUser_id;

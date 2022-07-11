@@ -50,9 +50,11 @@ public class AppUser implements UserDetails {
 
 //    @OneToOne(mappedBy = "appUser_id", cascade = CascadeType.ALL)
 //    private Person person_id;
-    @OneToOne(targetEntity = Person.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "person_id", referencedColumnName = "id")
-    private Person person;
+
+//    @OneToOne(targetEntity = Person.class, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "person_id", referencedColumnName = "id")
+//    private Person person;
+
 
     public AppUser(String email, String password, ERole role, Boolean locked, Boolean enabled){
         this.email = email;
