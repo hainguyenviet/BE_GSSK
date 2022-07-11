@@ -65,6 +65,7 @@ public class AppUserService implements UserDetailsService {
     public Iterable<AppUser> getAllAccounts(){
         return  appUserRepository.findAll();
     }
+
     public AppUser getAccountById(Long id) {
         return appUserRepository.findById(id).get();
     }
@@ -81,7 +82,9 @@ public class AppUserService implements UserDetailsService {
         AppUser appUser = appUserRepository.findById(id).get();
         appUser.setFullName(appUserRequest.getFullName());
         appUser.setEmail(appUserRequest.getEmail());
-        appUser.setPassword(appUserRequest.getPassword());
+        String encodedPassword = bCryptPasswordEncoder.encode(appUser.getPassword());
+        appUser.setPassword(encodedPassword);
+//        appUser.setPassword(appUserRequest.getPassword());
         appUser.setEnabled(appUserRequest.getEnabled());
         appUser.setLocked(appUserRequest.getLocked());
         return appUserRepository.save(appUser);

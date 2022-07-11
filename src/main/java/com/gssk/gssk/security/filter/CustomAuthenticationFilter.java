@@ -60,14 +60,15 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 .sign(algorithm);
         response.setHeader("access_token", access_token);
         response.setHeader("refresh_token", refresh_token);
+        // Đây là chỗ bị null
 //        AppUser appUser = appUserService.getAccount(user.getUsername());
         Map<String, String> tokens = new HashMap<>();
+        tokens.put("username", user.getUsername());
+//        tokens.put("user_id",appUser.getId().toString());
         tokens.put("access_token", access_token);
         tokens.put("refresh_token", refresh_token);
-//        tokens.put("user_id",appUser.getId().toString());
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }
-
 
 }

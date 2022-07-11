@@ -43,7 +43,7 @@ public class Person {
     @JoinColumn(name = "fk_id", referencedColumnName = "id")
     private List<Relative> relativeList;
 
-    @Column(name= "user_id", nullable = false)
+    @Column(name= "user_id")
     private String userId;
 
 //    @OneToOne(targetEntity = AppUser.class, cascade = CascadeType.ALL)
