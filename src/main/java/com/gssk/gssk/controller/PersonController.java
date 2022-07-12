@@ -31,7 +31,7 @@ public class PersonController {
         return (List<Person>) personService.getAllPerson();
     }
 
-    @PreAuthorize(("hasAuthority('ADMIN')" ))
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     @GetMapping(value="/{id}", produces = "application/json")
     public Person person(@PathVariable("id") Long id){
         return personService.getPersonById(id);

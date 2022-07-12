@@ -5,8 +5,6 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gssk.gssk.security.registration.token.ConfirmationToken;
-import com.gssk.gssk.security.registration.token.ConfirmationTokenService;
 import com.gssk.gssk.service.AppUserService;
 import com.gssk.gssk.model.AppUser;
 import lombok.RequiredArgsConstructor;
@@ -37,9 +35,6 @@ public class AppUserController {
     @Autowired
     AppUserService appUserService;
 
-    @Autowired
-    ConfirmationTokenService confirmationTokenService;
-
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(value = "/all", produces = "application/json")
     public List<AppUser> getAllAccounts() {
@@ -48,8 +43,14 @@ public class AppUserController {
 
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     @GetMapping(value="/{id}", produces = "application/json")
-    public AppUser appUser(@PathVariable("id") Long id){
+    public AppUser getAccountById(@PathVariable("id") Long id){
         return appUserService.getAccountById(id);
+    }
+
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    @GetMapping(value="/username/{username}", produces = "application/json")
+    public AppUser getAccountByUsername(@PathVariable("username") String username){
+        return appUserService.getAccount(username);
     }
 
 //    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
@@ -62,7 +63,7 @@ public class AppUserController {
     @PutMapping(value = "/update/{id}", produces = "application/json")
     public AppUser updateAccount(@PathVariable("id") Long id, @RequestBody AppUser appUserRequest) { return appUserService.updateAccount(id, appUserRequest); }
 
-    //@PreAuthorize(("hasAuthority('USER') or hasAuthority('ADMIN')" ))
+    @PreAuthorize(("hasAuthority('USER') or hasAuthority('ADMIN')" ))
     @GetMapping(value = "/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);

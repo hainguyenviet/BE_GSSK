@@ -3,7 +3,9 @@ package com.gssk.gssk.security.filter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gssk.gssk.controller.AppUserController;
 import com.gssk.gssk.model.AppUser;
+import com.gssk.gssk.repository.AppUserRepository;
 import com.gssk.gssk.service.AppUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,12 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @Autowired
     AppUserService appUserService;
 
+    @Autowired
+    AppUserRepository appUserRepository;
+
+    @Autowired
+    AppUserController appUserController;
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         String username = request.getParameter("username");
@@ -60,7 +68,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 .sign(algorithm);
         response.setHeader("access_token", access_token);
         response.setHeader("refresh_token", refresh_token);
-        // Đây là chỗ bị null
+//        AppUser appUser = appUserRepository.findByEmail(user.getUsername());
 //        AppUser appUser = appUserService.getAccount(user.getUsername());
         Map<String, String> tokens = new HashMap<>();
         tokens.put("username", user.getUsername());

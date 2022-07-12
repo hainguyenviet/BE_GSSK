@@ -58,13 +58,9 @@ public class AppUserService implements UserDetailsService {
         return token;
     }
 
-    public AppUser getAccount(String email){
-        return appUserRepository.findByEmail(email);
-    }
+    public AppUser getAccount(String email){ return appUserRepository.findByEmail(email); }
 
-    public Iterable<AppUser> getAllAccounts(){
-        return  appUserRepository.findAll();
-    }
+    public Iterable<AppUser> getAllAccounts(){ return  appUserRepository.findAll(); }
 
     public AppUser getAccountById(Long id) {
         return appUserRepository.findById(id).get();
