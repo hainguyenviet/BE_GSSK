@@ -36,12 +36,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @Autowired
     AppUserService appUserService;
 
-    @Autowired
-    AppUserRepository appUserRepository;
-
-    @Autowired
-    AppUserController appUserController;
-
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         String username = request.getParameter("username");
@@ -68,7 +62,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 .sign(algorithm);
         response.setHeader("access_token", access_token);
         response.setHeader("refresh_token", refresh_token);
-//        AppUser appUser = appUserRepository.findByEmail(user.getUsername());
+        response.setHeader("username", user.getUsername());
 //        AppUser appUser = appUserService.getAccount(user.getUsername());
         Map<String, String> tokens = new HashMap<>();
         tokens.put("username", user.getUsername());
