@@ -14,6 +14,7 @@ C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\security\c
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\security\config\WebSecurityConfig.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\repository\RelativeRepository.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\model\HealthRecord.java
+C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\Google_related\Gmail_info.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\registration\RegistrationService.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\repository\HealthRecordRepository.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\security\PasswordEncoder.java
@@ -24,6 +25,7 @@ C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\service\Re
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\model\Person.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\account\ERole.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\email\EmailService.java
+C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\Google_related\CredentialRepository.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\account\AppUser.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\registration\token\ConfirmationTokenRepository.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\dto\PersonDTO.java
