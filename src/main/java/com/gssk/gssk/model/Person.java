@@ -47,7 +47,7 @@ public class Person {
     private List<Relative> relativeList;
 
     @Column(name= "user_id")
-    private Long userId;
+    private String userId;
 
 
 //    @OneToOne(targetEntity = AppUser.class, cascade = CascadeType.ALL)

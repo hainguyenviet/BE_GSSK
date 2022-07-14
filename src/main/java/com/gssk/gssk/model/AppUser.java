@@ -2,6 +2,7 @@ package com.gssk.gssk.model;
 
 import com.gssk.gssk.security.account.ERole;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -18,18 +20,16 @@ import java.util.Collections;
 @Table (name = "users", uniqueConstraints = {@UniqueConstraint(name = "email_register", columnNames = "email")})
 public class AppUser implements UserDetails {
 
-    @SequenceGenerator(
-            name = "account_sequence",
-            sequenceName = "account_sequence",
-            allocationSize = 1
-    )
+//    @SequenceGenerator(
+//            name = "account_sequence",
+//            sequenceName = "account_sequence",
+//            allocationSize = 1
+//    )
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "account_sequence"
-    )
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "id")
-    private Long id;
+    private String id;
     @NotNull
     @Column(name = "full_name")
     private String fullName;

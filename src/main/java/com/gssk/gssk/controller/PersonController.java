@@ -33,8 +33,8 @@ public class PersonController {
 
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     @GetMapping(value="/{id}", produces = "application/json")
-    public Person person(@PathVariable("id") Long id){
-        return personService.getPersonById(id);
+    public Person person(@PathVariable("id") String userID){
+        return personService.getPersonById(userID);
     }
 
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")

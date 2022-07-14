@@ -58,7 +58,7 @@ public class AppUserService implements UserDetailsService {
         AppUser appUser = appUserRepository.findByEmail(user.getEmail());
 
         Person person = new Person();
-        person.setUserId(appUser.getId());
+        person.setUserId(appUser.getId().toString());
 
         personService.addNewPerson(person);
 

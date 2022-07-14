@@ -25,8 +25,8 @@ public class PersonService {
         return personRepository.findAll();
     }
 
-    public Person getPersonById(Long id) {
-        return personRepository.findById(id).get();
+    public Person getPersonById(String userID) {
+        return personRepository.findByUserId(userID);
     }
 
     @SneakyThrows
