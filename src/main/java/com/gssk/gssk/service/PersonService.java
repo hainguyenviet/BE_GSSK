@@ -34,8 +34,8 @@ public class PersonService {
         return personRepository.save(person);
     }
 
-    public Person updatePerson(Long id, Person personRequest) {
-        Person person = personRepository.findById(id).get();
+    public Person updatePerson(String userID, Person personRequest) {
+        Person person = personRepository.findByUserId(userID);
         person.setFirstName(personRequest.getFirstName());
         person.setLastName(personRequest.getLastName());
         person.setDateOfBirth(personRequest.getDateOfBirth());
@@ -43,7 +43,7 @@ public class PersonService {
         person.setEmail(personRequest.getEmail());
         person.setPhoneNumber(personRequest.getPhoneNumber());
         person.setGender(personRequest.getGender());
-        person.setUserId(personRequest.getUserId());
+        person.setUserId(userID);
 
         // update health record
         HealthRecord newHealthRecord = personRequest.getHealthRecord(), healthRecord = person.getHealthRecord();
