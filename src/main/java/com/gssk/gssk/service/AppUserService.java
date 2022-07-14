@@ -1,6 +1,7 @@
 package com.gssk.gssk.service;
 
 import com.gssk.gssk.model.AppUser;
+import com.gssk.gssk.model.Person;
 import com.gssk.gssk.security.registration.token.ConfirmationToken;
 import com.gssk.gssk.security.registration.token.ConfirmationTokenService;
 import com.gssk.gssk.repository.AppUserRepository;
@@ -27,6 +28,8 @@ public class AppUserService implements UserDetailsService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
 
+    private final PersonService personService;
+
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -51,6 +54,13 @@ public class AppUserService implements UserDetailsService {
         user.setPassword(encodedPassword);
 
         appUserRepository.save(user);
+
+        AppUser appUser = appUserRepository.findByEmail(user.getEmail());
+
+        Person person = new Person();
+        person.setUserId(appUser.getId());
+
+        personService.addNewPerson(person);
 
         String token = UUID.randomUUID().toString();
         ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15), user);

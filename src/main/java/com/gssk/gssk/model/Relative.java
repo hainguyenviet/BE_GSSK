@@ -20,15 +20,15 @@ public class Relative {
     private Long rid;
 
 
-    @Column(name="relation", nullable = false)
+    @Column(name="relation")
     private String relation;
 
 
-    @Column(name="name", nullable = false)
+    @Column(name="name")
     private String name;
 
 
-    @Column(name = "gender", nullable = false)
+    @Column(name = "gender")
     private String gender;
 
 

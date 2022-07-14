@@ -34,7 +34,7 @@ public class PersonService {
         return personRepository.save(person);
     }
 
-    public Person updatePerson(Long id, Person personRequest){
+    public Person updatePerson(Long id, Person personRequest) {
         Person person = personRepository.findById(id).get();
         person.setFirstName(personRequest.getFirstName());
         person.setLastName(personRequest.getLastName());
@@ -43,66 +43,86 @@ public class PersonService {
         person.setEmail(personRequest.getEmail());
         person.setPhoneNumber(personRequest.getPhoneNumber());
         person.setGender(personRequest.getGender());
-        person.setUsername(personRequest.getUsername());
+        person.setUserId(personRequest.getUserId());
 
         // update health record
         HealthRecord newHealthRecord = personRequest.getHealthRecord(), healthRecord = person.getHealthRecord();
-        newHealthRecord.setId(healthRecord.getId());
-        List<Illness> newPersonIllness = newHealthRecord.getIllnessList(), personIllness = healthRecord.getIllnessList();
-        Iterator<Illness> it1 = newPersonIllness.iterator(), it2 = personIllness.iterator();
-        while(it1.hasNext() && it2.hasNext()){
-            it1.next().setId(it2.next().getId());
-        }
-        person.setHealthRecord(newHealthRecord);
-
-        // update relative
-        List<Relative> newRelativeList = personRequest.getRelativeList();
-        List<Relative> relativeList = person.getRelativeList();
-        List<Relative> toRemove = new ArrayList<>();
-        List<Relative> duplicate = new ArrayList<>();
-
-        if (newRelativeList.isEmpty()){
-            relativeList.clear();
-        }
-        else{
-            for (Relative r : relativeList) {
-                for (Relative nr : newRelativeList) {
-                    if (Objects.equals(r.getRelation(), nr.getRelation())) {
-                        r.setName(nr.getName());
-                        r.setAge(nr.getAge());
-                        r.setGender(nr.getGender());
-                        r.setDeath_age(nr.getDeath_age());
-                        r.setDeathCause(nr.getDeathCause());
-                        r.setFamilyOrder(nr.getFamilyOrder());
-                        r.setFamilyOrderOther(nr.getFamilyOrderOther());
-                        r.setIsDead(nr.getIsDead());
-                        if (nr.getIllnessRelative() != null){
-                            if (!r.getIllnessRelative().isEmpty()){
-                                List<Illness> oldList = r.getIllnessRelative(), newList = nr.getIllnessRelative();
-                                Iterator<Illness> oldIt = oldList.iterator(), newIt = newList.iterator();
-                                while(oldIt.hasNext() && newIt.hasNext()){
-                                    newIt.next().setId(oldIt.next().getId());
-                                }
-                                r.setIllnessRelative(newList);
-                            }else {
-                                r.setIllnessRelative(nr.getIllnessRelative());
-                            }
-                        }
-                        else {
-                            r.getIllnessRelative().clear();
-                        }
-                        duplicate.add(nr);
-                        break;
-                    } else if (newRelativeList.indexOf(nr) == (newRelativeList.size() - 1) && (!Objects.equals(r.getRelation(), nr.getRelation()))) {
-                        toRemove.add(r);
+        if (healthRecord == null) {
+            person.setHealthRecord(newHealthRecord);
+        } else {
+            if (newHealthRecord != null){
+                newHealthRecord.setId(healthRecord.getId());
+                if (newHealthRecord.getIllnessList() != null){
+                    List<Illness> newPersonIllness = newHealthRecord.getIllnessList(), personIllness = healthRecord.getIllnessList();
+                    Iterator<Illness> it1 = newPersonIllness.iterator(), it2 = personIllness.iterator();
+                    while (it1.hasNext() && it2.hasNext()) {
+                        it1.next().setId(it2.next().getId());
                     }
                 }
+                person.setHealthRecord(newHealthRecord);
             }
-            relativeList.removeAll(toRemove);
-            newRelativeList.removeAll(duplicate);
-            relativeList.addAll(newRelativeList);
+            else {
+                person.setHealthRecord(null);
+            }
 
         }
+
+
+        // update relative
+        if (personRequest.getRelativeList() != null){
+            List<Relative> newRelativeList = personRequest.getRelativeList();
+            List<Relative> relativeList = person.getRelativeList();
+            List<Relative> toRemove = new ArrayList<>();
+            List<Relative> duplicate = new ArrayList<>();
+
+            if (newRelativeList.isEmpty() && !relativeList.isEmpty()) {
+                relativeList.clear();
+            } else if (!relativeList.isEmpty()) {
+                for (Relative r : relativeList) {
+                    for (Relative nr : newRelativeList) {
+                        if (Objects.equals(r.getRelation(), nr.getRelation())) {
+                            r.setName(nr.getName());
+                            r.setAge(nr.getAge());
+                            r.setGender(nr.getGender());
+                            r.setDeath_age(nr.getDeath_age());
+                            r.setDeathCause(nr.getDeathCause());
+                            r.setFamilyOrder(nr.getFamilyOrder());
+                            r.setFamilyOrderOther(nr.getFamilyOrderOther());
+                            r.setIsDead(nr.getIsDead());
+                            if (nr.getIllnessRelative() != null) {
+                                if (!r.getIllnessRelative().isEmpty()) {
+                                    List<Illness> oldList = r.getIllnessRelative(), newList = nr.getIllnessRelative();
+                                    Iterator<Illness> oldIt = oldList.iterator(), newIt = newList.iterator();
+                                    while (oldIt.hasNext() && newIt.hasNext()) {
+                                        newIt.next().setId(oldIt.next().getId());
+                                    }
+                                    r.setIllnessRelative(newList);
+                                } else {
+                                    r.setIllnessRelative(nr.getIllnessRelative());
+                                }
+                            } else {
+                                r.getIllnessRelative().clear();
+                            }
+                            duplicate.add(nr);
+                            break;
+                        } else if (newRelativeList.indexOf(nr) == (newRelativeList.size() - 1) && (!Objects.equals(r.getRelation(), nr.getRelation()))) {
+                            toRemove.add(r);
+                        }
+                    }
+                }
+                relativeList.removeAll(toRemove);
+                newRelativeList.removeAll(duplicate);
+                relativeList.addAll(newRelativeList);
+            }
+            else {
+                person.setRelativeList(newRelativeList);
+            }
+        }
+        else {
+            List<Relative> relativeList = person.getRelativeList();
+            relativeList.clear();
+        }
+
         return personRepository.save(person);
     }
 
