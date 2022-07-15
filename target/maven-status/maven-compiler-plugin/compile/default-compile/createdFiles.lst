@@ -1,5 +1,6 @@
 com\gssk\gssk\registration\RegistrationController.class
 com\gssk\gssk\filter\CustomAuthenticationFilter.class
+com\gssk\gssk\Google_login\Google_user_info.class
 com\gssk\gssk\repository\IllnessRepository.class
 com\gssk\gssk\filter\CustomAuthorizationFilter.class
 com\gssk\gssk\model\Illness.class
@@ -21,10 +22,12 @@ com\gssk\gssk\Google_related\Gmail_info.class
 com\gssk\gssk\Google_related\user_info.class
 com\gssk\gssk\email\EmailService.class
 com\gssk\gssk\dto\PersonDTO.class
+com\gssk\gssk\Google_login\Google_token_get.class
 com\gssk\gssk\Google_related\CredentialRepository.class
 com\gssk\gssk\model\Person.class
 com\gssk\gssk\repository\HealthRecordRepository.class
 com\gssk\gssk\security\config\WebSecurityConfig.class
+com\gssk\gssk\Google_login\Google_token.class
 com\gssk\gssk\security\PasswordEncoder.class
 com\gssk\gssk\registration\RegistrationService.class
 com\gssk\gssk\account\AppUserController.class
