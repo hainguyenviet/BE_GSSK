@@ -76,10 +76,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     @Override
                     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                                         Authentication authentication) throws IOException, ServletException {
-                        System.out.println("AuthenticationSuccessHandler invoked    "+  authentication.getCredentials());
-                        System.out.println("Authentication name: " + authentication.getName());
-                        System.out.println(authentication.getCredentials());
-                        System.out.println(authentication.getDetails());
+                        
                         CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
 
                         appUserService.OAuthLogin(oauthUser.getEmail());
