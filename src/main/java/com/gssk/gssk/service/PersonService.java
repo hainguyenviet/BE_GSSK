@@ -25,8 +25,8 @@ public class PersonService {
         return personRepository.findAll();
     }
 
-    public Person getPersonById(String userID) {
-        return personRepository.findByUserId(userID);
+    public Person getPersonByUsername(String username) {
+        return personRepository.findByUsername(username);
     }
 
     @SneakyThrows
@@ -34,8 +34,8 @@ public class PersonService {
         return personRepository.save(person);
     }
 
-    public Person updatePerson(String userID, Person personRequest) {
-        Person person = personRepository.findByUserId(userID);
+    public Person updatePerson(String username, Person personRequest) {
+        Person person = personRepository.findByUsername(username);
         person.setFirstName(personRequest.getFirstName());
         person.setLastName(personRequest.getLastName());
         person.setDateOfBirth(personRequest.getDateOfBirth());
@@ -43,7 +43,7 @@ public class PersonService {
         person.setEmail(personRequest.getEmail());
         person.setPhoneNumber(personRequest.getPhoneNumber());
         person.setGender(personRequest.getGender());
-        person.setUserId(userID);
+        person.setUsername(username);
 
         // update health record
         HealthRecord newHealthRecord = personRequest.getHealthRecord(), healthRecord = person.getHealthRecord();

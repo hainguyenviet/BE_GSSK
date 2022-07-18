@@ -1,7 +1,9 @@
 package com.gssk.gssk.service;
 
 import com.gssk.gssk.model.AppUser;
+import com.gssk.gssk.model.HealthRecord;
 import com.gssk.gssk.model.Person;
+import com.gssk.gssk.model.Relative;
 import com.gssk.gssk.security.registration.token.ConfirmationToken;
 import com.gssk.gssk.security.registration.token.ConfirmationTokenService;
 import com.gssk.gssk.repository.AppUserRepository;
@@ -58,7 +60,11 @@ public class AppUserService implements UserDetailsService {
         AppUser appUser = appUserRepository.findByEmail(user.getEmail());
 
         Person person = new Person();
-        person.setUserId(appUser.getId().toString());
+        person.setUsername(appUser.getUsername());
+        person.setHealthRecord(new HealthRecord());
+        List<Relative> relativeList = new ArrayList<Relative>();
+        relativeList.add(new Relative());
+        person.setRelativeList(relativeList);
 
         personService.addNewPerson(person);
 

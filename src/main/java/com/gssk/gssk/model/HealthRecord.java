@@ -48,7 +48,7 @@ public class HealthRecord {
 
 
     @Column(name = "is_smoke")
-    private String isSmoke;
+    private String isSmoke = "false";
 
     @Column(name = "smoke_time")
     private Integer smokeTime;
