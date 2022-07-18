@@ -61,13 +61,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll()
-                .loginPage("/login")
+
                 .usernameParameter("email")
                 .passwordParameter("pass")
 
                 .and()
                 .oauth2Login()
-                .loginPage("/login")
+
                 .userInfoEndpoint()
                 .userService(oauthUserService)
                 .and()
