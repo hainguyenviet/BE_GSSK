@@ -20,13 +20,13 @@ public class GenogramController {
     @GetMapping(value = "/all", produces = "application/json")
     public List<Genogram> getAllGenogram(){return (List<Genogram>)genogramService.getAllNodes();}
 
-    //@PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     @GetMapping(value="/{key}", produces = "application/json")
     public List<Genogram> genogram(@PathVariable("key") Long key) {return (List<Genogram>)genogramService.getGenogram(key);}
 
-    //@PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    @PostMapping(value = "convert/{key}", produces = "application/json")
-    public void generateGenofromID(@PathVariable("key") Long key){
-        genogramService.ConvertPersonToGenogram(key);
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    @PostMapping(value = "convert/{username}", produces = "application/json")
+    public void generateGenofromID(@PathVariable("username") String username){
+        genogramService.ConvertPersonToGenogram(username);
     }
 }
