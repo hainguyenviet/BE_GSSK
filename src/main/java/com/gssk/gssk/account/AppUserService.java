@@ -28,7 +28,7 @@ public class AppUserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        AppUser user = appUserRepository.findByEmail(email);
+        AppUser user = appUserRepository.findByEmail(email).get(0);
         if (user == null && !Objects.equals(email, "admin")){
             throw new UsernameNotFoundException("User not found in DB");
         }
@@ -40,7 +40,7 @@ public class AppUserService implements UserDetailsService {
     }
 
     public String signUpUser(AppUser user) {
-        AppUser userExists = appUserRepository.findByEmail(user.getEmail());
+        AppUser userExists = appUserRepository.findByEmail(user.getEmail()).get(0);
         if (userExists != null) {
             throw new IllegalStateException("email already taken");
         }
@@ -57,7 +57,7 @@ public class AppUserService implements UserDetailsService {
     }
 
     public AppUser getAccount(String email){
-        return appUserRepository.findByEmail(email);
+        return appUserRepository.findByEmail(email).get(0);
     }
 
     public Iterable<AppUser> getAllAccounts(){
@@ -66,6 +66,17 @@ public class AppUserService implements UserDetailsService {
 
     public int enableAccount(String email){
         return appUserRepository.enableAccount(email);
+    }
+
+    public void OAuthLogin(String user_name)
+    {
+        AppUser existUser= appUserRepository.findByEmail(user_name).get(0);
+        if (existUser==null)
+        {
+            AppUser newbie= new AppUser(user_name,null,ERole.GOOGLEUSER,false,true);
+            appUserRepository.save(newbie);
+        }
+
     }
 
 }

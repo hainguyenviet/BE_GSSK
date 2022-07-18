@@ -4,5 +4,6 @@ import java.util.Enumeration;
 
 public enum ERole {
     USER,
-    ADMIN
+    ADMIN,
+    GOOGLEUSER
 }

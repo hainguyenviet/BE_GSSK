@@ -1,9 +1,12 @@
 package com.gssk.gssk.security.config;
 
+import com.gssk.gssk.Google_login.CustomOAuth2User;
+import com.gssk.gssk.Google_login.CustomOAuth2UserService;
 import com.gssk.gssk.account.AppUserService;
 import com.gssk.gssk.filter.CustomAuthenticationFilter;
 import com.gssk.gssk.filter.CustomAuthorizationFilter;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,13 +20,19 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Arrays;
 
 
@@ -35,7 +44,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final AppUserService appUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
+    @Autowired
+    private CustomOAuth2UserService oauthUserService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -44,8 +54,51 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers("/**").permitAll();
+
+        http.authorizeRequests()
+                .antMatchers("/", "/login", "/oauth/**").permitAll()
+
+                .anyRequest().authenticated()
+                .and()
+                .formLogin().permitAll()
+                .loginPage("/login")
+                .usernameParameter("email")
+                .passwordParameter("pass")
+
+                .and()
+                .oauth2Login()
+                .loginPage("/login")
+                .userInfoEndpoint()
+                .userService(oauthUserService)
+                .and()
+                .successHandler(new AuthenticationSuccessHandler() {
+
+                    @Override
+                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+                                                        Authentication authentication) throws IOException, ServletException {
+                        System.out.println("AuthenticationSuccessHandler invoked    "+  authentication.getCredentials());
+                        System.out.println("Authentication name: " + authentication.getName());
+                        System.out.println(authentication.getCredentials());
+                        System.out.println(authentication.getDetails());
+                        CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
+
+                        appUserService.OAuthLogin(oauthUser.getEmail());
+
+                        //response.sendRedirect("/");
+                        //to somewhere needed
+                    }
+                })
+                //.defaultSuccessUrl("")
+                .and()
+                .logout().logoutSuccessUrl("/").permitAll()
+                .and()
+                .exceptionHandling().accessDeniedPage("/403")
+        ;
+
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+
     }
 
 

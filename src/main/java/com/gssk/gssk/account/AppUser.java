@@ -34,13 +34,11 @@ public class AppUser implements UserDetails {
     )
     @Column(name = "id")
     private Long id;
-    @NotNull
     @Column(name = "full_name")
     private String fullName;
     @NotNull
     @Column(name = "email")
     private String email;
-    @NotNull
     @Column(name = "password")
     private String password;
     @Enumerated(EnumType.STRING)

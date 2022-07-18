@@ -1,5 +1,4 @@
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\account\CommandLineAppStartUpRunner.java
-C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\Google_login\Google_token_get.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\filter\CustomAuthorizationFilter.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\registration\RegistrationController.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\GsskApplication.java
@@ -37,7 +36,7 @@ C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\model\List
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\Google_related\Login.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\model\Illness.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\repository\PersonRepository.java
-C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\Google_login\Google_token.java
+C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\Google_login\Google_login_BE.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\account\AppUserService.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\registration\EmailValidator.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\model\Genogram.java
@@ -45,4 +44,5 @@ C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\registrati
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\controller\GenogramController.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\repository\GenogramRepository.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\filter\CustomAuthenticationFilter.java
+C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\Google_login\CustomOAuth2User.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\account\AppUserController.java
