@@ -1,11 +1,8 @@
 package com.gssk.gssk.model;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
@@ -48,7 +45,7 @@ public class HealthRecord {
 
 
     @Column(name = "is_smoke")
-    private String isSmoke;
+    private String isSmoke = "false";
 
     @Column(name = "smoke_time")
     private Integer smokeTime;

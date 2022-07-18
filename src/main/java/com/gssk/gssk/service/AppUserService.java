@@ -1,7 +1,10 @@
 package com.gssk.gssk.service;
 
 import com.gssk.gssk.model.AppUser;
+import com.gssk.gssk.model.HealthRecord;
 import com.gssk.gssk.model.Person;
+import com.gssk.gssk.model.Relative;
+import com.gssk.gssk.security.AppUserNotFoundException;
 import com.gssk.gssk.security.registration.token.ConfirmationToken;
 import com.gssk.gssk.security.registration.token.ConfirmationTokenService;
 import com.gssk.gssk.repository.AppUserRepository;
@@ -58,8 +61,11 @@ public class AppUserService implements UserDetailsService {
         AppUser appUser = appUserRepository.findByEmail(user.getEmail());
 
         Person person = new Person();
-        person.setUserId(appUser.getId().toString());
-
+        person.setUsername(appUser.getUsername());
+        person.setHealthRecord(new HealthRecord());
+        List<Relative> relativeList = new ArrayList<Relative>();
+        relativeList.add(new Relative());
+        person.setRelativeList(relativeList);
         personService.addNewPerson(person);
 
         String token = UUID.randomUUID().toString();
@@ -90,9 +96,31 @@ public class AppUserService implements UserDetailsService {
         appUser.setEmail(appUserRequest.getEmail());
         String encodedPassword = bCryptPasswordEncoder.encode(appUser.getPassword());
         appUser.setPassword(encodedPassword);
-//        appUser.setPassword(appUserRequest.getPassword());
         appUser.setEnabled(appUserRequest.getEnabled());
         appUser.setLocked(appUserRequest.getLocked());
         return appUserRepository.save(appUser);
+    }
+
+    public void updateResetPasswordToken(String token, String email) throws AppUserNotFoundException {
+        AppUser appUser = appUserRepository.findByEmail(email);
+        if (appUser != null) {
+            appUser.setResetPasswordToken(token);
+            appUserRepository.save(appUser);
+        } else {
+            throw new AppUserNotFoundException("User not found in DB");
+        }
+    }
+
+    public AppUser getByResetPasswordToken(String token) {
+        return appUserRepository.findByResetPasswordToken(token);
+    }
+
+    public void updatePassword(AppUser appUser, String newPassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        appUser.setPassword(encodedPassword);
+
+        appUser.setResetPasswordToken(null);
+        appUserRepository.save(appUser);
     }
 }

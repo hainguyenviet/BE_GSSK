@@ -11,11 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional(readOnly = true)
 public interface AppUserRepository extends CrudRepository<AppUser, Long> {
-
-//    @Query("SELECT a FROM AppUser a WHERE a.email = :email")
-//    AppUser findByEmail(@Param("email") String email);
     AppUser findByEmail(String email);
-
+    AppUser findByResetPasswordToken(String token);
     @Transactional
     @Modifying
     @Query("UPDATE AppUser a " + "SET a.enabled = TRUE WHERE a.email=?1" )
