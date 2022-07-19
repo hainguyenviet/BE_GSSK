@@ -29,7 +29,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
+import org.springframework.security.config.annotation.web.configuration.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,8 +40,12 @@ import java.util.Arrays;
 @Configuration
 @AllArgsConstructor
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(
+        securedEnabled = true,
+        jsr250Enabled = true,
+        prePostEnabled = true
+)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -70,11 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .anyRequest().authenticated()
                 .and()
-
-
-
                 .oauth2Login()
-
                 .userInfoEndpoint()
                 .userService(oAuth2UserService)
                 .and()
@@ -88,11 +88,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                         appUserService.OAuthLogin(oauthUser.getEmail());
 
+
+
                         response.sendRedirect("/"+"default_login_page");
                         //to somewhere needed
                     }
                 })
-                .defaultSuccessUrl("/"+"wrong")
+                .defaultSuccessUrl("/"+"email_authen_failed")
                 .and()
                 .logout().logoutSuccessUrl("/").permitAll()
                 .and()
