@@ -113,18 +113,11 @@ private final PersonRepository personRepository;
         if (existed==null)
         {
             AppUser newUser=new AppUser(email,"", ERole.USER,false,true);
-            Person newPerson= new Person();
-            newPerson.setEmail(email);
-            personRepository.save(newPerson);
+            //Person newPerson= new Person();
+//            newPerson.setEmail(email);
+//            personRepository.save(newPerson);
             appUserRepository.save(newUser);
         }
-        else
-        {
-            AppUser newUser=new AppUser(email,"", ERole.USER,false,true);
-            Person newPerson= new Person();
-            newPerson.setEmail(email);
-            personRepository.save(newPerson);
-            appUserRepository.save(newUser);
-        }
+
     }
 }

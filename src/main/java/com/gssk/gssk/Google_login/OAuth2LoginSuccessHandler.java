@@ -13,7 +13,7 @@ import java.io.IOException;
 @Component
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     @Autowired
-    private AppUserService appUserService;
+    AppUserService appUserService;
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
@@ -22,6 +22,6 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
         appUserService.OAuthLogin(email);
         super.onAuthenticationSuccess(request, response, authentication);
-        response.sendRedirect("/Success");
+
     }
 }

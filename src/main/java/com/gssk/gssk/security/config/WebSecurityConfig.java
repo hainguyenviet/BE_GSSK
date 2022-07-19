@@ -82,7 +82,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                    response.sendRedirect("/success");
 //
 //                })
-                .defaultSuccessUrl("/"+"email_authen_failed")
+
                 .and()
                 .logout().logoutSuccessUrl("/").permitAll()
                 .and()
