@@ -1,9 +1,14 @@
 package com.gssk.gssk.security.config;
 
+import com.gssk.gssk.Google_login.CustomOAuth2User;
+import com.gssk.gssk.Google_login.CustomOAuth2UserService;
+import com.gssk.gssk.repository.AppUserRepository;
 import com.gssk.gssk.service.AppUserService;
 import com.gssk.gssk.security.filter.CustomAuthenticationFilter;
 import com.gssk.gssk.security.filter.CustomAuthorizationFilter;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,12 +19,21 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Arrays;
 
 
@@ -27,10 +41,20 @@ import java.util.Arrays;
 @AllArgsConstructor
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final AppUserService appUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private final AppUserService appUserService;
+
+
+    @Autowired
+    private final CustomOAuth2UserService oAuth2UserService;
+
+    // @Autowired
+
+
 
 
     @Override
@@ -40,8 +64,50 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers("/**").permitAll();
+
+        http.authorizeRequests()
+                .antMatchers("/oauth/**").permitAll()
+
+                .anyRequest().authenticated()
+                .and()
+
+
+
+                .oauth2Login()
+
+                .userInfoEndpoint()
+                .userService(oAuth2UserService)
+                .and()
+                .successHandler(new AuthenticationSuccessHandler() {
+
+                    @Override
+                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+                                             Authentication authentication) throws IOException, ServletException {
+
+                        CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
+
+                        appUserService.OAuthLogin(oauthUser.getEmail());
+
+                        response.sendRedirect("/"+"default_login_page");
+                        //to somewhere needed
+                    }
+                })
+                .defaultSuccessUrl("/"+"wrong")
+                .and()
+                .logout().logoutSuccessUrl("/").permitAll()
+                .and()
+                .exceptionHandling().accessDeniedPage("/403")
+        ;
+
+
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+
+
+
+
+
     }
 
 

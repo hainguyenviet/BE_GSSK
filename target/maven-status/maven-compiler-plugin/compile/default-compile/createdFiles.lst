@@ -1,3 +1,4 @@
+com\gssk\gssk\Google_login\CustomOAuth2User.class
 com\gssk\gssk\security\filter\CustomAuthenticationFilter.class
 com\gssk\gssk\model\AppUser.class
 com\gssk\gssk\security\email\EmailSender.class
@@ -33,9 +34,11 @@ com\gssk\gssk\model\HealthRecord.class
 com\gssk\gssk\model\ListToStringConverter.class
 com\gssk\gssk\controller\ViewController.class
 com\gssk\gssk\dto\RelativeDTO.class
+com\gssk\gssk\Google_login\CustomOAuth2UserService.class
 com\gssk\gssk\repository\PersonRepository.class
 com\gssk\gssk\security\registration\RegistrationRequest.class
 com\gssk\gssk\model\Relative.class
 com\gssk\gssk\security\registration\RegistrationService.class
 com\gssk\gssk\repository\GenogramRepository.class
 com\gssk\gssk\service\GenogramService.class
+com\gssk\gssk\security\config\WebSecurityConfig$1.class

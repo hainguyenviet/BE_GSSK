@@ -33,6 +33,8 @@ public class AppUserService implements UserDetailsService {
     private final PersonService personService;
 
 
+
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         AppUser user = appUserRepository.findByEmail(email);
@@ -100,5 +102,15 @@ public class AppUserService implements UserDetailsService {
         appUser.setEnabled(appUserRequest.getEnabled());
         appUser.setLocked(appUserRequest.getLocked());
         return appUserRepository.save(appUser);
+    }
+
+
+    public void OAuthLogin(String email) {
+
+        AppUser existed= appUserRepository.findByEmail(email);
+        if (existed==null)
+        {
+
+        }
     }
 }
