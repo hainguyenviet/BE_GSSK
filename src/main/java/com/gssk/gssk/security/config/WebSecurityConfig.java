@@ -1,9 +1,12 @@
 package com.gssk.gssk.security.config;
 
+import com.gssk.gssk.security.OAuth2LoginSuccessHandler;
 import com.gssk.gssk.service.AppUserService;
 import com.gssk.gssk.security.filter.CustomAuthenticationFilter;
 import com.gssk.gssk.security.filter.CustomAuthorizationFilter;
+import com.gssk.gssk.service.CustomOAuth2UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,6 +35,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final AppUserService appUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    private CustomOAuth2UserService customOAuth2UserService;
+
+    @Autowired
+    private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -39,7 +47,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         customAuthenticationFilter.setFilterProcessesUrl("/api/login");
         http.cors().and().csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/**").permitAll();
+        http.authorizeRequests().antMatchers("/**").permitAll()
+                        .anyRequest().authenticated()
+                        .and().oauth2Login()
+                        .userInfoEndpoint().userService(customOAuth2UserService)
+                        .and().successHandler(oAuth2LoginSuccessHandler);
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }

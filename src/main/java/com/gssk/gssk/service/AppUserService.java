@@ -4,6 +4,7 @@ import com.gssk.gssk.model.AppUser;
 import com.gssk.gssk.model.HealthRecord;
 import com.gssk.gssk.model.Person;
 import com.gssk.gssk.model.Relative;
+import com.gssk.gssk.security.account.ERole;
 import com.gssk.gssk.security.registration.token.ConfirmationToken;
 import com.gssk.gssk.security.registration.token.ConfirmationTokenService;
 import com.gssk.gssk.repository.AppUserRepository;
@@ -74,6 +75,23 @@ public class AppUserService implements UserDetailsService {
         return token;
     }
 
+    public void signUpUserAfterOAuthLoginSuccess(String email, String fullName, String password){
+        AppUser appUser = new AppUser();
+        String encodedPassword = bCryptPasswordEncoder.encode(password);
+        appUser.setEmail(email);
+        appUser.setFullName(fullName);
+        appUser.setPassword(encodedPassword);
+        appUser.setEnabled(true);
+        appUser.setLocked(false);
+        appUser.setRole(ERole.USER);
+
+        appUserRepository.save(appUser);
+    }
+
+    public void updateUserAfterOAuthLoginSuccess(AppUser appUser, String name){
+        appUser.setFullName(name);
+        appUserRepository.save(appUser);
+    }
     public AppUser getAccount(String email){ return appUserRepository.findByEmail(email); }
 
     public Iterable<AppUser> getAllAccounts(){ return  appUserRepository.findAll(); }
