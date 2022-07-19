@@ -4,6 +4,8 @@ import com.gssk.gssk.model.AppUser;
 import com.gssk.gssk.model.HealthRecord;
 import com.gssk.gssk.model.Person;
 import com.gssk.gssk.model.Relative;
+import com.gssk.gssk.repository.PersonRepository;
+import com.gssk.gssk.security.account.ERole;
 import com.gssk.gssk.security.registration.token.ConfirmationToken;
 import com.gssk.gssk.security.registration.token.ConfirmationTokenService;
 import com.gssk.gssk.repository.AppUserRepository;
@@ -29,7 +31,7 @@ public class AppUserService implements UserDetailsService {
     private final AppUserRepository appUserRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
-
+private final PersonRepository personRepository;
     private final PersonService personService;
 
 
@@ -110,7 +112,19 @@ public class AppUserService implements UserDetailsService {
         AppUser existed= appUserRepository.findByEmail(email);
         if (existed==null)
         {
-
+            AppUser newUser=new AppUser(email,"", ERole.USER,false,true);
+            Person newPerson= new Person();
+            newPerson.setEmail(email);
+            personRepository.save(newPerson);
+            appUserRepository.save(newUser);
+        }
+        else
+        {
+            AppUser newUser=new AppUser(email,"", ERole.USER,false,true);
+            Person newPerson= new Person();
+            newPerson.setEmail(email);
+            personRepository.save(newPerson);
+            appUserRepository.save(newUser);
         }
     }
 }

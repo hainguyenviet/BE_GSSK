@@ -2,6 +2,7 @@ package com.gssk.gssk.security.config;
 
 import com.gssk.gssk.Google_login.CustomOAuth2User;
 import com.gssk.gssk.Google_login.CustomOAuth2UserService;
+import com.gssk.gssk.Google_login.OAuth2LoginSuccessHandler;
 import com.gssk.gssk.repository.AppUserRepository;
 import com.gssk.gssk.service.AppUserService;
 import com.gssk.gssk.security.filter.CustomAuthenticationFilter;
@@ -56,8 +57,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private final CustomOAuth2UserService oAuth2UserService;
 
-    // @Autowired
-
+    @Autowired
+    private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
 
 
@@ -67,33 +68,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         customAuthenticationFilter.setFilterProcessesUrl("/api/login");
         http.cors().and().csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/**").permitAll();
-
-        http.authorizeRequests()
-                .antMatchers("/oauth/**").permitAll()
-
-                .anyRequest().authenticated()
+        http.authorizeRequests().antMatchers("/**").permitAll()
                 .and()
                 .oauth2Login()
                 .userInfoEndpoint()
                 .userService(oAuth2UserService)
                 .and()
-                .successHandler(new AuthenticationSuccessHandler() {
-
-                    @Override
-                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                                             Authentication authentication) throws IOException, ServletException {
-
-                        CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
-
-                        appUserService.OAuthLogin(oauthUser.getEmail());
-
-
-
-                        response.sendRedirect("/"+"default_login_page");
-                        //to somewhere needed
-                    }
-                })
+                .successHandler(oAuth2LoginSuccessHandler)
+//                .successHandler((request,response,authentication)->
+//                {
+//                    CustomOAuth2User oauthUser=(CustomOAuth2User) authentication.getPrincipal();
+//                    appUserService.OAuthLogin(oauthUser.getEmail());
+//                    response.sendRedirect("/success");
+//
+//                })
                 .defaultSuccessUrl("/"+"email_authen_failed")
                 .and()
                 .logout().logoutSuccessUrl("/").permitAll()

@@ -31,6 +31,7 @@ com\gssk\gssk\security\registration\token\ConfirmationToken.class
 com\gssk\gssk\security\account\ERole.class
 com\gssk\gssk\security\config\WebMVCConfig.class
 com\gssk\gssk\model\HealthRecord.class
+com\gssk\gssk\Google_login\OAuth2LoginSuccessHandler.class
 com\gssk\gssk\model\ListToStringConverter.class
 com\gssk\gssk\controller\ViewController.class
 com\gssk\gssk\dto\RelativeDTO.class
@@ -41,4 +42,3 @@ com\gssk\gssk\model\Relative.class
 com\gssk\gssk\security\registration\RegistrationService.class
 com\gssk\gssk\repository\GenogramRepository.class
 com\gssk\gssk\service\GenogramService.class
-com\gssk\gssk\security\config\WebSecurityConfig$1.class
