@@ -47,10 +47,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         customAuthenticationFilter.setFilterProcessesUrl("/api/login");
         http.cors().and().csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/**").permitAll()
+        http.authorizeRequests().antMatchers("/api/registration/register", "/api/login", "/oauth2/**", "/login/**").permitAll()
                         .and().oauth2Login()
                         .userInfoEndpoint().userService(customOAuth2UserService)
-                        .and().successHandler(oAuth2LoginSuccessHandler);
+                        .and()
+                .successHandler(oAuth2LoginSuccessHandler);
+//                successHandler(oAuth2LoginSuccessHandler);
+//        .and().defaultSuccessUrl("/api/oauth/success");
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
