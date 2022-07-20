@@ -3,8 +3,11 @@ D:\FAMI\Test\BE_GSSK\src\main\java\com\gssk\gssk\repository\HealthRecordReposito
 D:\FAMI\Test\BE_GSSK\src\main\java\com\gssk\gssk\security\account\CommandLineAppStartUpRunner.java
 D:\FAMI\Test\BE_GSSK\src\main\java\com\gssk\gssk\security\filter\CustomAuthorizationFilter.java
 D:\FAMI\Test\BE_GSSK\src\main\java\com\gssk\gssk\service\GenogramService.java
+D:\FAMI\Test\BE_GSSK\src\main\java\com\gssk\gssk\service\CustomOAuth2UserService.java
+D:\FAMI\Test\BE_GSSK\src\main\java\com\gssk\gssk\model\CustomOAuth2User.java
 D:\FAMI\Test\BE_GSSK\src\main\java\com\gssk\gssk\model\HealthRecord.java
 D:\FAMI\Test\BE_GSSK\src\main\java\com\gssk\gssk\security\registration\token\ConfirmationToken.java
+D:\FAMI\Test\BE_GSSK\src\main\java\com\gssk\gssk\security\OAuth2LoginSuccessHandler.java
 D:\FAMI\Test\BE_GSSK\src\main\java\com\gssk\gssk\service\RelativeService.java
 D:\FAMI\Test\BE_GSSK\src\main\java\com\gssk\gssk\security\registration\RegistrationController.java
 D:\FAMI\Test\BE_GSSK\src\main\java\com\gssk\gssk\security\registration\token\ConfirmationTokenService.java
@@ -34,6 +37,7 @@ D:\FAMI\Test\BE_GSSK\src\main\java\com\gssk\gssk\controller\AppUserController.ja
 D:\FAMI\Test\BE_GSSK\src\main\java\com\gssk\gssk\model\Relative.java
 D:\FAMI\Test\BE_GSSK\src\main\java\com\gssk\gssk\security\config\WebMVCConfig.java
 D:\FAMI\Test\BE_GSSK\src\main\java\com\gssk\gssk\security\registration\RegistrationService.java
+D:\FAMI\Test\BE_GSSK\src\main\java\com\gssk\gssk\controller\OAuthController.java
 D:\FAMI\Test\BE_GSSK\src\main\java\com\gssk\gssk\service\AppUserService.java
 D:\FAMI\Test\BE_GSSK\src\main\java\com\gssk\gssk\security\registration\token\ConfirmationTokenRepository.java
 D:\FAMI\Test\BE_GSSK\src\main\java\com\gssk\gssk\repository\AppUserRepository.java
