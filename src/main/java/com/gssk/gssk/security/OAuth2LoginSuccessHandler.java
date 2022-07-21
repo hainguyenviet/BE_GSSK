@@ -51,12 +51,22 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         if (appUser == null) {
             appUserService.signUpUserAfterOAuthLoginSuccess(email, name, "");
 
-            Person person = new Person();
-            person.setUsername(email);
+             Person person = new Person();
+            person.setUsername(appUser.getUsername());
             person.setHealthRecord(new HealthRecord());
+
             List<Relative> relativeList = new ArrayList<Relative>();
-            relativeList.add(new Relative());
+            Relative r = new Relative();
+            relativeList.add(r);
             person.setRelativeList(relativeList);
+
+            List<Illness> personIllness = new ArrayList<>();
+            personIllness.add(new Illness());
+            person.getHealthRecord().setIllnessList(personIllness);
+
+            List<Illness> relativeIllness = new ArrayList<>();
+            relativeIllness.add(new Illness());
+            r.setIllnessRelative(relativeIllness);
 
             personService.addNewPerson(person);
         } else {
@@ -85,7 +95,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 //        cookie1.setPath("/");
 //        response.addCookie(cookie);
 //        response.addCookie(cookie1);
-        response.sendRedirect("http://localhost:4200/api/oauth/success/info?email="+mail+"&token="+access_token);
+        response.sendRedirect("http://localhost:4200/api/oauth/success/info;email="+mail+"&token="+access_token);
 
 
     }
