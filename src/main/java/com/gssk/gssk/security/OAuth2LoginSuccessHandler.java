@@ -52,7 +52,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             appUserService.signUpUserAfterOAuthLoginSuccess(email, name, "");
 
             Person person = new Person();
-            person.setUsername(appUser.getUsername());
+            person.setUsername(email);
             person.setHealthRecord(new HealthRecord());
 
             List<Relative> relativeList = new ArrayList<Relative>();
