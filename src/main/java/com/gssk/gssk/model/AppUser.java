@@ -1,17 +1,17 @@
-package com.gssk.gssk.account;
+package com.gssk.gssk.model;
 
+import com.gssk.gssk.security.account.ERole;
 import lombok.*;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -20,18 +20,16 @@ import java.util.Collections;
 @Table (name = "users", uniqueConstraints = {@UniqueConstraint(name = "email_register", columnNames = "email")})
 public class AppUser implements UserDetails {
 
-    @SequenceGenerator(
-            name = "account_sequence",
-            sequenceName = "account_sequence",
-            allocationSize = 1
-    )
+//    @SequenceGenerator(
+//            name = "account_sequence",
+//            sequenceName = "account_sequence",
+//            allocationSize = 1
+//    )
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "account_sequence"
-    )
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "id")
-    private Long id;
+    private String id;
     @NotNull
     @Column(name = "full_name")
     private String fullName;
@@ -44,10 +42,19 @@ public class AppUser implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column
     private ERole role;
+
     @Column(name = "is_locked")
     private Boolean locked = false;
     @Column(name = "is_enabled")
     private Boolean enabled = false;
+
+//    @OneToOne(mappedBy = "appUser_id", cascade = CascadeType.ALL)
+//    private Person person_id;
+
+//    @OneToOne(targetEntity = Person.class, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "person_id", referencedColumnName = "id")
+//    private Person person;
+
 
     public AppUser(String email, String password, ERole role, Boolean locked, Boolean enabled){
         this.email = email;

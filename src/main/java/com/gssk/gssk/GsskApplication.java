@@ -7,7 +7,6 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 
 
-
 @SpringBootApplication
 public class GsskApplication extends SpringBootServletInitializer {
 

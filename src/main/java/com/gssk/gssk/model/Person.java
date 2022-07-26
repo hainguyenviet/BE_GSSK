@@ -1,12 +1,10 @@
 package com.gssk.gssk.model;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
+import java.text.DateFormat;
 import java.util.*;
 
 @Data
@@ -18,25 +16,26 @@ public class Person {
     @Column(name = "id")
     private Long id;
 
-    @Column(name="first_name", nullable = false)
+    @Column(name="first_name")
     private String firstName;
 
-    @Column(name="last_name", nullable = false)
+    @Column(name="last_name")
     private String lastName;
 
-    @Column(name = "birthday", nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @Column(name = "birthday")
     private Date dateOfBirth;
 
-    @Column(name = "id_card", nullable = false)
+    @Column(name = "id_card")
     private String idCard;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email")
     private String email;
 
-    @Column(name= "phone_number", nullable = false)
+    @Column(name= "phone_number")
     private String phoneNumber;
 
-    @Column(name= "gender", nullable = false)
+    @Column(name= "gender")
     private String gender;
 
     @OneToOne(targetEntity = HealthRecord.class, cascade = CascadeType.ALL)
@@ -46,4 +45,13 @@ public class Person {
     @OneToMany(targetEntity = Relative.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_id", referencedColumnName = "id")
     private List<Relative> relativeList;
+
+    @Column(name= "username")
+    private String username;
+
+
+//    @OneToOne(targetEntity = AppUser.class, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "user_id", referencedColumnName = "id")
+//    private AppUser appUser_id;
+
 }

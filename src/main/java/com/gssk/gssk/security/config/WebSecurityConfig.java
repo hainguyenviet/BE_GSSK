@@ -1,14 +1,14 @@
 package com.gssk.gssk.security.config;
 
-import com.gssk.gssk.account.AppUserService;
-import com.gssk.gssk.filter.CustomAuthenticationFilter;
-import com.gssk.gssk.filter.CustomAuthorizationFilter;
+import com.gssk.gssk.security.OAuth2LoginSuccessHandler;
+import com.gssk.gssk.service.AppUserService;
+import com.gssk.gssk.security.filter.CustomAuthenticationFilter;
+import com.gssk.gssk.security.filter.CustomAuthorizationFilter;
+import com.gssk.gssk.service.CustomOAuth2UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -35,34 +35,40 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final AppUserService appUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    private CustomOAuth2UserService customOAuth2UserService;
+
+    @Autowired
+    private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
         customAuthenticationFilter.setFilterProcessesUrl("/api/login");
-        http.csrf().disable().cors();
+        http.cors().and().csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//        http.authorizeRequests().antMatchers("/api/login").permitAll()
-//                .antMatchers(HttpMethod.POST, "/api/person/create", "/api/genogram/convert/**").permitAll()
-//                .antMatchers(HttpMethod.GET, "/api/person/**", "/api/genogram/**").permitAll()
-//                .anyRequest().authenticated();
-        http.authorizeRequests().antMatchers("/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/registration/register", "/api/login", "/oauth2/**", "/login/**").permitAll()
+                        .and().oauth2Login()
+                        .userInfoEndpoint().userService(customOAuth2UserService)
+                        .and()
+                .successHandler(oAuth2LoginSuccessHandler);
+//                successHandler(oAuth2LoginSuccessHandler);
+//        .and().defaultSuccessUrl("/api/oauth/success");
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
 
-//    @Bean
-//    CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(Arrays.asList("*"));
-//        configuration.setAllowedMethods(Arrays.asList("*"));
-//        configuration.setAllowedHeaders(Arrays.asList("*"));
-//        configuration.setAllowCredentials(true);
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 
     @Bean
     @Override
@@ -83,3 +89,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return provider;
     }
 }
+
+

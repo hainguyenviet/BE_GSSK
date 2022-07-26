@@ -49,7 +49,7 @@ public class GenogramService {
 
 
 
-    public void ConvertPersonToGenogram(Long id){
+    public void ConvertPersonToGenogram(String username){
         List<Genogram> genogramList = new ArrayList<>();
         String newLine = System.getProperty("line.separator");
 
@@ -60,7 +60,7 @@ public class GenogramService {
         attributes.add("ME");
 
         // Truyền thông tin người điền form sang genogram
-        Person person = personRepository.findById(id).get();
+        Person person = personRepository.findByUsername(username);
         List<Relative> relativeList = person.getRelativeList();
         Genogram genogram = new Genogram();
         genogram.setKey(person.getId());
