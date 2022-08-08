@@ -7,6 +7,7 @@ import com.gssk.gssk.model.Person;
 import com.gssk.gssk.model.Relative;
 import com.gssk.gssk.dto.RelativeDTO;
 import com.gssk.gssk.repository.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
@@ -45,6 +46,11 @@ public class GenogramService {
     }
 
     public List<String> risk(String username){
+        int count;// đếm cái gì đó
+        List<Integer> Mark = new ArrayList<>();//đánh dấu cho Trực hệ 2
+        boolean flag;//đánh dấu sự kiện
+
+
         List<String> result = new ArrayList<>();
         // lưu trực hệ 1 bệnh
         List<String> direct1 = new ArrayList<>();
@@ -100,6 +106,123 @@ public class GenogramService {
                 }
                 // Nếu trực hệ 2 = 1 (Tuấn Anh)
                 // Nếu trực hệ 2 > 1 (Chương)
+
+                    if (direct2.size()>1)
+                    {
+                        flag=false;
+                        if (direct1.get(0)=="Mẹ")
+                        {
+                            count=0;
+
+                            for(String check: direct2)
+                            {
+                                if (maternalSide.stream().anyMatch(String->String==check))
+                                {
+                                    count++;
+                                    Mark.add(direct2Age.get(direct2.indexOf(check)));
+                                }
+                            }
+                            if (count>=2)
+                            {
+                                flag=true;
+                                result.add("UNGTHUVU_CAO");
+                            }
+                            if (count==1)
+                            {
+                                flag=true;
+                                if (Mark.get(0)<50)
+                                    result.add("UNGTHUVU_CAO");
+                            }
+                        }
+
+                        if (direct1.get(0)=="Cha")
+                        {
+                            count=0;
+
+                            for(String check: direct2)
+                            {
+                                if (paternalSide.stream().anyMatch(String->String==check))
+                                {
+                                    count++;
+                                    Mark.add(direct2Age.get(direct2.indexOf(check)));
+                                }
+                            }
+                            if (count>=2)
+                            {
+                                flag=true;
+                                result.add("UNGTHUVU_CAO");
+                            }
+                            if (count==1)
+                            {
+                                flag=true;
+                                if (Mark.get(0)<50)
+                                    result.add("UNGTHUVU_CAO");
+                            }
+                        }
+
+                            if(!flag)
+                            {
+
+                                count=0;
+                                for(String check: direct2)
+                                {
+                                    if (paternalSide.stream().anyMatch(String->String==check))
+                                    {
+                                        count++;
+                                        Mark.add(direct2Age.get(direct2.indexOf(check)));
+                                    }
+                                }
+
+                                if (count>=3)
+                                {
+                                    result.add("UNGTHUVU_CAO");
+                                }
+                                else
+                                    if (count==2)
+                                        {
+                                        if(Mark.stream().anyMatch(integer -> integer > 0)&&Mark.stream().anyMatch(integer -> integer < 50))
+                                            {
+                                                result.add("UNGTHUVU_CAO");
+                                            }
+                                            else
+                                            {
+                                                result.add("UNGTHUVU_TB");
+                                            }
+                                        }
+
+
+
+                                count=0;
+                                for(String check: direct2)
+                                {
+                                    if (maternalSide.stream().anyMatch(String->String==check))
+                                    {
+                                        count++;
+                                        Mark.add(direct2Age.get(direct2.indexOf(check)));
+                                    }
+                                }
+
+                                if (count>=3)
+                                {
+                                    result.add("UNGTHUVU_CAO");
+                                }
+                                else
+                                if (count==2)
+                                {
+                                    if(Mark.stream().anyMatch(integer -> integer > 0)&&Mark.stream().anyMatch(integer -> integer < 50))
+                                    {
+                                        result.add("UNGTHUVU_CAO");
+                                    }
+                                    else
+                                    {
+                                        result.add("UNGTHUVU_TB");
+                                    }
+                                }
+                            }
+
+
+                    }
+
             }
         }
         // Trực hệ 1 = 0
