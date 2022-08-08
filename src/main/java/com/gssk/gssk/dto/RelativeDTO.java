@@ -16,5 +16,6 @@ public class RelativeDTO {
     private String name;
     private String gender;
     private String age;
+    private String parentName;
     private List<String> illnessName;
 }

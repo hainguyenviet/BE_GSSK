@@ -29,4 +29,9 @@ public class GenogramController {
     public void generateGenofromID(@PathVariable("username") String username){
         genogramService.ConvertPersonToGenogram(username);
     }
+
+    @GetMapping(value = "/risk/{username}", produces = "application/json")
+    public List<String> risk(@PathVariable("username") String username){
+        return (List<String>)genogramService.risk(username);
+    }
 }

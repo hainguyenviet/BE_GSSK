@@ -13,10 +13,7 @@ import org.modelmapper.ModelMapper;
 
 
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class GenogramService {
@@ -47,6 +44,89 @@ public class GenogramService {
         return result;
     }
 
+    public List<String> risk(String username){
+        List<String> result = new ArrayList<>();
+        // lưu trực hệ 1 bệnh
+        List<String> direct1 = new ArrayList<>();
+        // lưu trực hệ 2 bệnh
+        List<String> direct2 = new ArrayList<>();
+        // Kiểm tra relation thuộc trực hệ 1
+        List<String> checkDirect1 = new ArrayList<>(Arrays.asList("Cha", "Mẹ", "Anh ruột", "Em ruột", "Chị ruột", "Con ruột"));
+        // Kiểm tra relation thuộc trực hệ 2
+        List<String> checkDirect2 = new ArrayList<>(Arrays.asList("Ông nội", "Bà nội", "Ông ngoại", "Bà ngoại", "Cô", "Dì", "Chú",
+                "Cậu"));
+        // Kiểm tra relation thuộc trực hệ 3
+        List<String> checkDirect3 = new ArrayList<>(Arrays.asList("Anh trai họ", "Em trai họ", "Em gái họ", "Chị gái họ"));
+        // bên phả hệ nội
+        List<String> paternalSide = new ArrayList<>(Arrays.asList("Ông nội", "Bà nội", "Cha", "Cô", "Chú"));
+        // bên phả hệ ngoại
+        List<String> maternalSide = new ArrayList<>(Arrays.asList("Ông ngoại", "Bà ngoại", "Mẹ", "Dì","Cậu"));
+        List<Integer> direct1Age = new ArrayList<>();
+        List<Integer> direct2Age = new ArrayList<>();
+        Person person = personRepository.findByUsername(username);
+        List<Relative> relativeList = person.getRelativeList();
+
+        for (Relative r: relativeList){
+            List<Illness> illnessRelative = r.getIllnessRelative();
+            for (Illness i : illnessRelative){
+                if (Objects.equals(i.getIllName(), "Ung thư vú")){
+                    if (checkDirect1.contains(r.getRelation())){
+                        direct1.add(r.getRelation());
+                        direct1Age.add((i.getAge_detected()));
+                    }
+                    else if(checkDirect2.contains(r.getRelation())){
+                        direct2.add(r.getRelation());
+                        direct2Age.add(i.getAge_detected());
+                    }
+                }
+            }
+        }
+
+        //Trực hệ 1 >= 2
+        if (direct1.size() >= 2){
+            result.add("UNGTHUVU_CAO");
+        }
+        //Trực hệ 1 = 1
+        else if (direct1.size() == 1){
+            // Khởi phát sớm (<50 tuổi)
+            if (direct1Age.stream().anyMatch(integer -> integer > 0)  && direct1Age.stream().anyMatch(integer -> integer < 50)){
+                result.add("UNGTHUVU_CAO");
+            }
+            // Khởi phát muộn (>=50 tuổi)
+            else{
+                // Nếu trực hệ 2 = 0 (chưa xong)
+                if (direct2.size() == 0){
+                    result.add("UNGTHUVU_TB");
+                }
+                // Nếu trực hệ 2 = 1 (Tuấn Anh)
+                // Nếu trực hệ 2 > 1 (Chương)
+            }
+        }
+        // Trực hệ 1 = 0
+        else {
+            // Trực hệ 2 = 0
+            if (direct2.size() == 0 || direct2.size()==1){
+                result.add("UNGTHUVU_THAP");
+            }
+            // Trực hệ 2 = 1
+            // Trực hệ 2 = 2
+            if (direct2.size() == 2){
+                if (paternalSide.containsAll(direct2) || maternalSide.containsAll(direct2)){
+                    if (direct2Age.stream().anyMatch(integer -> integer > 0)  && direct2Age.stream().anyMatch(integer -> integer < 50)){
+                        result.add("UNGTHUVU_CAO");
+                    }
+                    else{
+                        result.add("UNGTHUVU_TB");
+                    }
+                }
+            }
+            // Trực hệ 2 = 3
+            // Trực hệ 2 > 3
+        }
+
+        return result;
+    }
+
 
 
     public void ConvertPersonToGenogram(String username){
@@ -55,6 +135,7 @@ public class GenogramService {
 
         List<String> attributes = new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();
+
 
 
         attributes.add("ME");
@@ -85,7 +166,14 @@ public class GenogramService {
             genogram.setN(setN);
         }
 
+        //////////////////////////////////////////////////////////
+        /// LƯỢNG GIÁ NGUY CƠ ///////////////////////////////////
+        ////////////////////////////////////////////////////////
 
+
+
+
+        /////
         // SET GENDER
         if (Objects.equals(person.getGender(), "Nam")){
             genogram.setS("M");
@@ -201,6 +289,20 @@ public class GenogramService {
                     // SET MOTHER KEY
                     if (Objects.equals(r1.getRelation(), "mother in law")) {
                         genogramDTO.setM(r1.getRid());
+                    }
+                }
+            }
+
+            //IF RELATIVE IS CHÁU
+            if (Objects.equals(relativeDTO.getRelation(), "Cháu")){
+                for (Relative r1 : relativeList){
+                    if(Objects.equals(r1.getName(), relativeDTO.getParentName()) && (Objects.equals(r1.getRelation(), "Anh ruột") || Objects.equals(r1.getRelation(), "Em ruột") || Objects.equals(r1.getRelation(), "Chị ruột"))){
+                        if (Objects.equals(r1.getGender(), "Nam")){
+                            genogramDTO.setF(r1.getRid());
+                        }
+                        else{
+                            genogramDTO.setM(r1.getRid());
+                        }
                     }
                 }
             }
@@ -524,6 +626,21 @@ public class GenogramService {
                 {
                     disease_amount--;
                 }
+
+                if (item.equals("HIGH_BC")){
+                    result.add("HIGH_BC");
+                    disease_amount--;
+                }
+
+                if (item.equals("AVERAGE_BC")){
+                    result.add("AVERAGE_BC");
+                    disease_amount--;
+                }
+
+                if (item.equals("LOW_BC")){
+                    result.add("LOW_BC");
+                    disease_amount--;
+                }
             }
 
 
@@ -531,7 +648,7 @@ public class GenogramService {
 
         for (String item:attrList_target
         ) {
-            if (!item.equals("DEAD")&&!item.equals("ME"))
+            if (!item.equals("DEAD")&&!item.equals("ME") && !item.equals("HIGH_BC") && !item.equals("AVERAGE_BC") && !item.equals("LOW_BC") )
             {
                 if (disease_amount == 1){
                     result.add("1DISEASE");
