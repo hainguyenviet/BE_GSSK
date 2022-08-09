@@ -260,6 +260,81 @@ public class GenogramService {
             }
             // Trực hệ 2 = 3
             // Trực hệ 2 > 3
+
+            //WIP
+            if(direct2.size() >3)
+            {
+                //xét bên nội
+                count=0;
+                for(String check: direct2)
+                {
+                    if (paternalSide.stream().anyMatch(String->String==check))
+                    {
+                        count++;
+                        Mark.add(direct2Age.get(direct2.indexOf(check)));
+                    }
+                }
+
+                if (count>=3)
+                {
+                    result.add("UNGTHUVU_CAO");
+                }
+                else
+                if (count==2)
+                {
+                    if(Mark.stream().anyMatch(integer -> integer > 0)&&Mark.stream().anyMatch(integer -> integer < 50))
+                    {
+                        result.add("UNGTHUVU_CAO");
+                    }
+                    else
+                    {
+                        //Slap vào cái th3 vào là được
+
+                        result.add("UNGTHUVU_TB");
+                    }
+                } else
+                if (count==1)
+                {
+                    //Slap vào cái th3 vào là được
+                }
+
+
+                //xét bên ngoại
+                count=0;
+                for(String check: direct2)
+                {
+                    if (maternalSide.stream().anyMatch(String->String==check))
+                    {
+                        count++;
+                        Mark.add(direct2Age.get(direct2.indexOf(check)));
+                    }
+                }
+
+                if (count>=3)
+                {
+                    result.add("UNGTHUVU_CAO");
+                }
+                else
+                if (count==2)
+                {
+                    if(Mark.stream().anyMatch(integer -> integer > 0)&&Mark.stream().anyMatch(integer -> integer < 50))
+                    {
+                        result.add("UNGTHUVU_CAO");
+                    }
+                    else
+                    {
+                        //Slap vào cái th3 vào là được
+                        result.add("UNGTHUVU_TB");
+                    }
+                }
+                else
+                    if (count==1)
+                    {
+                        //Slap vào cái th3 vào là được
+                    }
+
+            }
+
         }
 
         return result;
