@@ -49,13 +49,19 @@ public class GenogramService {
         int count;// đếm cái gì đó
         List<Integer> Mark = new ArrayList<>();//đánh dấu cho Trực hệ 2
         boolean flag;//đánh dấu sự kiện
-
+        List<String> temp = new ArrayList<>();//biến chứa tạm thời
 
         List<String> result = new ArrayList<>();
         // lưu trực hệ 1 bệnh
         List<String> direct1 = new ArrayList<>();
         // lưu trực hệ 2 bệnh
         List<String> direct2 = new ArrayList<>();
+        //lưu trực hệ 3 bệnh
+        //Nội
+        List<String> direct3Paternal=new ArrayList<>();
+        //Ngoại
+        List<String> direct3Maternal=new ArrayList<>();
+
         // Kiểm tra relation thuộc trực hệ 1
         List<String> checkDirect1 = new ArrayList<>(Arrays.asList("Cha", "Mẹ", "Anh ruột", "Em ruột", "Chị ruột", "Con ruột"));
         // Kiểm tra relation thuộc trực hệ 2
@@ -84,9 +90,41 @@ public class GenogramService {
                         direct2.add(r.getRelation());
                         direct2Age.add(i.getAge_detected());
                     }
+                    else if(checkDirect3.contains(r.getRelation()))
+                    {
+
+                        if (paternalSide.contains(relativeRepository.findByName(r.getParentName()).getRelation()))
+                            direct3Paternal.add(r.getRelation());
+                        if (maternalSide.contains(relativeRepository.findByName(r.getParentName()).getRelation()))
+                            direct3Maternal.add(r.getRelation());
+
+                    }
                 }
             }
         }
+
+        //Xét Trực hệ 3 trước vì Trực hệ 3 chỉ cần là số lượng
+        if (direct3Paternal.size()>=3 || direct3Maternal.size()>=3)
+        {
+            result.add("UNGTHUVU_CAO");
+        }
+        else
+            if (direct3Maternal.size()==2&&direct2.size()>0)
+            {
+                temp=direct2;
+                temp.retainAll(maternalSide);
+                if(temp.size()>0)
+                    result.add("UNGTHUVU_CAO");
+            }
+        else
+            if(direct3Paternal.size()==2&&direct2.size()>0)
+            {
+                temp=direct2;
+                temp.retainAll(paternalSide);
+                if(temp.size()>0)
+                    result.add("UNGTHUVU_CAO");
+            }
+        else
 
         //Trực hệ 1 >= 2
         if (direct1.size() >= 2){
@@ -138,6 +176,11 @@ public class GenogramService {
                                 flag=true;
                                 if (Mark.get(0)<50)
                                     result.add("UNGTHUVU_CAO");
+                                else
+                                    if (direct3Maternal.size()>0)
+                                        result.add("UNGTHUVU_CAO");
+                                    else
+                                        result.add("UNGTHUVU_TB");
                             }
                             if (count==0)
                             {
@@ -167,11 +210,16 @@ public class GenogramService {
                                 flag=true;
                                 if (Mark.get(0)<50)
                                     result.add("UNGTHUVU_CAO");
+                                else
+                                if (direct3Maternal.size()>0)
+                                    result.add("UNGTHUVU_CAO");
+                                else
+                                    result.add("UNGTHUVU_TB");
                             }
-
                             if (count==0)
                             {
-                                result.add("UNGTHUVU_TB");
+                                    result.add("UNGTHUVU_TB");
+
                             }
                         }
 
@@ -201,9 +249,17 @@ public class GenogramService {
                                             }
                                             else
                                             {
-                                                result.add("UNGTHUVU_TB");
+                                                if (direct3Paternal.size()==0)
+                                                    result.add("UNGTHUVU_TB");
+                                                else
+                                                    result.add("UNGTHUVU_CAO");
                                             }
                                         }
+                                    else
+                                    if (count==1&&direct3Paternal.size()>=2)
+                                    {
+                                        result.add("UNGTHUVU_CAO");
+                                    }
 
 
                                 //xét bên ngoại
@@ -230,9 +286,19 @@ public class GenogramService {
                                     }
                                     else
                                     {
+                                        if (direct3Maternal.size()==0)
                                         result.add("UNGTHUVU_TB");
+                                        else
+                                            result.add("UNGTHUVU_CAO");
                                     }
+
+                                }else
+                                if (count==1&&direct3Maternal.size()>=2)
+                                {
+                                    result.add("UNGTHUVU_CAO");
                                 }
+
+
                             }
 
 
@@ -289,13 +355,17 @@ public class GenogramService {
                     else
                     {
                         //Slap vào cái th3 vào là được
+                        if (direct3Paternal.size()==0)
+                            result.add("UNGTHUVU_TB");
+                        else
+                            result.add("UNGTHUVU_CAO");
 
-                        result.add("UNGTHUVU_TB");
                     }
                 } else
                 if (count==1)
                 {
-                    //Slap vào cái th3 vào là được
+                    if (direct3Paternal.size()>=2)
+                        result.add("UNGTHUVU_CAO");
                 }
 
 
@@ -323,14 +393,17 @@ public class GenogramService {
                     }
                     else
                     {
-                        //Slap vào cái th3 vào là được
-                        result.add("UNGTHUVU_TB");
+                        if (direct3Maternal.size()==0)
+                            result.add("UNGTHUVU_TB");
+                        else
+                            result.add("UNGTHUVU_CAO");
                     }
                 }
                 else
                     if (count==1)
                     {
-                        //Slap vào cái th3 vào là được
+                        if (direct3Maternal.size()>=2)
+                            result.add("UNGTHUVU_CAO");
                     }
 
             }
