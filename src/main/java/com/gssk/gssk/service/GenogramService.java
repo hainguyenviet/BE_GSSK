@@ -255,11 +255,8 @@ public class GenogramService {
                                                     result.add("UNGTHUVU_CAO");
                                             }
                                         }
-                                    else
-                                    if ((count==1) && (direct3Paternal.size()>=2))
-                                    {
-                                        result.add("UNGTHUVU_CAO");
-                                    }
+
+
 
 
                                 //xét bên ngoại
@@ -292,11 +289,8 @@ public class GenogramService {
                                             result.add("UNGTHUVU_CAO");
                                     }
 
-                                }else
-                                if ((count==1) && (direct3Maternal.size()>=2))
-                                {
-                                    result.add("UNGTHUVU_CAO");
                                 }
+
 
 
                             }
