@@ -229,7 +229,7 @@ public class GenogramService {
                                 count=0;
                                 for(String check: direct2)
                                 {
-                                    if (paternalSide.stream().anyMatch(String->String==check))
+                                    if (paternalSide.contains(check))
                                     {
                                         count++;
                                         Mark.add(direct2Age.get(direct2.indexOf(check)));
@@ -256,7 +256,7 @@ public class GenogramService {
                                             }
                                         }
                                     else
-                                    if (count==1&&direct3Paternal.size()>=2)
+                                    if ((count==1) && (direct3Paternal.size()>=2))
                                     {
                                         result.add("UNGTHUVU_CAO");
                                     }
@@ -266,7 +266,7 @@ public class GenogramService {
                                 count=0;
                                 for(String check: direct2)
                                 {
-                                    if (maternalSide.stream().anyMatch(String->String==check))
+                                    if (maternalSide.contains(check))
                                     {
                                         count++;
                                         Mark.add(direct2Age.get(direct2.indexOf(check)));
@@ -293,7 +293,7 @@ public class GenogramService {
                                     }
 
                                 }else
-                                if (count==1&&direct3Maternal.size()>=2)
+                                if ((count==1) && (direct3Maternal.size()>=2))
                                 {
                                     result.add("UNGTHUVU_CAO");
                                 }
