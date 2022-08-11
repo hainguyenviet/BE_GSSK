@@ -355,11 +355,6 @@ public class GenogramService {
                             result.add("UNGTHUVU_CAO");
 
                     }
-                } else
-                if (count==1)
-                {
-                    if (direct3Paternal.size()>=2)
-                        result.add("UNGTHUVU_CAO");
                 }
 
 
@@ -393,12 +388,6 @@ public class GenogramService {
                             result.add("UNGTHUVU_CAO");
                     }
                 }
-                else
-                    if (count==1)
-                    {
-                        if (direct3Maternal.size()>=2)
-                            result.add("UNGTHUVU_CAO");
-                    }
 
             }
 
