@@ -20,11 +20,11 @@ import java.util.UUID;
 @Table (name = "users", uniqueConstraints = {@UniqueConstraint(name = "email_register", columnNames = "email")})
 public class AppUser implements UserDetails {
 
-//    @SequenceGenerator(
-//            name = "account_sequence",
-//            sequenceName = "account_sequence",
-//            allocationSize = 1
-//    )
+    @SequenceGenerator(
+           name = "account_sequence",
+           sequenceName = "account_sequence",
+           allocationSize = 1
+    )
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
