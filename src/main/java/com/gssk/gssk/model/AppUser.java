@@ -28,7 +28,7 @@ public class AppUser implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_sequence")
     @Column(name = "id")
-    private String id;
+    private Long id;
     @NotNull
     @Column(name = "full_name")
     private String fullName;
