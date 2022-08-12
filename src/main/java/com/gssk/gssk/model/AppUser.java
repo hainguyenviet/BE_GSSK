@@ -26,8 +26,7 @@ public class AppUser implements UserDetails {
            allocationSize = 1
     )
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_sequence")
     @Column(name = "id")
     private String id;
     @NotNull
@@ -46,7 +45,7 @@ public class AppUser implements UserDetails {
     @Column(name = "is_locked")
     private Boolean locked = false;
     @Column(name = "is_enabled")
-    private Boolean enabled = false;
+    private Boolean enabled = true;
 
 //    @OneToOne(mappedBy = "appUser_id", cascade = CascadeType.ALL)
 //    private Person person_id;
