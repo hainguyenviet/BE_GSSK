@@ -104,242 +104,176 @@ public class GenogramService {
         }
 
         //Xét Trực hệ 3 trước vì Trực hệ 3 chỉ cần là số lượng
-        if (direct3Paternal.size()>=3 || direct3Maternal.size()>=3)
+
+        count=0;
+        count+=direct3Paternal.size();
+        temp=direct2;
+        temp.retainAll(paternalSide);
+
+        count+=temp.size();
+        temp=direct1;
+        temp.retainAll(paternalSide);
+        count+=temp.size();
+        if (count>=3)
         {
             result.add("UNGTHUVU_CAO");
         }
-        else
-            if (direct3Maternal.size()==2&&direct2.size()>0)
+        else {
+            count=0;
+            count+=direct3Maternal.size();
+            temp=direct2;
+            temp.retainAll(maternalSide);
+            count+=temp.size();
+            temp=direct1;
+            temp.retainAll(maternalSide);
+            count+=temp.size();
+            if (count>=3)
             {
-                temp=direct2;
-                temp.retainAll(maternalSide);
-                if(temp.size()>0)
-                    result.add("UNGTHUVU_CAO");
-            }
-        else
-            if(direct3Paternal.size()==2&&direct2.size()>0)
-            {
-                temp=direct2;
-                temp.retainAll(paternalSide);
-                if(temp.size()>0)
-                    result.add("UNGTHUVU_CAO");
-            }
-        else
-
-        //Trực hệ 1 >= 2
-        if (direct1.size() >= 2){
-            result.add("UNGTHUVU_CAO");
-        }
-        //Trực hệ 1 = 1
-        else if (direct1.size() == 1){
-
-
-            // Khởi phát sớm (<50 tuổi)
-            if (direct1Age.stream().anyMatch(integer -> integer > 0)  && direct1Age.stream().anyMatch(integer -> integer < 50)){
                 result.add("UNGTHUVU_CAO");
             }
-            // Khởi phát muộn (>=50 tuổi)
-            else{
+            else
 
-                // Nếu trực hệ 2 = 0 (chưa xong)
-                if (direct2.size() == 0){
-                    result.add("UNGTHUVU_TB");
+            //Trực hệ 1 >= 2
+            if (direct1.size() >= 2) {
+                result.add("UNGTHUVU_CAO");
+            }
+            //Trực hệ 1 = 1
+            else if (direct1.size() == 1) {
+                // Khởi phát sớm (<50 tuổi)
+                if (direct1Age.stream().anyMatch(integer -> integer > 0) && direct1Age.stream().anyMatch(integer -> integer < 50)) {
+                    result.add("UNGTHUVU_CAO");
                 }
-                // Nếu trực hệ 2 = 1 (Tuấn Anh)
-                // Nếu trực hệ 2 > 1 (Chương)
+                // Khởi phát muộn (>=50 tuổi)
+                else {
 
-                if (direct2.size()>1)
-                    {
-                        flag=false;
+                    // Nếu trực hệ 2 = 0 (chưa xong)
+                    if (direct2.size() == 0) {
+                        result.add("UNGTHUVU_TB");
+                    }
+                    // Nếu trực hệ 2 = 1 (Tuấn Anh)
+                    // Nếu trực hệ 2 > 1 (Chương)
+
+                    if (direct2.size() > 1) {
+                        flag = false;
 
 
+                        if (Objects.equals(direct1.get(0), "Mẹ")) {
+                            count = 0;
 
-                        if (Objects.equals(  direct1.get(0),"Mẹ"))
-                        {
-                            count=0;
-
-                            for(String check: direct2)
-                            {
-                                if (maternalSide.contains(check))
-                                {
+                            for (String check : direct2) {
+                                if (maternalSide.contains(check)) {
                                     count++;
                                     Mark.add(direct2Age.get(direct2.indexOf(check)));
                                 }
                             }
-                            if (count>=2)
-                            {
-                                flag=true;
-                                result.add("UNGTHUVU_CAO");
-                            }
-                            if (count==1)
-                            {
-                                flag=true;
-                                if (Mark.get(0)<50)
+                            if (count == 1) {
+                                flag = true;
+                                if (Mark.get(0) < 50)
                                     result.add("UNGTHUVU_CAO");
                                 else
-                                    if (direct3Maternal.size()>0)
-                                        result.add("UNGTHUVU_CAO");
-                                    else
-                                        result.add("UNGTHUVU_TB");
+                                    result.add("UNGTHUVU_TB");
                             }
-                            if (count==0)
-                            {
+                            if (count == 0) {
                                 result.add("UNGTHUVU_TB");
                             }
                         }
 
-                        if (Objects.equals(direct1.get(0),"Cha"))
-                        {
-                            count=0;
+                        if (Objects.equals(direct1.get(0), "Cha")) {
+                            count = 0;
 
-                            for(String check: direct2)
-                            {
-                                if (paternalSide.contains(check))
-                                {
+                            for (String check : direct2) {
+                                if (paternalSide.contains(check)) {
                                     count++;
                                     Mark.add(direct2Age.get(direct2.indexOf(check)));
                                 }
                             }
-                            if (count>=2)
-                            {
-                                flag=true;
-                                result.add("UNGTHUVU_CAO");
-                            }
-                            if (count==1)
-                            {
-                                flag=true;
-                                if (Mark.get(0)<50)
-                                    result.add("UNGTHUVU_CAO");
-                                else
-                                if (direct3Maternal.size()>0)
+                            if (count == 1) {
+                                flag = true;
+                                if (Mark.get(0) < 50)
                                     result.add("UNGTHUVU_CAO");
                                 else
                                     result.add("UNGTHUVU_TB");
                             }
-                            if (count==0)
-                            {
-                                    result.add("UNGTHUVU_TB");
+                            if (count == 0) {
+                                result.add("UNGTHUVU_TB");
 
                             }
                         }
 
-                            if(!flag)
-                            {
+                            if(!flag) {
                                 //xét bên nội
-                                count=0;
-                                for(String check: direct2)
-                                {
-                                    if (paternalSide.contains(check))
-                                    {
+                                count = 0;
+                                for (String check : direct2) {
+                                    if (paternalSide.contains(check)) {
                                         count++;
                                         Mark.add(direct2Age.get(direct2.indexOf(check)));
                                     }
                                 }
-
-                                if (count>=3)
-                                {
-                                    result.add("UNGTHUVU_CAO");
+                                if (count == 2) {
+                                    if (Mark.stream().anyMatch(integer -> integer > 0) && Mark.stream().anyMatch(integer -> integer < 50)) {
+                                        result.add("UNGTHUVU_CAO");
+                                    } else
+                                        result.add("UNGTHUVU_TB");
                                 }
-                                else
-                                    if (count==2)
-                                        {
-                                        if(Mark.stream().anyMatch(integer -> integer > 0)&&Mark.stream().anyMatch(integer -> integer < 50))
-                                            {
-                                                result.add("UNGTHUVU_CAO");
-                                            }
-                                            else
-                                            {
-                                                if (direct3Paternal.size()==0)
-                                                    result.add("UNGTHUVU_TB");
-                                                else
-                                                    result.add("UNGTHUVU_CAO");
-                                            }
-                                        }
-
-
 
 
                                 //xét bên ngoại
-                                count=0;
-                                for(String check: direct2)
-                                {
-                                    if (maternalSide.contains(check))
-                                    {
+                                count = 0;
+                                for (String check : direct2) {
+                                    if (maternalSide.contains(check)) {
                                         count++;
                                         Mark.add(direct2Age.get(direct2.indexOf(check)));
                                     }
                                 }
 
-                                if (count>=3)
-                                {
-                                    result.add("UNGTHUVU_CAO");
-                                }
-                                else
-                                if (count==2)
-                                {
-                                    if(Mark.stream().anyMatch(integer -> integer > 0)&&Mark.stream().anyMatch(integer -> integer < 50))
-                                    {
+                                if (count == 2) {
+                                    if (Mark.stream().anyMatch(integer -> integer > 0) && Mark.stream().anyMatch(integer -> integer < 50)) {
                                         result.add("UNGTHUVU_CAO");
-                                    }
-                                    else
-                                    {
-                                        if (direct3Maternal.size()==0)
+                                    } else
                                         result.add("UNGTHUVU_TB");
-                                        else
-                                            result.add("UNGTHUVU_CAO");
                                     }
 
                                 }
-
-
-
                             }
 
 
                     }
 
-            }
-        }
-        // Trực hệ 1 = 0
-        else {
-            // Trực hệ 2 = 0
-            if (direct2.size() == 0 || direct2.size()==1){
-                result.add("UNGTHUVU_THAP");
-            }
-            // Trực hệ 2 = 1
-            // Trực hệ 2 = 2
-            if (direct2.size() == 2){
-                if (paternalSide.containsAll(direct2) || maternalSide.containsAll(direct2)){
-                    if (direct2Age.stream().anyMatch(integer -> integer > 0)  && direct2Age.stream().anyMatch(integer -> integer < 50)){
-                        result.add("UNGTHUVU_CAO");
-                    }
-                    else{
-                        result.add("UNGTHUVU_TB");
-                    }
-                }
-            }
-            // Trực hệ 2 = 3
-            // Trực hệ 2 > 3
 
-            //WIP
-            if(direct2.size() >3)
-            {
-                //xét bên nội
-                count=0;
-                for(String check: direct2)
-                {
-                    if (paternalSide.contains(check))
-                    {
-                        count++;
-                        Mark.add(direct2Age.get(direct2.indexOf(check)));
-                    }
                 }
 
-                if (count>=3)
-                {
-                    result.add("UNGTHUVU_CAO");
+
+
+            // Trực hệ 1 = 0
+            else {
+                // Trực hệ 2 = 0
+                if (direct2.size() == 0 || direct2.size() == 1) {
+                    result.add("UNGTHUVU_THAP");
                 }
-                else
+                // Trực hệ 2 = 1
+                // Trực hệ 2 = 2
+                if (direct2.size() == 2) {
+                    if (paternalSide.containsAll(direct2) || maternalSide.containsAll(direct2)) {
+                        if (direct2Age.stream().anyMatch(integer -> integer > 0) && direct2Age.stream().anyMatch(integer -> integer < 50)) {
+                            result.add("UNGTHUVU_CAO");
+                        } else {
+                            result.add("UNGTHUVU_TB");
+                        }
+                    }
+                }
+                // Trực hệ 2 = 3
+                // Trực hệ 2 > 3
+
+                //WIP
+                if (direct2.size() > 3) {
+                    //xét bên nội
+                    count = 0;
+                    for (String check : direct2) {
+                        if (paternalSide.contains(check)) {
+                            count++;
+                            Mark.add(direct2Age.get(direct2.indexOf(check)));
+                        }
+                    }
                 if (count==2)
                 {
                     if(Mark.stream().anyMatch(integer -> integer > 0)&&Mark.stream().anyMatch(integer -> integer < 50))
@@ -348,12 +282,7 @@ public class GenogramService {
                     }
                     else
                     {
-                        //Slap vào cái th3 vào là được
-                        if (direct3Paternal.size()==0)
-                            result.add("UNGTHUVU_TB");
-                        else
-                            result.add("UNGTHUVU_CAO");
-
+                        result.add("UNGTHUVU_TB");
                     }
                 }
 
@@ -369,11 +298,6 @@ public class GenogramService {
                     }
                 }
 
-                if (count>=3)
-                {
-                    result.add("UNGTHUVU_CAO");
-                }
-                else
                 if (count==2)
                 {
                     if(Mark.stream().anyMatch(integer -> integer > 0)&&Mark.stream().anyMatch(integer -> integer < 50))
@@ -382,16 +306,16 @@ public class GenogramService {
                     }
                     else
                     {
-                        if (direct3Maternal.size()==0)
+
                             result.add("UNGTHUVU_TB");
-                        else
-                            result.add("UNGTHUVU_CAO");
+
                     }
+                }
                 }
 
             }
-
         }
+
 
         return result;
     }
