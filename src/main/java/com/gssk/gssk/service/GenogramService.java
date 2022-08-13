@@ -46,7 +46,6 @@ public class GenogramService {
     }
 
     public List<String> risk(String username){
-        int count;// đếm cái gì đó
         List<Integer> Mark = new ArrayList<>();//đánh dấu cho Trực hệ 2
         boolean flag;//đánh dấu sự kiện
         List<String> temp = new ArrayList<>();//biến chứa tạm thời
@@ -58,9 +57,9 @@ public class GenogramService {
         List<String> direct2 = new ArrayList<>();
         //lưu trực hệ 3 bệnh
         //Nội
-        List<String> direct3Paternal=new ArrayList<>();
+        int cPaternal=0;
         //Ngoại
-        List<String> direct3Maternal=new ArrayList<>();
+        int cMaternal=0;
 
         // Kiểm tra relation thuộc trực hệ 1
         List<String> checkDirect1 = new ArrayList<>(Arrays.asList("Cha", "Mẹ", "Anh ruột", "Em ruột", "Chị ruột", "Con ruột"));
@@ -92,11 +91,10 @@ public class GenogramService {
                     }
                     else if(checkDirect3.contains(r.getRelation()))
                     {
-
                         if (paternalSide.contains(relativeRepository.findByName(r.getParentName()).getRelation()))
-                            direct3Paternal.add(r.getRelation());
+                            cPaternal+=1;
                         if (maternalSide.contains(relativeRepository.findByName(r.getParentName()).getRelation()))
-                            direct3Maternal.add(r.getRelation());
+                            cMaternal+=1;
 
                     }
                 }
@@ -105,29 +103,25 @@ public class GenogramService {
 
         //Xét Trực hệ 3 trước vì Trực hệ 3 chỉ cần là số lượng
 
-        count=0;
-        count+=direct3Paternal.size();
         temp=direct2;
         temp.retainAll(paternalSide);
-
-        count+=temp.size();
+        cPaternal+=temp.size();
         temp=direct1;
         temp.retainAll(paternalSide);
-        count+=temp.size();
-        if (count>=3)
+        cPaternal+=temp.size();
+        if (cPaternal>=3)
         {
             result.add("UNGTHUVU_CAO");
         }
         else {
-            count=0;
-            count+=direct3Maternal.size();
+
             temp=direct2;
             temp.retainAll(maternalSide);
-            count+=temp.size();
+            cMaternal+=temp.size();
             temp=direct1;
             temp.retainAll(maternalSide);
-            count+=temp.size();
-            if (count>=3)
+            cMaternal+=temp.size();
+            if (cMaternal>=3)
             {
                 result.add("UNGTHUVU_CAO");
             }
@@ -158,43 +152,43 @@ public class GenogramService {
 
 
                         if (Objects.equals(direct1.get(0), "Mẹ")) {
-                            count = 0;
+                            cMaternal = 0;
 
                             for (String check : direct2) {
                                 if (maternalSide.contains(check)) {
-                                    count++;
+                                    cMaternal++;
                                     Mark.add(direct2Age.get(direct2.indexOf(check)));
                                 }
                             }
-                            if (count == 1) {
+                            if (cMaternal == 1) {
                                 flag = true;
                                 if (Mark.get(0) < 50)
                                     result.add("UNGTHUVU_CAO");
                                 else
                                     result.add("UNGTHUVU_TB");
                             }
-                            if (count == 0) {
+                            if (cMaternal == 0) {
                                 result.add("UNGTHUVU_TB");
                             }
                         }
 
                         if (Objects.equals(direct1.get(0), "Cha")) {
-                            count = 0;
+                            cPaternal = 0;
 
                             for (String check : direct2) {
                                 if (paternalSide.contains(check)) {
-                                    count++;
+                                    cPaternal++;
                                     Mark.add(direct2Age.get(direct2.indexOf(check)));
                                 }
                             }
-                            if (count == 1) {
+                            if (cPaternal == 1) {
                                 flag = true;
                                 if (Mark.get(0) < 50)
                                     result.add("UNGTHUVU_CAO");
                                 else
                                     result.add("UNGTHUVU_TB");
                             }
-                            if (count == 0) {
+                            if (cPaternal == 0) {
                                 result.add("UNGTHUVU_TB");
 
                             }
@@ -202,14 +196,14 @@ public class GenogramService {
 
                             if(!flag) {
                                 //xét bên nội
-                                count = 0;
+                                cPaternal = 0;
                                 for (String check : direct2) {
                                     if (paternalSide.contains(check)) {
-                                        count++;
+                                        cPaternal++;
                                         Mark.add(direct2Age.get(direct2.indexOf(check)));
                                     }
                                 }
-                                if (count == 2) {
+                                if (cPaternal == 2) {
                                     if (Mark.stream().anyMatch(integer -> integer > 0) && Mark.stream().anyMatch(integer -> integer < 50)) {
                                         result.add("UNGTHUVU_CAO");
                                     } else
@@ -218,20 +212,27 @@ public class GenogramService {
 
 
                                 //xét bên ngoại
-                                count = 0;
+                                cMaternal = 0;
                                 for (String check : direct2) {
                                     if (maternalSide.contains(check)) {
-                                        count++;
+                                        cMaternal++;
                                         Mark.add(direct2Age.get(direct2.indexOf(check)));
                                     }
                                 }
 
-                                if (count == 2) {
+                                if (cMaternal == 2) {
                                     if (Mark.stream().anyMatch(integer -> integer > 0) && Mark.stream().anyMatch(integer -> integer < 50)) {
                                         result.add("UNGTHUVU_CAO");
                                     } else
                                         result.add("UNGTHUVU_TB");
                                     }
+
+                                if (cPaternal<2 && cMaternal<2)
+                                {
+                                    result.add("UNGTHUVU_TB");
+                                }
+
+
 
                                 }
                             }
@@ -265,16 +266,16 @@ public class GenogramService {
                 // Trực hệ 2 > 3
 
                 //WIP
-                if (direct2.size() > 3) {
+                if (direct2.size() >=3) {
                     //xét bên nội
-                    count = 0;
+                    cPaternal = 0;
                     for (String check : direct2) {
                         if (paternalSide.contains(check)) {
-                            count++;
+                            cPaternal++;
                             Mark.add(direct2Age.get(direct2.indexOf(check)));
                         }
                     }
-                if (count==2)
+                if (cPaternal==2)
                 {
                     if(Mark.stream().anyMatch(integer -> integer > 0)&&Mark.stream().anyMatch(integer -> integer < 50))
                     {
@@ -288,17 +289,17 @@ public class GenogramService {
 
 
                 //xét bên ngoại
-                count=0;
+                    cMaternal=0;
                 for(String check: direct2)
                 {
                     if (maternalSide.contains(check))
                     {
-                        count++;
+                        cMaternal++;
                         Mark.add(direct2Age.get(direct2.indexOf(check)));
                     }
                 }
 
-                if (count==2)
+                if (cMaternal==2)
                 {
                     if(Mark.stream().anyMatch(integer -> integer > 0)&&Mark.stream().anyMatch(integer -> integer < 50))
                     {
@@ -306,11 +307,16 @@ public class GenogramService {
                     }
                     else
                     {
-
                             result.add("UNGTHUVU_TB");
-
                     }
                 }
+
+                    if (cPaternal<2 && cMaternal<2)
+                    {
+                        result.add("UNGTHUVU_THAP");
+                    }
+
+
                 }
 
             }
