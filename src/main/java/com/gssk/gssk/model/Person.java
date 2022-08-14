@@ -22,7 +22,7 @@ public class Person {
     @Column(name="last_name")
     private String lastName;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone="GMT")
     @Column(name = "birthday")
     private Date dateOfBirth;
 
@@ -48,10 +48,4 @@ public class Person {
 
     @Column(name= "username")
     private String username;
-
-
-//    @OneToOne(targetEntity = AppUser.class, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "user_id", referencedColumnName = "id")
-//    private AppUser appUser_id;
-
 }
