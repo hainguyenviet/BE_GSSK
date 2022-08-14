@@ -21,7 +21,7 @@ public class RegistrationService {
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
 
-    public String register(RegistrationRequest request){
+    public void register(RegistrationRequest request){
         boolean isValidEmail = emailValidator.test(request.getEmail());
         if (!isValidEmail) {
             throw new IllegalStateException("email not valid");
@@ -37,7 +37,7 @@ public class RegistrationService {
 //         String link = "http://localhost:8080/api/registration/confirm?token=" + token;
 //         emailSender.send(request.getEmail(), buildEmail(request.getFullName(), link));
 
-        return token;
+//        return token;
     }
 
     @Transactional
