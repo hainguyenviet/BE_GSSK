@@ -115,15 +115,15 @@ public class AppUserService implements UserDetailsService {
         appUserRepository.delete(appUser);
     }
 
-    public AppUser updateAccount(Long id, AppUser appUserRequest){
-        AppUser appUser = appUserRepository.findById(id).get();
+    public AppUser updateAccount(String username, AppUser appUserRequest){
+        AppUser appUser = appUserRepository.findByEmail(username);
         appUser.setFullName(appUserRequest.getFullName());
         appUser.setEmail(appUserRequest.getEmail());
         String encodedPassword = bCryptPasswordEncoder.encode(appUser.getPassword());
         appUser.setPassword(encodedPassword);
-//        appUser.setPassword(appUserRequest.getPassword());
         appUser.setEnabled(appUserRequest.getEnabled());
         appUser.setLocked(appUserRequest.getLocked());
+        appUser.setUpdateAt(LocalDateTime.now());
         return appUserRepository.save(appUser);
     }
 }

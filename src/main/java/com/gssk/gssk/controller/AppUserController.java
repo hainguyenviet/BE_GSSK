@@ -60,8 +60,8 @@ public class AppUserController {
 //    }
 
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    @PutMapping(value = "/update/{id}", produces = "application/json")
-    public AppUser updateAccount(@PathVariable("id") Long id, @RequestBody AppUser appUserRequest) { return appUserService.updateAccount(id, appUserRequest); }
+    @PutMapping(value = "/update/{username}", produces = "application/json")
+    public AppUser updateAccount(@PathVariable("username") String username, @RequestBody AppUser appUserRequest) { return appUserService.updateAccount(username, appUserRequest); }
 
     @PreAuthorize(("hasAuthority('USER') or hasAuthority('ADMIN')" ))
     @GetMapping(value = "/token/refresh")

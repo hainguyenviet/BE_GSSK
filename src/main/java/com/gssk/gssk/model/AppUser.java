@@ -1,5 +1,6 @@
 package com.gssk.gssk.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gssk.gssk.security.account.ERole;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
@@ -46,13 +48,21 @@ public class AppUser implements UserDetails {
     private Boolean locked = false;
     @Column(name = "is_enabled")
     private Boolean enabled = true;
+    @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @Column(name="created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @Column(name = "update_at")
+    private LocalDateTime updateAt;
 
-    public AppUser(String email, String password, ERole role, Boolean locked, Boolean enabled){
+    public AppUser(String email, String password, ERole role, Boolean locked, Boolean enabled, LocalDateTime createdAt){
         this.email = email;
         this.password = password;
         this.role = role;
         this.locked = locked;
         this.enabled = enabled;
+        this.createdAt = createdAt;
     }
 
 
