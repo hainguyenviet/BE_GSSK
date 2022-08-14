@@ -49,15 +49,15 @@ public class AppUser implements UserDetails {
     private Boolean locked = false;
     @Column(name = "is_enabled")
     private Boolean enabled = true;
-    @NotNull
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    @Column(name="created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    @Column(name = "update_at")
-    private LocalDateTime updateAt;
+//     @NotNull
+//     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+//     @Column(name="created_at")
+//     private LocalDateTime createdAt = LocalDateTime.now();
+//     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+//     @Column(name = "update_at")
+//     private LocalDateTime updateAt;
 
-    public AppUser(String email, String password, ERole role, Boolean locked, Boolean enabled, LocalDateTime createdAt){
+    public AppUser(String email, String password, ERole role, Boolean locked, Boolean enabled){
         this.email = email;
         this.password = password;
         this.role = role;
