@@ -16,10 +16,10 @@ public class CommandLineAppStartUpRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         String email = "admin";
-        if (appUserRepository.findByEmail(email) == null){
-            AppUser admin = new AppUser("admin", "$2a$12$0ZbZfxnwHAlWbtXl79k/Dusf4DvUsd2tov6/5LngpYgnYQrkIjg3e", ERole.ADMIN, false, true, LocalDateTime.now());
-            appUserRepository.save(admin);
-        }
+//        if (appUserRepository.findByEmail(email) == null){
+//            //AppUser admin = new AppUser("admin", "$2a$12$0ZbZfxnwHAlWbtXl79k/Dusf4DvUsd2tov6/5LngpYgnYQrkIjg3e", ERole.ADMIN, false, true, LocalDateTime.now());
+//            //appUserRepository.save(admin);
+//        }
     }
 
 

@@ -63,7 +63,7 @@ public class AppUser implements UserDetails {
         this.role = role;
         this.locked = locked;
         this.enabled = enabled;
-        this.createdAt = createdAt;
+        //this.createdAt = createdAt;
     }
 
 
