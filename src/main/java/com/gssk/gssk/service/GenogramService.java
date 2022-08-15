@@ -103,10 +103,10 @@ public class GenogramService {
 
         //Xét Trực hệ 3 trước vì Trực hệ 3 chỉ cần là số lượng
 
-        temp=direct2;
+        temp=new ArrayList<>(direct2);
         temp.retainAll(paternalSide);
         cPaternal+=temp.size();
-        temp=direct1;
+        temp=new ArrayList<>(direct1);
         temp.retainAll(paternalSide);
         cPaternal+=temp.size();
         if (cPaternal>=3)
@@ -115,12 +115,14 @@ public class GenogramService {
         }
         else {
 
-            temp=direct2;
+            temp=new ArrayList<>(direct2);
             temp.retainAll(maternalSide);
             cMaternal+=temp.size();
-            temp=direct1;
+            temp=new ArrayList<>(direct1);
             temp.retainAll(maternalSide);
             cMaternal+=temp.size();
+
+
             if (cMaternal>=3)
             {
                 result.add("UNGTHUVU_CAO");
@@ -145,6 +147,34 @@ public class GenogramService {
                         result.add("UNGTHUVU_TB");
                     }
                     // Nếu trực hệ 2 = 1 (Tuấn Anh)
+                    if (direct2.size() == 1){
+
+
+                        // Nếu trực hệ 1 là Cha/Mẹ
+                        if (direct1.stream().anyMatch(String -> Objects.equals(String, "Cha")) || direct1.stream().anyMatch(String -> Objects.equals(String, "Mẹ"))) {
+                            //Nếu trực hệ 2 cùng bên với trực hệ 1
+                            if ((direct1.stream().anyMatch(String -> Objects.equals(String, "Cha")) && direct2.stream().anyMatch(paternalSide::contains)) || (direct1.stream().anyMatch(String -> Objects.equals(String, "Mẹ")) && direct2.stream().anyMatch(maternalSide::contains))) {
+                                // Nếu trực hệ 2 < 50 tuổi
+                                if (direct2Age.stream().anyMatch(integer -> integer > 0) && direct2Age.stream().anyMatch(integer -> integer < 50)) {
+                                    result.add("UNGTHUVU_CAO_th2<50");
+                                }
+                                // Nếu trực hệ 2 >= 50 tuổi
+                                else {
+                                    result.add("UNGTHUVU_THAP_th2>=50");
+                                }
+                            }
+                            // Nếu ko cùng bên trực hệ 1
+                            else{
+                                result.add("UNGTHUVU_THAP_conlai");
+                            }
+                        }
+                        // ko phải cha/mẹ
+                        else {
+                            result.add("UNGTHUVU_THAP_kophaichame");
+                        }
+                    }
+
+
                     // Nếu trực hệ 2 > 1 (Chương)
 
                     if (direct2.size() > 1) {
@@ -252,6 +282,7 @@ public class GenogramService {
                     result.add("UNGTHUVU_THAP");
                 }
                 // Trực hệ 2 = 1
+
                 // Trực hệ 2 = 2
                 if (direct2.size() == 2) {
                     if (paternalSide.containsAll(direct2) || maternalSide.containsAll(direct2)) {
@@ -262,8 +293,6 @@ public class GenogramService {
                         }
                     }
                 }
-                // Trực hệ 2 = 3
-                // Trực hệ 2 > 3
 
                 //WIP
                 if (direct2.size() >=3) {
@@ -275,7 +304,7 @@ public class GenogramService {
                             Mark.add(direct2Age.get(direct2.indexOf(check)));
                         }
                     }
-                if (cPaternal==2)
+                if (cPaternal>=2)
                 {
                     if(Mark.stream().anyMatch(integer -> integer > 0)&&Mark.stream().anyMatch(integer -> integer < 50))
                     {
@@ -299,7 +328,7 @@ public class GenogramService {
                     }
                 }
 
-                if (cMaternal==2)
+                if (cMaternal>=2)
                 {
                     if(Mark.stream().anyMatch(integer -> integer > 0)&&Mark.stream().anyMatch(integer -> integer < 50))
                     {
