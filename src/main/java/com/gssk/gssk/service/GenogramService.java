@@ -48,7 +48,6 @@ public class GenogramService {
     public List<String> risk(String username){
         List<Integer> Mark = new ArrayList<>();//đánh dấu cho Trực hệ 2
         boolean flag;//đánh dấu sự kiện
-        List<String> temp = new ArrayList<>();//biến chứa tạm thời
 
         List<String> result = new ArrayList<>();
         // lưu trực hệ 1 bệnh
@@ -84,15 +83,36 @@ public class GenogramService {
                     if (checkDirect1.contains(r.getRelation())){
                         direct1.add(r.getRelation());
                         direct1Age.add((i.getAge_detected()));
+
+                        if (paternalSide.contains(r.getRelation())){
+                            cPaternal = cPaternal + 1;
+                        } else if (maternalSide.contains(r.getRelation())) {
+                            cMaternal = cMaternal + 1;
+                        }
                     }
                     else if(checkDirect2.contains(r.getRelation())){
+
+
+
                         direct2.add(r.getRelation());
                         direct2Age.add(i.getAge_detected());
+                        if (paternalSide.contains(r.getRelation())){
+
+                            cPaternal = cPaternal + 1;
+                        } else if (maternalSide.contains(r.getRelation())) {
+                            cMaternal = cMaternal + 1;
+                        }
+
+
+
+
                     }
                     else if(checkDirect3.contains(r.getRelation()))
                     {
-                        if (paternalSide.contains(relativeRepository.findByName(r.getParentName()).getRelation()))
-                            cPaternal+=1;
+
+                        if (paternalSide.contains(relativeRepository.findByName(r.getParentName()).getRelation())) {
+                            cPaternal += 1;
+                        }
                         if (maternalSide.contains(relativeRepository.findByName(r.getParentName()).getRelation()))
                             cMaternal+=1;
 
@@ -101,32 +121,12 @@ public class GenogramService {
             }
         }
 
+
         //Xét Trực hệ 3 trước vì Trực hệ 3 chỉ cần là số lượng
 
-        temp=new ArrayList<>(direct2);
-        temp.retainAll(paternalSide);
-        cPaternal+=temp.size();
-        temp=new ArrayList<>(direct1);
-        temp.retainAll(paternalSide);
-        cPaternal+=temp.size();
-        if (cPaternal>=3)
-        {
-            result.add("UNGTHUVU_CAO");
+        if (cMaternal >= 3 || cPaternal >= 3){
+            result.add("UNGTHUVUCAO");
         }
-        else {
-
-            temp=new ArrayList<>(direct2);
-            temp.retainAll(maternalSide);
-            cMaternal+=temp.size();
-            temp=new ArrayList<>(direct1);
-            temp.retainAll(maternalSide);
-            cMaternal+=temp.size();
-
-
-            if (cMaternal>=3)
-            {
-                result.add("UNGTHUVU_CAO");
-            }
             else
 
             //Trực hệ 1 >= 2
@@ -156,21 +156,21 @@ public class GenogramService {
                             if ((direct1.stream().anyMatch(String -> Objects.equals(String, "Cha")) && direct2.stream().anyMatch(paternalSide::contains)) || (direct1.stream().anyMatch(String -> Objects.equals(String, "Mẹ")) && direct2.stream().anyMatch(maternalSide::contains))) {
                                 // Nếu trực hệ 2 < 50 tuổi
                                 if (direct2Age.stream().anyMatch(integer -> integer > 0) && direct2Age.stream().anyMatch(integer -> integer < 50)) {
-                                    result.add("UNGTHUVU_CAO_th2<50");
+                                    result.add("UNGTHUVU_CAO");
                                 }
                                 // Nếu trực hệ 2 >= 50 tuổi
                                 else {
-                                    result.add("UNGTHUVU_THAP_th2>=50");
+                                    result.add("UNGTHUVU_THAP");
                                 }
                             }
                             // Nếu ko cùng bên trực hệ 1
                             else{
-                                result.add("UNGTHUVU_THAP_conlai");
+                                result.add("UNGTHUVU_THAP");
                             }
                         }
                         // ko phải cha/mẹ
                         else {
-                            result.add("UNGTHUVU_THAP_kophaichame");
+                            result.add("UNGTHUVU_THAP");
                         }
                     }
 
@@ -336,7 +336,7 @@ public class GenogramService {
                     }
                     else
                     {
-                            result.add("UNGTHUVU_TB");
+                        result.add("UNGTHUVU_TB");
                     }
                 }
 
@@ -349,7 +349,7 @@ public class GenogramService {
                 }
 
             }
-        }
+
 
 
         return result;
