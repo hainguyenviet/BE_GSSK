@@ -3,6 +3,8 @@ package com.gssk.gssk.security.registration;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/registration")
 @CrossOrigin
@@ -12,7 +14,7 @@ public class RegistrationController {
     private RegistrationService registrationService;
 
     @PostMapping(value = "/register", produces = "application/json")
-    public String register(@RequestBody RegistrationRequest request){
+    public String register(@RequestBody @Valid RegistrationRequest request){
         return registrationService.register(request);
     }
 

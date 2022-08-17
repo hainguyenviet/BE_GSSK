@@ -1,7 +1,7 @@
 package com.gssk.gssk.security.registration;
 
 import com.gssk.gssk.model.AppUser;
-import com.gssk.gssk.security.password.ValidPassword;
+import com.gssk.gssk.security.password.PasswordConstraintValidator;
 import com.gssk.gssk.service.AppUserService;
 import com.gssk.gssk.security.account.ERole;
 import com.gssk.gssk.security.email.*;
@@ -21,12 +21,18 @@ public class RegistrationService {
     private final EmailValidator emailValidator;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
+    private final PasswordConstraintValidator validator;
 
     public String register(RegistrationRequest request){
         boolean isValidEmail = emailValidator.test(request.getEmail());
         if (!isValidEmail) {
             throw new IllegalStateException("email not valid");
         }
+        boolean isValidPassword = validator.checkPassword(request.getPassword());
+        if(!isValidPassword){
+            return "Mật khẩu bao gồm chữ in hoa, chữ thường, số và kí tự đặc biệt\nĐộ dài từ 8-24 kí tự";
+        }
+
         String token = appUserService.signUpUser(new AppUser(
                 request.getFullName(),
                 request.getEmail(),

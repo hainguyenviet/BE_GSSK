@@ -1,9 +1,7 @@
 package com.gssk.gssk.model;
 
 import com.gssk.gssk.security.account.ERole;
-import com.gssk.gssk.security.password.ValidPassword;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -41,7 +39,6 @@ public class AppUser implements UserDetails {
     @Column(name = "email")
     private String email;
 
-    @ValidPassword
     @NotNull
     @Column(name = "password")
     private String password;
@@ -53,14 +50,6 @@ public class AppUser implements UserDetails {
     private Boolean locked = false;
     @Column(name = "is_enabled")
     private Boolean enabled = false;
-
-//    @OneToOne(mappedBy = "appUser_id", cascade = CascadeType.ALL)
-//    private Person person_id;
-
-//    @OneToOne(targetEntity = Person.class, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "person_id", referencedColumnName = "id")
-//    private Person person;
-
 
     public AppUser(String email, String password, ERole role, Boolean locked, Boolean enabled){
         this.email = email;
