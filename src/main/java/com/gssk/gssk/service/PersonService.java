@@ -96,6 +96,7 @@ public class PersonService {
                             r.setFamilyOrder(nr.getFamilyOrder());
                             r.setFamilyOrderOther(nr.getFamilyOrderOther());
                             r.setIsDead(nr.getIsDead());
+                            r.setParentName(nr.getParentName());
                             if (nr.getIllnessRelative() != null) {
                                 if (!r.getIllnessRelative().isEmpty()) {
                                     List<Illness> oldList = r.getIllnessRelative(), newList = nr.getIllnessRelative();

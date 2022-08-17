@@ -1,6 +1,7 @@
 package com.gssk.gssk.security.registration;
 
 import com.gssk.gssk.model.AppUser;
+import com.gssk.gssk.security.password.ValidPassword;
 import com.gssk.gssk.service.AppUserService;
 import com.gssk.gssk.security.account.ERole;
 import com.gssk.gssk.security.email.*;

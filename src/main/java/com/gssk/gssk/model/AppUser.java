@@ -1,6 +1,7 @@
 package com.gssk.gssk.model;
 
 import com.gssk.gssk.security.account.ERole;
+import com.gssk.gssk.security.password.ValidPassword;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
+
 
 @Data
 @AllArgsConstructor
@@ -38,6 +40,8 @@ public class AppUser implements UserDetails {
     @NotNull
     @Column(name = "email")
     private String email;
+
+    @ValidPassword
     @NotNull
     @Column(name = "password")
     private String password;
