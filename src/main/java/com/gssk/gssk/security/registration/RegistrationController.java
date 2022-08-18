@@ -34,7 +34,7 @@ public class RegistrationController {
     }
 
     @GetMapping(path = "reset_confirm")
-    public String resetconfirm(@RequestParam("resettoken") String resettoken){
-        return registrationService.confirmResetToken(resettoken);
+    public String reset_confirm(@RequestParam("token") String token){
+        return registrationService.confirmResetToken(token);
     }
 }
