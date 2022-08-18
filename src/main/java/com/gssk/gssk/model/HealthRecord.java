@@ -25,7 +25,9 @@ public class HealthRecord {
 
     @Column(name = "is_adopted")
     private String isAdopted;
-
+    
+    @Column(name = "relationship")
+    private String realationship;
 
     @Column(name = "height")
     private Integer height;

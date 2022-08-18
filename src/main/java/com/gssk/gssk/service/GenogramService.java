@@ -380,7 +380,7 @@ public class GenogramService {
             if (!i.getName().isEmpty()){
                 attributes.add(i.getName());
             }
-            if (!i.getIllName().isEmpty()){
+            if (i.getIllName()!= null){
                 illnessName.add(i.getIllName());
             }
         }

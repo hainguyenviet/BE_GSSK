@@ -1,5 +1,3 @@
--- -- use metree;
---
 -- CREATE TABLE IF not EXISTS tbl_person (
 --                           id VARCHAR(250) PRIMARY KEY,
 --                           first_name VARCHAR(250) NOT NULL,
