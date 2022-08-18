@@ -77,7 +77,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
         response.setHeader("access_token", access_token);
         response.setHeader("username", oAuth2User.getEmail());
-        String mail = oAuth2User.getEmail();
+
 
         Cookie cookie = new Cookie("access_token", access_token);
         Cookie cookie1 = new Cookie("email", oAuth2User.getEmail());
@@ -85,7 +85,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         cookie1.setPath("/");
         response.addCookie(cookie);
         response.addCookie(cookie1);
-        response.sendRedirect("http://localhost:4200/info;email="+mail+";token="+access_token);
+        response.sendRedirect("http://localhost:4200");
 
 
     }
