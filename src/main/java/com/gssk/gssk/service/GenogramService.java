@@ -49,6 +49,8 @@ public class GenogramService {
         List<Integer> Mark = new ArrayList<>();//đánh dấu cho Trực hệ 2
         boolean flag;//đánh dấu sự kiện
 
+        Relative temp;
+
         List<String> result = new ArrayList<>();
         // lưu trực hệ 1 bệnh
         List<String> direct1 = new ArrayList<>();
@@ -110,12 +112,14 @@ public class GenogramService {
                     else if(checkDirect3.contains(r.getRelation()))
                     {
 
-                        if (paternalSide.contains(relativeRepository.findByName(r.getParentName()).getRelation())) {
-                            cPaternal += 1;
+                        temp=relativeList.stream().filter(target->r.getParentName().equals(target.getName())).findAny().orElse(null);
+                        if (temp!=null) {
+                            if (paternalSide.contains(relativeRepository.findByRid(temp.getRid()).getRelation())) {
+                                cPaternal += 1;
+                            }
+                            if (maternalSide.contains(relativeRepository.findByRid(temp.getRid()).getRelation()))
+                                cMaternal += 1;
                         }
-                        if (maternalSide.contains(relativeRepository.findByName(r.getParentName()).getRelation()))
-                            cMaternal+=1;
-
                     }
                 }
             }

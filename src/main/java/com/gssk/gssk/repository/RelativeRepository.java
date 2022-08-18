@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface RelativeRepository extends JpaRepository<Relative, String> {
-    Relative findByName(String name);
+    Relative findByRid(long rid);
 
 }
 
