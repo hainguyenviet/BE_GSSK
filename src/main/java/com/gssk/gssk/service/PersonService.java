@@ -9,10 +9,8 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -23,7 +21,6 @@ import java.util.Objects;
 public class PersonService {
     @Autowired
     PersonRepository personRepository;
-
 
 
     public List<Person> getAllPerson(Integer PageNo, Integer PageSize) {

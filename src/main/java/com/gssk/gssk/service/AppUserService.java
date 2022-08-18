@@ -6,6 +6,7 @@ import com.gssk.gssk.security.registration.token.ConfirmationToken;
 import com.gssk.gssk.security.registration.token.ConfirmationTokenService;
 import com.gssk.gssk.repository.AppUserRepository;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +15,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -29,6 +35,8 @@ public class AppUserService implements UserDetailsService {
     private final ConfirmationTokenService confirmationTokenService;
 
     private final PersonService personService;
+    static final String Generator = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    static SecureRandom rnd = new SecureRandom();
 
 
     @Override
@@ -58,6 +66,17 @@ public class AppUserService implements UserDetailsService {
         AppUser appUser = appUserRepository.findByEmail(user.getEmail());
 
         Person person = new Person();
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyMMdd");
+        String concat = date.format(dateTimeFormatter);
+        System.out.print(concat);
+
+        int len = 8;
+        StringBuilder sb = new StringBuilder(len);
+        for (int i=0; i<len; i++){
+            sb.append(Generator.charAt(rnd.nextInt(Generator.length())));
+        }
+        person.setAppID(concat+sb);
         person.setUsername(appUser.getUsername());
         person.setHealthRecord(new HealthRecord());
 

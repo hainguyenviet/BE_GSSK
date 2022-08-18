@@ -1,7 +1,8 @@
 package com.gssk.gssk.security.registration;
 
 import com.gssk.gssk.model.AppUser;
-import com.gssk.gssk.security.password.PasswordConstraintValidator;
+import com.gssk.gssk.security.validator.PasswordConstraintValidator;
+import com.gssk.gssk.security.validator.EmailValidator;
 import com.gssk.gssk.service.AppUserService;
 import com.gssk.gssk.security.account.ERole;
 import com.gssk.gssk.security.email.*;
@@ -11,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 
 @Service

@@ -1,4 +1,4 @@
-package com.gssk.gssk.security.password;
+package com.gssk.gssk.security.validator;
 import org.passay.*;
 import org.springframework.stereotype.Service;
 import java.util.Arrays;
@@ -15,7 +15,6 @@ public class PasswordConstraintValidator{
 
         RuleResult ruleResult = validator.validate(new PasswordData(password));
         if (ruleResult.isValid()){
-            System.out.print("true");
             return true;
         }
 
