@@ -46,10 +46,8 @@ public class RegistrationService {
                 ERole.USER
                 )
         );
-
-//        String link = "http://giasusuckhoe.vn/gssk-1.0.0/api/registration/confirm?token=" + token;
-//        emailSender.send(request.getEmail(), buildEmail(request.getFullName(), link));
-         String link = "http://localhost:8080/api/registration/confirm?token=" + token;
+        
+         String link = "http://localhost:4200/info;token=" + token;
          emailSender.send(request.getEmail(), buildEmail(request.getFullName(), link));
 
         return token;
@@ -151,7 +149,7 @@ public class RegistrationService {
             ConfirmationToken confirmationEnableToken = new ConfirmationToken(enabletoken, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15), user);
             confirmationTokenService.saveConfirmationToken(confirmationEnableToken);
 
-            String link = "http://localhost:8080/api/registration/confirm?token=" + enabletoken;
+            String link = "http://localhost:4200/info;token=" + enabletoken;
             emailSender.send(request.getEmail(), buildEmail(request.getFullName(), link));
 
             return enabletoken;
@@ -164,7 +162,7 @@ public class RegistrationService {
 
         appUserService.updateResetPasswordToken(token, email);
 
-        String resetPasswordLink = "http://localhost:8080/api/registration/reset_confirm?token=" + token;
+        String resetPasswordLink = "http://localhost:4200/info;token=" + token;
         emailSender.send(email, buildResetEmail(email, resetPasswordLink));
 
         return token;
