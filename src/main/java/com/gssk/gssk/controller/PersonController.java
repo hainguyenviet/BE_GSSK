@@ -28,7 +28,7 @@ public class PersonController {
     @Autowired
     AppUserService appUserService;
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(value = "/all", produces = "application/json")
     public ResponseEntity<List<Person>> getAllPerson(@RequestParam(defaultValue = "0") Integer pageNo,
                                                     @RequestParam(defaultValue = "10") Integer pageSize) {
