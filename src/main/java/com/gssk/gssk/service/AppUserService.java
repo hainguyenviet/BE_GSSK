@@ -1,6 +1,7 @@
 package com.gssk.gssk.service;
 
 import com.gssk.gssk.model.*;
+import com.gssk.gssk.security.AppUserNotFoundException;
 import com.gssk.gssk.security.account.ERole;
 import com.gssk.gssk.security.registration.token.ConfirmationToken;
 import com.gssk.gssk.security.registration.token.ConfirmationTokenService;
@@ -47,7 +48,8 @@ public class AppUserService implements UserDetailsService {
         }
         else {
             List<SimpleGrantedAuthority> authorities = null;
-            authorities = Arrays.asList(new SimpleGrantedAuthority(user.getRole().toString()));
+            assert user != null;
+            authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole().toString()));
             return new User(user.getUsername(), user.getPassword(), authorities);
         }
     }
@@ -79,6 +81,7 @@ public class AppUserService implements UserDetailsService {
         person.setAppID(concat+sb);
         person.setUsername(appUser.getUsername());
         person.setHealthRecord(new HealthRecord());
+        person.setEmail(appUser.getEmail());
 
         List<Relative> relativeList = new ArrayList<Relative>();
         Relative r = new Relative();
@@ -134,15 +137,39 @@ public class AppUserService implements UserDetailsService {
         appUserRepository.delete(appUser);
     }
 
-    public AppUser updateAccount(Long id, AppUser appUserRequest){
-        AppUser appUser = appUserRepository.findById(id).get();
+    public AppUser updateAccount(String username, AppUser appUserRequest){
+        AppUser appUser = appUserRepository.findByEmail(username);
         appUser.setFullName(appUserRequest.getFullName());
         appUser.setEmail(appUserRequest.getEmail());
         String encodedPassword = bCryptPasswordEncoder.encode(appUser.getPassword());
         appUser.setPassword(encodedPassword);
-//        appUser.setPassword(appUserRequest.getPassword());
         appUser.setEnabled(appUserRequest.getEnabled());
         appUser.setLocked(appUserRequest.getLocked());
+//         appUser.setUpdateAt(LocalDateTime.now());
         return appUserRepository.save(appUser);
+    }
+
+
+    public void updateResetPasswordToken(String token, String email) throws AppUserNotFoundException {
+        AppUser appUser = appUserRepository.findByEmail(email);
+        if (appUser != null) {
+            appUser.setResetPasswordToken(token);
+            appUserRepository.save(appUser);
+        } else {
+            throw new AppUserNotFoundException("User not found in DB");
+        }
+    }
+
+    public AppUser getByResetPasswordToken(String token) {
+        return appUserRepository.findByResetPasswordToken(token);
+    }
+
+    public void updatePassword(AppUser appUser, String newPassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        appUser.setPassword(encodedPassword);
+
+        appUser.setResetPasswordToken(null);
+        appUserRepository.save(appUser);
     }
 }

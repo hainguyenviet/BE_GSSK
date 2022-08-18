@@ -1,5 +1,6 @@
 package com.gssk.gssk.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gssk.gssk.security.account.ERole;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -8,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
@@ -30,6 +32,7 @@ public class AppUser implements UserDetails {
             strategy = GenerationType.SEQUENCE,
             generator = "account_sequence"
     )
+
     @Column(name = "id")
     private Long id;
     @NotNull
@@ -50,6 +53,17 @@ public class AppUser implements UserDetails {
     private Boolean locked = false;
     @Column(name = "is_enabled")
     private Boolean enabled = false;
+
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
+
+     @NotNull
+     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+     @Column(name="created_at")
+     private LocalDateTime createdAt = LocalDateTime.now();
+     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+     @Column(name = "update_at")
+     private LocalDateTime updateAt = LocalDateTime.now();
 
     public AppUser(String email, String password, ERole role, Boolean locked, Boolean enabled){
         this.email = email;
