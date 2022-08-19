@@ -45,7 +45,7 @@ public class GenogramService {
         return result;
     }
 
-    public List<String> risk(String username){
+    public List<String> riskUTV(String username){
         List<Integer> Mark = new ArrayList<>();//đánh dấu cho Trực hệ 2
         boolean flag;//đánh dấu sự kiện
 
@@ -363,7 +363,323 @@ public class GenogramService {
         return result;
     }
 
+    public List<String> riskUTDTT(String username){
+        List<Integer> Mark = new ArrayList<>();//đánh dấu cho Trực hệ 2
+        boolean flag;//đánh dấu sự kiện
 
+        Relative temp;
+
+        List<String> result = new ArrayList<>();
+        // lưu trực hệ 1 bệnh
+        List<String> direct1 = new ArrayList<>();
+        // lưu trực hệ 2 bệnh
+        List<String> direct2 = new ArrayList<>();
+        //lưu trực hệ 3 bệnh
+        //Nội
+        int cPaternal=0;
+        //Ngoại
+        int cMaternal=0;
+
+        // Kiểm tra relation thuộc trực hệ 1
+        List<String> checkDirect1 = new ArrayList<>(Arrays.asList("Cha", "Mẹ", "Anh ruột", "Em ruột", "Chị ruột", "Con ruột"));
+        // Kiểm tra relation thuộc trực hệ 2
+        List<String> checkDirect2 = new ArrayList<>(Arrays.asList("Ông nội", "Bà nội", "Ông ngoại", "Bà ngoại", "Cô", "Dì", "Chú",
+                "Cậu"));
+        // Kiểm tra relation thuộc trực hệ 3
+        List<String> checkDirect3 = new ArrayList<>(Arrays.asList("Anh trai họ", "Em trai họ", "Em gái họ", "Chị gái họ"));
+        // bên phả hệ nội
+        List<String> paternalSide = new ArrayList<>(Arrays.asList("Ông nội", "Bà nội", "Cha", "Cô", "Chú"));
+        // bên phả hệ ngoại
+        List<String> maternalSide = new ArrayList<>(Arrays.asList("Ông ngoại", "Bà ngoại", "Mẹ", "Dì","Cậu"));
+        List<Integer> direct1Age = new ArrayList<>();
+        List<Integer> direct2Age = new ArrayList<>();
+        Person person = personRepository.findByUsername(username);
+        List<Relative> relativeList = person.getRelativeList();
+
+        for (Relative r: relativeList){
+            List<Illness> illnessRelative = r.getIllnessRelative();
+            for (Illness i : illnessRelative){
+                if (Objects.equals(i.getIllName(),"Ung thư đại trực tràng")){
+                    if (checkDirect1.contains(r.getRelation())){
+                        direct1.add(r.getRelation());
+                        direct1Age.add((i.getAge_detected()));
+
+                        if (paternalSide.contains(r.getRelation())){
+                            cPaternal = cPaternal + 1;
+                        } else if (maternalSide.contains(r.getRelation())) {
+                            cMaternal = cMaternal + 1;
+                        }
+                    }
+                    else if(checkDirect2.contains(r.getRelation())){
+
+
+
+                        direct2.add(r.getRelation());
+                        direct2Age.add(i.getAge_detected());
+                        if (paternalSide.contains(r.getRelation())){
+
+                            cPaternal = cPaternal + 1;
+                        } else if (maternalSide.contains(r.getRelation())) {
+                            cMaternal = cMaternal + 1;
+                        }
+
+
+
+
+                    }
+                    else if(checkDirect3.contains(r.getRelation()))
+                    {
+
+                        temp=relativeList.stream().filter(target->r.getParentName().equals(target.getName())).findAny().orElse(null);
+                        if (temp!=null) {
+                            if (paternalSide.contains(relativeRepository.findByRid(temp.getRid()).getRelation())) {
+                                cPaternal += 1;
+                            }
+                            if (maternalSide.contains(relativeRepository.findByRid(temp.getRid()).getRelation()))
+                                cMaternal += 1;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        //Xét Trực hệ 3 trước vì Trực hệ 3 chỉ cần là số lượng
+
+        if (cMaternal >= 3 || cPaternal >= 3){
+            result.add("UNGTHUVU_CAO");
+        }
+        else
+
+            //Trực hệ 1 >= 2
+            if (direct1.size() >= 2) {
+                result.add("UNGTHUVU_CAO");
+            }
+            //Trực hệ 1 = 1
+            else if (direct1.size() == 1) {
+                // Khởi phát sớm (<50 tuổi)
+                if (direct1Age.stream().anyMatch(integer -> integer > 0) && direct1Age.stream().anyMatch(integer -> integer < 50)) {
+                    result.add("UNGTHUVU_CAO");
+                }
+                // Khởi phát muộn (>=50 tuổi)
+                else {
+
+                    // Nếu trực hệ 2 = 0 (chưa xong)
+                    if (direct2.size() == 0) {
+                        result.add("UNGTHUVU_TB");
+                    }
+                    // Nếu trực hệ 2 = 1 (Tuấn Anh)
+                    if (direct2.size() == 1){
+
+
+                        // Nếu trực hệ 1 là Cha/Mẹ
+                        if (direct1.stream().anyMatch(String -> Objects.equals(String, "Cha")) || direct1.stream().anyMatch(String -> Objects.equals(String, "Mẹ"))) {
+                            //Nếu trực hệ 2 cùng bên với trực hệ 1
+                            if ((direct1.stream().anyMatch(String -> Objects.equals(String, "Cha")) && direct2.stream().anyMatch(paternalSide::contains)) || (direct1.stream().anyMatch(String -> Objects.equals(String, "Mẹ")) && direct2.stream().anyMatch(maternalSide::contains))) {
+                                // Nếu trực hệ 2 < 50 tuổi
+                                if (direct2Age.stream().anyMatch(integer -> integer > 0) && direct2Age.stream().anyMatch(integer -> integer < 50)) {
+                                    result.add("UNGTHUVU_CAO");
+                                }
+                                // Nếu trực hệ 2 >= 50 tuổi
+                                else {
+                                    result.add("UNGTHUVU_THAP");
+                                }
+                            }
+                            // Nếu ko cùng bên trực hệ 1
+                            else{
+                                result.add("UNGTHUVU_THAP");
+                            }
+                        }
+                        // ko phải cha/mẹ
+                        else {
+                            result.add("UNGTHUVU_THAP");
+                        }
+                    }
+
+
+                    // Nếu trực hệ 2 > 1 (Chương)
+
+                    if (direct2.size() > 1) {
+                        flag = false;
+
+
+                        if (Objects.equals(direct1.get(0), "Mẹ")) {
+                            cMaternal = 0;
+
+                            for (String check : direct2) {
+                                if (maternalSide.contains(check)) {
+                                    cMaternal++;
+                                    Mark.add(direct2Age.get(direct2.indexOf(check)));
+                                }
+                            }
+                            if (cMaternal == 1) {
+                                flag = true;
+                                if (Mark.get(0) < 50)
+                                    result.add("UNGTHUVU_CAO");
+                                else
+                                    result.add("UNGTHUVU_TB");
+                            }
+                            if (cMaternal == 0) {
+                                result.add("UNGTHUVU_TB");
+                            }
+                        }
+
+                        if (Objects.equals(direct1.get(0), "Cha")) {
+                            cPaternal = 0;
+
+                            for (String check : direct2) {
+                                if (paternalSide.contains(check)) {
+                                    cPaternal++;
+                                    Mark.add(direct2Age.get(direct2.indexOf(check)));
+                                }
+                            }
+                            if (cPaternal == 1) {
+                                flag = true;
+                                if (Mark.get(0) < 50)
+                                    result.add("UNGTHUVU_CAO");
+                                else
+                                    result.add("UNGTHUVU_TB");
+                            }
+                            if (cPaternal == 0) {
+                                result.add("UNGTHUVU_TB");
+
+                            }
+                        }
+
+                        if(!flag) {
+                            //xét bên nội
+                            cPaternal = 0;
+                            for (String check : direct2) {
+                                if (paternalSide.contains(check)) {
+                                    cPaternal++;
+                                    Mark.add(direct2Age.get(direct2.indexOf(check)));
+                                }
+                            }
+                            if (cPaternal == 2) {
+                                if (Mark.stream().anyMatch(integer -> integer > 0) && Mark.stream().anyMatch(integer -> integer < 50)) {
+                                    result.add("UNGTHUVU_CAO");
+                                } else
+                                    result.add("UNGTHUVU_TB");
+                            }
+
+
+                            //xét bên ngoại
+                            cMaternal = 0;
+                            for (String check : direct2) {
+                                if (maternalSide.contains(check)) {
+                                    cMaternal++;
+                                    Mark.add(direct2Age.get(direct2.indexOf(check)));
+                                }
+                            }
+
+                            if (cMaternal == 2) {
+                                if (Mark.stream().anyMatch(integer -> integer > 0) && Mark.stream().anyMatch(integer -> integer < 50)) {
+                                    result.add("UNGTHUVU_CAO");
+                                } else
+                                    result.add("UNGTHUVU_TB");
+                            }
+
+                            if (cPaternal<2 && cMaternal<2)
+                            {
+                                result.add("UNGTHUVU_TB");
+                            }
+
+
+
+                        }
+                    }
+
+
+                }
+
+
+            }
+
+
+
+            // Trực hệ 1 = 0
+            else {
+                // Trực hệ 2 = 0
+                if (direct2.size() == 0 || direct2.size() == 1) {
+                    result.add("UNGTHUVU_THAP");
+                }
+
+
+                // Trực hệ 2 = 2
+                if (direct2.size() == 2) {
+                    if (paternalSide.containsAll(direct2) || maternalSide.containsAll(direct2)) {
+                        if (direct2Age.stream().anyMatch(integer -> integer > 0) && direct2Age.stream().anyMatch(integer -> integer < 50)) {
+                            result.add("UNGTHUVU_CAO");
+                        } else {
+                            result.add("UNGTHUVU_TB");
+                        }
+                    }
+                    else
+                        result.add("UNGTHUVU_THAP");
+                }
+
+
+
+                //WIP
+                if (direct2.size() >=3) {
+                    //xét bên nội
+                    cPaternal = 0;
+                    for (String check : direct2) {
+                        if (paternalSide.contains(check)) {
+                            cPaternal++;
+                            Mark.add(direct2Age.get(direct2.indexOf(check)));
+                        }
+                    }
+                    if (cPaternal>=2)
+                    {
+                        if(Mark.stream().anyMatch(integer -> integer > 0)&&Mark.stream().anyMatch(integer -> integer < 50))
+                        {
+                            result.add("UNGTHUVU_CAO");
+                        }
+                        else
+                        {
+                            result.add("UNGTHUVU_TB");
+                        }
+                    }
+
+
+                    //xét bên ngoại
+                    cMaternal=0;
+                    for(String check: direct2)
+                    {
+                        if (maternalSide.contains(check))
+                        {
+                            cMaternal++;
+                            Mark.add(direct2Age.get(direct2.indexOf(check)));
+                        }
+                    }
+
+                    if (cMaternal>=2)
+                    {
+                        if(Mark.stream().anyMatch(integer -> integer > 0)&&Mark.stream().anyMatch(integer -> integer < 50))
+                        {
+                            result.add("UNGTHUVU_CAO");
+                        }
+                        else
+                        {
+                            result.add("UNGTHUVU_TB");
+                        }
+                    }
+
+                    if (cPaternal<2 && cMaternal<2)
+                    {
+                        result.add("UNGTHUVU_THAP");
+                    }
+
+
+                }
+
+            }
+
+
+
+        return result;
+    }
 
     public void ConvertPersonToGenogram(String username){
         List<Genogram> genogramList = new ArrayList<>();
