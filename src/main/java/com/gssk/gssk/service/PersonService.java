@@ -31,6 +31,10 @@ public class PersonService {
         return personRepository.save(person);
     }
 
+    public Boolean containsRelation(final List<Relative> list, final String relation){
+        return list.stream().map(Relative::getRelation).anyMatch(relation::equals);
+    }
+
     public Person updatePerson(String username, Person personRequest) {
         Person person = personRepository.findByUsername(username);
         person.setFirstName(personRequest.getFirstName());
@@ -75,7 +79,32 @@ public class PersonService {
             if (newRelativeList.isEmpty() && !relativeList.isEmpty()) {
                 relativeList.clear();
             } else if (!relativeList.isEmpty()) {
-                    person.setRelativeList(newRelativeList);
+                if (!containsRelation(newRelativeList, "Cha")){
+                        Relative father = new Relative("Cha", "Cha", "Nam");
+                        newRelativeList.add(father);
+                }
+                if (!containsRelation(newRelativeList, "Mẹ")){
+                    Relative mother = new Relative("Mẹ", "Mẹ", "Nữ");
+                    newRelativeList.add(mother);
+                }
+                if (!containsRelation(newRelativeList, "Ông nội")){
+                    Relative p_grandfather = new Relative("Ông nội", "Ông nội", "Nam");
+                    newRelativeList.add(p_grandfather);
+                }
+                if (!containsRelation(newRelativeList, "Bà nội")){
+                    Relative p_grandmother = new Relative("Bà nội", "Bà nội", "Nữ");
+                    newRelativeList.add(p_grandmother);
+                }
+                if (!containsRelation(newRelativeList, "Ông ngoại")){
+                    Relative m_grandfather = new Relative("Ông ngoại", "Ông ngoại", "Nam");
+                    newRelativeList.add(m_grandfather);
+                }
+                if (!containsRelation(newRelativeList, "Bà ngoại")){
+                    Relative m_grandmother = new Relative("Bà ngoại", "Bà ngoại", "Nữ");
+                    newRelativeList.add(m_grandmother);
+                }
+
+                person.setRelativeList(newRelativeList);
                 }
             }
 

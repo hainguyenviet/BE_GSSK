@@ -10,6 +10,8 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "tbl_relative")
 public class Relative {
@@ -53,5 +55,11 @@ public class Relative {
     @OneToMany(targetEntity = Illness.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "relativeId", referencedColumnName = "relativeId")
     private List<Illness> illnessRelative;
+
+    public Relative(String relation, String name, String gender){
+        this.relation = relation;
+        this.name = name;
+        this.gender = gender;
+    }
 
 }
