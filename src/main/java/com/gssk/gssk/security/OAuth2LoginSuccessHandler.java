@@ -29,6 +29,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -40,6 +43,8 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
     @Autowired
     PersonService personService;
+    static final String Generator = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    static SecureRandom rnd = new SecureRandom();
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -53,7 +58,19 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
             Person person = new Person();
             person.setUsername(email);
+            LocalDate date = LocalDate.now();
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyMMdd");
+            String concat = date.format(dateTimeFormatter);
+            System.out.print(concat);
+
+            int len = 8;
+            StringBuilder sb = new StringBuilder(len);
+            for (int i=0; i<len; i++){
+                sb.append(Generator.charAt(rnd.nextInt(Generator.length())));
+            }
+            person.setAppID(concat+sb);
             person.setHealthRecord(new HealthRecord());
+            person.setEmail(email);
 
             List<Relative> relativeList = new ArrayList<Relative>();
             Relative r = new Relative();
@@ -96,7 +113,6 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 //        response.addCookie(cookie);
 //        response.addCookie(cookie1);
         response.sendRedirect("http://localhost:4200/info;email="+mail+";token="+access_token);
-
 
     }
 

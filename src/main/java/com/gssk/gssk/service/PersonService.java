@@ -7,7 +7,8 @@ import com.gssk.gssk.model.Relative;
 import com.gssk.gssk.repository.PersonRepository;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -18,8 +19,11 @@ public class PersonService {
     @Autowired
     PersonRepository personRepository;
 
-    public Iterable<Person> getAllPerson() {
-        return personRepository.findAll();
+
+    public List<Person> getAllPerson(Integer PageNo, Integer PageSize) {
+        org.springframework.data.domain.Pageable paging = (org.springframework.data.domain.Pageable) PageRequest.of(PageNo, PageSize);
+        Page<Person> result = personRepository.findAll((org.springframework.data.domain.Pageable) paging);
+        return result.getContent();
     }
 
     public Person getPersonByUsername(String username) {

@@ -29,4 +29,14 @@ public class GenogramController {
     public void generateGenofromID(@PathVariable("username") String username){
         genogramService.ConvertPersonToGenogram(username);
     }
+
+    @GetMapping(value = "/riskUTV/{username}", produces = "application/json")
+    public List<String> riskUTV(@PathVariable("username") String username){
+        return (List<String>)genogramService.riskUTV(username);
+    }
+
+    @GetMapping(value = "/riskUTDTT/{username}", produces = "application/json")
+    public List<String> riskUTDTT(@PathVariable("username") String username){
+        return (List<String>)genogramService.riskUTDTT(username);
+    }
 }

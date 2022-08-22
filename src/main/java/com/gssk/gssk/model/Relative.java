@@ -52,6 +52,9 @@ public class Relative {
     @Column(name = "death_cause")
     private String deathCause;
 
+    @Column(name = "parent_name")
+    private String parentName;
+
     @OneToMany(targetEntity = Illness.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "relativeId", referencedColumnName = "relativeId")
     private List<Illness> illnessRelative;

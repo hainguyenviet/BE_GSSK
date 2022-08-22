@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.text.DateFormat;
 import java.util.*;
 
@@ -15,6 +16,9 @@ public class Person {
     @GeneratedValue(generator = "identity")
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "app_id")
+    private String appID;
 
     @Column(name="first_name")
     private String firstName;
