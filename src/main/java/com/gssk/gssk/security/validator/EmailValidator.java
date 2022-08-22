@@ -1,4 +1,4 @@
-package com.gssk.gssk.security.registration;
+package com.gssk.gssk.security.validator;
 
 import org.springframework.stereotype.Service;
 
