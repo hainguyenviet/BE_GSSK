@@ -11,10 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 
 @Service
@@ -36,6 +33,10 @@ public class PersonService {
     @SneakyThrows
     public Person addNewPerson(Person person) {
         return personRepository.save(person);
+    }
+
+    public Boolean containsRelation(final List<Relative> list, final String relation){
+        return list.stream().map(Relative::getRelation).anyMatch(relation::equals);
     }
 
     public Person updatePerson(String username, Person personRequest) {
@@ -76,57 +77,40 @@ public class PersonService {
         if (personRequest.getRelativeList() != null){
             List<Relative> newRelativeList = personRequest.getRelativeList();
             List<Relative> relativeList = person.getRelativeList();
-            List<Relative> toRemove = new ArrayList<>();
-            List<Relative> duplicate = new ArrayList<>();
+
+
 
             if (newRelativeList.isEmpty() && !relativeList.isEmpty()) {
                 relativeList.clear();
             } else if (!relativeList.isEmpty()) {
-                for (Relative r : relativeList) {
-                    for (Relative nr : newRelativeList) {
-                        if (Objects.equals(r.getRelation(), nr.getRelation())) {
-                            r.setName(nr.getName());
-                            r.setAge(nr.getAge());
-                            r.setGender(nr.getGender());
-                            r.setDeath_age(nr.getDeath_age());
-                            r.setDeathCause(nr.getDeathCause());
-                            r.setFamilyOrder(nr.getFamilyOrder());
-                            r.setFamilyOrderOther(nr.getFamilyOrderOther());
-                            r.setIsDead(nr.getIsDead());
-                            r.setParentName(nr.getParentName());
-                            if (nr.getIllnessRelative() != null) {
-                                if (!r.getIllnessRelative().isEmpty()) {
-                                    List<Illness> oldList = r.getIllnessRelative(), newList = nr.getIllnessRelative();
-                                    Iterator<Illness> oldIt = oldList.iterator(), newIt = newList.iterator();
-                                    while (oldIt.hasNext() && newIt.hasNext()) {
-                                        newIt.next().setId(oldIt.next().getId());
-                                    }
-                                    r.setIllnessRelative(newList);
-                                } else {
-                                    r.setIllnessRelative(nr.getIllnessRelative());
-                                }
-                            } else {
-                                r.getIllnessRelative().clear();
-                            }
-                            duplicate.add(nr);
-                            break;
-                        } else if (newRelativeList.indexOf(nr) == (newRelativeList.size() - 1) && (!Objects.equals(r.getRelation(), nr.getRelation()))) {
-                            toRemove.add(r);
-                        }
-                    }
+                if (!containsRelation(newRelativeList, "Cha")){
+                        Relative father = new Relative("Cha", "Cha", "Nam");
+                        newRelativeList.add(father);
                 }
-                relativeList.removeAll(toRemove);
-                newRelativeList.removeAll(duplicate);
-                relativeList.addAll(newRelativeList);
-            }
-            else {
+                if (!containsRelation(newRelativeList, "Mẹ")){
+                    Relative mother = new Relative("Mẹ", "Mẹ", "Nữ");
+                    newRelativeList.add(mother);
+                }
+                if (!containsRelation(newRelativeList, "Ông nội")){
+                    Relative p_grandfather = new Relative("Ông nội", "Ông nội", "Nam");
+                    newRelativeList.add(p_grandfather);
+                }
+                if (!containsRelation(newRelativeList, "Bà nội")){
+                    Relative p_grandmother = new Relative("Bà nội", "Bà nội", "Nữ");
+                    newRelativeList.add(p_grandmother);
+                }
+                if (!containsRelation(newRelativeList, "Ông ngoại")){
+                    Relative m_grandfather = new Relative("Ông ngoại", "Ông ngoại", "Nam");
+                    newRelativeList.add(m_grandfather);
+                }
+                if (!containsRelation(newRelativeList, "Bà ngoại")){
+                    Relative m_grandmother = new Relative("Bà ngoại", "Bà ngoại", "Nữ");
+                    newRelativeList.add(m_grandmother);
+                }
+
                 person.setRelativeList(newRelativeList);
+                }
             }
-        }
-        else {
-            List<Relative> relativeList = person.getRelativeList();
-            relativeList.clear();
-        }
 
         return personRepository.save(person);
     }

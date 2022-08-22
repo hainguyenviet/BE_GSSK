@@ -104,7 +104,6 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
         response.setHeader("access_token", access_token);
         response.setHeader("username", oAuth2User.getEmail());
-
         String mail = oAuth2User.getEmail();
 
 //        Cookie cookie = new Cookie("access_token", access_token);

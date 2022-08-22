@@ -793,7 +793,7 @@ public class GenogramService {
                 if (!i.getName().isEmpty()){
                     relativeAttributes.add(i.getName());
                 }
-                if (!i.getIllName().isEmpty()){
+                if (i.getIllName() != null){
                     illnessNameRelative.add(i.getIllName());
                 }
             }
