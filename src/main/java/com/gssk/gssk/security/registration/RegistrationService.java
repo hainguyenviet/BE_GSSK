@@ -34,10 +34,10 @@ public class RegistrationService {
         if (!isValidEmail) {
             throw new IllegalStateException("email not valid");
         }
-        boolean isValidPassword = validator.checkPassword(request.getPassword());
-        if(!isValidPassword){
-            return "Mật khẩu bao gồm chữ in hoa, chữ thường, số và kí tự đặc biệt\nĐộ dài từ 8-24 kí tự";
-        }
+//         boolean isValidPassword = validator.checkPassword(request.getPassword());
+//         if(!isValidPassword){
+//             return "Mật khẩu bao gồm chữ in hoa, chữ thường, số và kí tự đặc biệt\nĐộ dài từ 8-24 kí tự";
+//         }
 
         String token = appUserService.signUpUser(new AppUser(
                 request.getFullName(),
