@@ -29,7 +29,7 @@ public class RegistrationService {
     private final EmailSender emailSender;
     private final PasswordConstraintValidator validator;
 
-    public void register(RegistrationRequest request){
+    public String register(RegistrationRequest request){
         boolean isValidEmail = emailValidator.test(request.getEmail());
         if (!isValidEmail) {
             throw new IllegalStateException("email not valid");
