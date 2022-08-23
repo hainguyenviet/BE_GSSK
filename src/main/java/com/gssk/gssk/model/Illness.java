@@ -22,7 +22,7 @@ public class Illness {
     @Column(name = "ill_name_other")
     private String illNameOther;
     @Column(name="name")
-    private String name = "";
+    private String name;
     @Column(name="age_detected")
     private int age_detected;
 }
