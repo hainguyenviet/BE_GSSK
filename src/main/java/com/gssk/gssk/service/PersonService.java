@@ -49,6 +49,7 @@ public class PersonService {
         person.setPhoneNumber(personRequest.getPhoneNumber());
         person.setGender(personRequest.getGender());
         person.setUsername(username);
+        person.setUpdateAt(LocalDateTime.now());
 
         // update health record
         HealthRecord newHealthRecord = personRequest.getHealthRecord(), healthRecord = person.getHealthRecord();
