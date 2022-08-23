@@ -52,4 +52,13 @@ public class Person {
 
     @Column(name= "username")
     private String username;
+    
+    @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+    @Column(name="created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+    @Column(name = "update_at")
+    private LocalDateTime updateAt = LocalDateTime.now();
+
 }
