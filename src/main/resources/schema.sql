@@ -1,77 +1,104 @@
--- CREATE TABLE IF not EXISTS tbl_person (
---                           id VARCHAR(250) PRIMARY KEY,
---                           first_name VARCHAR(250) NOT NULL,
---                           last_name VARCHAR(250) NOT NULL,
---                           birthday DATE,
---                           idCard VARCHAR(250) UNIQUE NOT NULL,
---                           email VARCHAR(250) UNIQUE,
---                           phoneNumber VARCHAR(15) UNIQUE NOT NULL,
---                           gender VARCHAR(2) NOT NULL
--- );
--- --
--- CREATE TABLE IF not EXISTS tbl_relative (
---                         rid VARCHAR(250) ,
---                         pid VARCHAR(250) NOT NULL,
---                         relation VARCHAR(250) NOT NULL,
---                         name VARCHAR(250) NOT NULL
--- );
--- --
--- CREATE TABLE IF not EXISTS tbl_illness (
---                         id VARCHAR(250)   PRIMARY KEY,
---                         code VARCHAR(250) NOT NULL,
---                         name VARCHAR(250) NOT NULL,
---                         hid VARCHAR(250) NOT NULL
--- );
--- --
--- CREATE TABLE IF not EXISTS tbl_health_record (
---                         id VARCHAR(250) PRIMARY KEY,
---                         isTwin BOOLEAN,
---                         isAdopted BOOLEAN,
---                         height smallINT,
---                         weight smallINT,
---                         firstPeriodAge smallINT,
---                         birthControl smallINT,
---                         pregnantTime smallINT,
---                         firstBornAge smallINT,
---                         isSmoke BOOLEAN,
---                         smokeTime smallINT,
---                         giveUpSmokeAge VARCHAR(250),
---                         wineVolume smallINT,
---                         workOutVolume smallINT,
---                         workOutType VARCHAR(250),
---                         pid VARCHAR(250) NOT NULL
--- );
--- --
--- CREATE TABLE IF not EXISTS tbl_genogram(
---                         id VARCHAR(250) PRIMARY KEY,
---                         name VARCHAR(250) NOT NULL,
---                         gender VARCHAR(5) NOT NULL,
---                         motherKey VARCHAR(250) NOT NULL,
---                         fatherKey VARCHAR(250) NOT NULL,
---                         wife VARCHAR(250) UNIQUE,
---                         husband VARCHAR(250) UNIQUE,
---                         attributes VARCHAR(250) NOT NULL,
---                         list_id VARCHAR(250) NOT NULL
--- );
--- --
--- CREATE TABLE IF not EXISTS tbl_account(
---                         id VARCHAR(250) PRIMARY KEY,
---                         full_name VARCHAR(250) NOT NULL,
---                         email VARCHAR(250) UNIQUE NOT NULL,
---                         password VARCHAR(250) NOT NULL,
---                         is_locked BOOLEAN,
---                         is_enabled BOOLEAN
--- );
--- CREATE TABLE IF not EXISTS tbl_confirmation_token(
---                         id VARCHAR(250) PRIMARY KEY,
---                         token VARCHAR(250) NOT NULL,
---                         created_at TIMESTAMP NOT NULL,
---                         expires_at TIMESTAMP NOT NULL,
---                         confirmed_at TIMESTAMP ,
---                         account_id VARCHAR(250)
--- );
+--CREATE TABLE IF not EXISTS tbl_person (
+--                          id BIGINT PRIMARY KEY,
+--                          app_id VARCHAR(255),
+--                          first_name VARCHAR(255),
+--                          last_name VARCHAR(255),
+--                          birthday DATETIME,
+--                          id_card VARCHAR(255),
+--                          email VARCHAR(255),
+--                          phone_number VARCHAR(255),
+--                          gender VARCHAR(255),
+--                          created_at DATE,
+--                          update_at DATE,
+--                          username VARCHAR(255),
+--                          pid BIGINT
+--);
+--CREATE TABLE IF not EXISTS tbl_relative (
+--                        relative_id BIGINT PRIMARY KEY,
+--                        relation VARCHAR(255),
+--                        name VARCHAR(255),
+--                        gender VARCHAR(255),
+--                        age INT,
+--                        is_dead VARCHAR(255),
+--                        death_age INT,
+--                        death_cause VARCHAR(255),
+--                        family_order VARCHAR(255),
+--                        family_order_other VARCHAR(255),
+--                        parent_name VARCHAR(255),
+--                        fk_id BIGINT
+--);
+--CREATE TABLE IF not EXISTS tbl_illness (
+--                        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+--                        age_detected INT,
+--                        code VARCHAR(255),
+--                        name VARCHAR(255),
+--                        ill_name VARCHAR(255),
+--                        ill_name_other VARCHAR(255),
+--                        relative_id BIGINT,
+--                        healthid BIGINT
+--);
+--CREATE TABLE IF not EXISTS tbl_health_record (
+--                        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+--                        isTwin VARCHAR(255),
+--                        isAdopted VARCHAR(255),
+--                        height INT,
+--                        weight INT,
+--                        relationship VARCHAR(255),
+--                        firstPeriodAge INT,
+--                        birthControl INT,
+--                        pregnantTime INT,
+--                        firstBornAge INT,
+--                        isSmoke VARCHAR(255),
+--                        smokeTime INT,
+--                        giveUpSmokeAge VARCHAR(255),
+--                        wineVolume INT,
+--                        workOutVolume INT,
+--                        workOutType VARCHAR(255)
+--);
+--CREATE TABLE IF not EXISTS tbl_genogram(
+--                        id BIGINT PRIMARY KEY,
+--                        name VARCHAR(255),
+--                        sex VARCHAR(255),
+--                        mother_key VARCHAR(255),
+--                        father_key VARCHAR(255),
+--                        wife BIGINT UNIQUE,
+--                        husband BIGINT UNIQUE,
+--                        attributes VARCHAR(255),
+--                        list_id VARCHAR(255)
+--);
+--CREATE TABLE IF not EXISTS users(
+--                        id BIGINT PRIMARY KEY,
+--                        full_name VARCHAR(255),
+--                        email VARCHAR(255) UNIQUE,
+--                        password VARCHAR(255),
+--                        role VARCHAR(255),
+--                        is_locked BIT(1),
+--                        is_enabled BIT(1),
+--                        reset_password_token VARCHAR(255),
+--                        created_at DATETIME,
+--                        update_at DATETIME
+--);
+--CREATE TABLE IF not EXISTS tbl_confirmation_token(
+--                        id BIGINT PRIMARY KEY,
+--                        token VARCHAR(255),
+--                        created_at DATETIME,
+--                        expires_at DATETIME,
+--                        confirmed_at DATETIME,
+--                        account_id BIGINT
+--);
+--CREATE TABLE IF not EXISTS account_sequence(
+--                        next_val BIGINT
+--);
 --
--- ALTER TABLE tbl_relative ADD FOREIGN KEY (pid) REFERENCES tbl_person(id);
--- ALTER TABLE tbl_illness ADD FOREIGN KEY (hid) REFERENCES tbl_health_record(id);
--- ALTER TABLE tbl_health_record ADD FOREIGN KEY (pid) REFERENCES tbl_person(id);
--- ALTER TABLE tbl_confirmation_token ADD FOREIGN KEY (account_id) REFERENCES tbl_account(id);
+--CREATE TABLE IF not EXISTS confirmation_token_sequence(
+--                        next_val BIGINT
+--);
+--CREATE TABLE IF not EXISTS identity(
+--                        next_val BIGINT
+--);
+--
+--ALTER TABLE tbl_relative ADD FOREIGN KEY (fk_id) REFERENCES tbl_person(id);
+--ALTER TABLE tbl_illness ADD FOREIGN KEY (healthid) REFERENCES tbl_health_record(id);
+--ALTER TABLE tbl_illness ADD FOREIGN KEY (relative_id) REFERENCES tbl_relative(relative_id);
+--ALTER TABLE tbl_person ADD FOREIGN KEY (pid) REFERENCES tbl_health_record(id);
+--ALTER TABLE tbl_confirmation_token ADD FOREIGN KEY (account_id) REFERENCES users(id);

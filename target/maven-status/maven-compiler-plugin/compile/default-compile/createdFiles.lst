@@ -19,7 +19,6 @@ com\gssk\gssk\security\account\CommandLineAppStartUpRunner.class
 com\gssk\gssk\dto\PersonDTO.class
 com\gssk\gssk\model\Person.class
 com\gssk\gssk\security\registration\RegistrationController.class
-com\gssk\gssk\security\registration\EmailValidator.class
 com\gssk\gssk\repository\HealthRecordRepository.class
 com\gssk\gssk\security\config\WebSecurityConfig.class
 com\gssk\gssk\security\email\EmailService.class
@@ -33,6 +32,7 @@ com\gssk\gssk\security\registration\token\ConfirmationToken.class
 com\gssk\gssk\security\account\ERole.class
 com\gssk\gssk\security\config\WebMVCConfig.class
 com\gssk\gssk\model\HealthRecord.class
+com\gssk\gssk\security\validator\EmailValidator.class
 com\gssk\gssk\security\AppUserNotFoundException.class
 com\gssk\gssk\model\ListToStringConverter.class
 com\gssk\gssk\controller\ViewController.class
@@ -41,6 +41,7 @@ com\gssk\gssk\repository\PersonRepository.class
 com\gssk\gssk\security\registration\RegistrationRequest.class
 com\gssk\gssk\model\Relative.class
 com\gssk\gssk\security\registration\RegistrationService.class
+com\gssk\gssk\security\validator\PasswordConstraintValidator.class
 com\gssk\gssk\repository\GenogramRepository.class
 com\gssk\gssk\service\CustomOAuth2UserService.class
 com\gssk\gssk\model\ResetPasswordRequest.class

@@ -1,17 +1,15 @@
 package com.gssk.gssk.service;
 
 import com.gssk.gssk.dto.GenogramDTO;
+import com.gssk.gssk.dto.RelativeDTO;
 import com.gssk.gssk.model.Genogram;
 import com.gssk.gssk.model.Illness;
 import com.gssk.gssk.model.Person;
 import com.gssk.gssk.model.Relative;
-import com.gssk.gssk.dto.RelativeDTO;
 import com.gssk.gssk.repository.*;
-import org.apache.commons.lang3.ObjectUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.modelmapper.ModelMapper;
-
 
 import java.security.SecureRandom;
 import java.util.*;
@@ -699,9 +697,8 @@ public class GenogramService {
         genogram.setKey(person.getId());
         List<Illness> illnessList =  person.getHealthRecord().getIllnessList();
         List<String> illnessName = new ArrayList<>();
-        for (Illness i:illnessList
-             ) {
-            if (!i.getName().isEmpty(){
+        for (Illness i:illnessList) {
+            if (!i.getName().isEmpty()){
                 attributes.add(i.getName());
             }
             if (i.getIllName()!= null){
