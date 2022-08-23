@@ -85,44 +85,56 @@ public class PersonService {
                 relativeList.clear();
             } else if (!relativeList.isEmpty()) {
                 if (!containsRelation(newRelativeList, "Cha")){
-                        Relative father = new Relative("Cha", "Không rõ tên", "Nam");
+                    Relative father = new Relative("Cha", "Không rõ tên", "Nam");
                     List<Illness> illness = new ArrayList<>();
-                        illness.add(new Illness());
-                        father.setIllnessRelative(illness);
-                        newRelativeList.add(father);
+                    Illness i = new Illness();
+                    i.setName("");
+                    illness.add(i);
+                    father.setIllnessRelative(illness);
+                    newRelativeList.add(father);
                 }
                 if (!containsRelation(newRelativeList, "Mẹ")){
                     Relative mother = new Relative("Mẹ", "Không rõ tên", "Nữ");
                     List<Illness> illness = new ArrayList<>();
-                    illness.add(new Illness());
+                    Illness i = new Illness();
+                    i.setName("");
+                    illness.add(i);
                     mother.setIllnessRelative(illness);
                     newRelativeList.add(mother);
                 }
                 if (!containsRelation(newRelativeList, "Ông nội")){
                     Relative p_grandfather = new Relative("Ông nội", "Không rõ tên", "Nam");
                     List<Illness> illness = new ArrayList<>();
-                    illness.add(new Illness());
+                    Illness i = new Illness();
+                    i.setName("");
+                    illness.add(i);
                     p_grandfather.setIllnessRelative(illness);
                     newRelativeList.add(p_grandfather);
                 }
                 if (!containsRelation(newRelativeList, "Bà nội")){
                     Relative p_grandmother = new Relative("Bà nội", "Không rõ tên", "Nữ");
                     List<Illness> illness = new ArrayList<>();
-                    illness.add(new Illness());
+                    Illness i = new Illness();
+                    i.setName("");
+                    illness.add(i);
                     p_grandmother.setIllnessRelative(illness);
                     newRelativeList.add(p_grandmother);
                 }
                 if (!containsRelation(newRelativeList, "Ông ngoại")){
                     Relative m_grandfather = new Relative("Ông ngoại", "Không rõ tên", "Nam");
                     List<Illness> illness = new ArrayList<>();
-                    illness.add(new Illness());
+                    Illness i = new Illness();
+                    i.setName("");
+                    illness.add(i);
                     m_grandfather.setIllnessRelative(illness);
                     newRelativeList.add(m_grandfather);
                 }
                 if (!containsRelation(newRelativeList, "Bà ngoại")){
                     Relative m_grandmother = new Relative("Bà ngoại", "Không rõ tên", "Nữ");
                     List<Illness> illness = new ArrayList<>();
-                    illness.add(new Illness());
+                    Illness i = new Illness();
+                    i.setName("");
+                    illness.add(i);
                     m_grandmother.setIllnessRelative(illness);
                     newRelativeList.add(m_grandmother);
                 }
