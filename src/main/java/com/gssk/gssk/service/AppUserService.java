@@ -145,7 +145,7 @@ public class AppUserService implements UserDetailsService {
         appUser.setPassword(encodedPassword);
         appUser.setEnabled(appUserRequest.getEnabled());
         appUser.setLocked(appUserRequest.getLocked());
-//         appUser.setUpdateAt(LocalDateTime.now());
+        appUser.setUpdateAt(LocalDateTime.now());
         return appUserRepository.save(appUser);
     }
 
