@@ -701,7 +701,7 @@ public class GenogramService {
         List<String> illnessName = new ArrayList<>();
         for (Illness i:illnessList
              ) {
-            if (!i.getName().isEmpty()){
+            if (i.getName() != null){
                 attributes.add(i.getName());
             }
             if (i.getIllName()!= null){
@@ -790,7 +790,7 @@ public class GenogramService {
             List<String> relativeAttributes = new ArrayList<>();
             List<String> illnessNameRelative = new ArrayList<>();
             for (Illness i : illnessRelative){
-                if (!i.getName().isEmpty()){
+                if (i.getName() != null){
                     relativeAttributes.add(i.getName());
                 }
                 if (i.getIllName() != null){
