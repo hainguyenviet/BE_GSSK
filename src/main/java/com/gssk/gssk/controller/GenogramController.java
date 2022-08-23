@@ -16,7 +16,7 @@ public class GenogramController {
     @Autowired
     GenogramService genogramService;
 
-    //@PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(value = "/all", produces = "application/json")
     public List<Genogram> getAllGenogram(){return (List<Genogram>)genogramService.getAllNodes();}
 
@@ -29,12 +29,12 @@ public class GenogramController {
     public void generateGenofromID(@PathVariable("username") String username){
         genogramService.ConvertPersonToGenogram(username);
     }
-
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     @GetMapping(value = "/riskUTV/{username}", produces = "application/json")
     public List<String> riskUTV(@PathVariable("username") String username){
         return (List<String>)genogramService.riskUTV(username);
     }
-
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     @GetMapping(value = "/riskUTDTT/{username}", produces = "application/json")
     public List<String> riskUTDTT(@PathVariable("username") String username){
         return (List<String>)genogramService.riskUTDTT(username);
