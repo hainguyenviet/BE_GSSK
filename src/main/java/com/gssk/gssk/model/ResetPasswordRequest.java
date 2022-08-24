@@ -1,18 +1,13 @@
-package com.gssk.gssk.security.registration;
-
+package com.gssk.gssk.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegistrationRequest {
-    private String fullName;
-    private String email;
+public class ResetPasswordRequest {
+    private String token;
     private String password;
-
-
 }

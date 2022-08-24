@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.text.DateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Data
@@ -15,6 +18,9 @@ public class Person {
     @GeneratedValue(generator = "identity")
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "app_id")
+    private String appID;
 
     @Column(name="first_name")
     private String firstName;
@@ -48,4 +54,13 @@ public class Person {
 
     @Column(name= "username")
     private String username;
+    
+    @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+    @Column(name="created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+    @Column(name = "update_at")
+    private LocalDateTime updateAt = LocalDateTime.now();
+
 }

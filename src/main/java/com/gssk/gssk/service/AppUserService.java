@@ -1,11 +1,13 @@
 package com.gssk.gssk.service;
 
 import com.gssk.gssk.model.*;
+import com.gssk.gssk.security.AppUserNotFoundException;
 import com.gssk.gssk.security.account.ERole;
 import com.gssk.gssk.security.registration.token.ConfirmationToken;
 import com.gssk.gssk.security.registration.token.ConfirmationTokenService;
 import com.gssk.gssk.repository.AppUserRepository;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +16,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -29,6 +36,8 @@ public class AppUserService implements UserDetailsService {
     private final ConfirmationTokenService confirmationTokenService;
 
     private final PersonService personService;
+    static final String Generator = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    static SecureRandom rnd = new SecureRandom();
 
 
     @Override
@@ -39,7 +48,8 @@ public class AppUserService implements UserDetailsService {
         }
         else {
             List<SimpleGrantedAuthority> authorities = null;
-            authorities = Arrays.asList(new SimpleGrantedAuthority(user.getRole().toString()));
+            assert user != null;
+            authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole().toString()));
             return new User(user.getUsername(), user.getPassword(), authorities);
         }
     }
@@ -58,8 +68,20 @@ public class AppUserService implements UserDetailsService {
         AppUser appUser = appUserRepository.findByEmail(user.getEmail());
 
         Person person = new Person();
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyMMdd");
+        String concat = date.format(dateTimeFormatter);
+        System.out.print(concat);
+
+        int len = 8;
+        StringBuilder sb = new StringBuilder(len);
+        for (int i=0; i<len; i++){
+            sb.append(Generator.charAt(rnd.nextInt(Generator.length())));
+        }
+        person.setAppID(concat+sb);
         person.setUsername(appUser.getUsername());
         person.setHealthRecord(new HealthRecord());
+        person.setEmail(appUser.getEmail());
 
         List<Relative> relativeList = new ArrayList<Relative>();
         Relative r = new Relative();
@@ -123,7 +145,31 @@ public class AppUserService implements UserDetailsService {
         appUser.setPassword(encodedPassword);
         appUser.setEnabled(appUserRequest.getEnabled());
         appUser.setLocked(appUserRequest.getLocked());
-//         appUser.setUpdateAt(LocalDateTime.now());
+        appUser.setUpdateAt(LocalDateTime.now());
         return appUserRepository.save(appUser);
+    }
+
+
+    public void updateResetPasswordToken(String token, String email) throws AppUserNotFoundException {
+        AppUser appUser = appUserRepository.findByEmail(email);
+        if (appUser != null) {
+            appUser.setResetPasswordToken(token);
+            appUserRepository.save(appUser);
+        } else {
+            throw new AppUserNotFoundException("User not found in DB");
+        }
+    }
+
+    public AppUser getByResetPasswordToken(String token) {
+        return appUserRepository.findByResetPasswordToken(token);
+    }
+
+    public void updatePassword(AppUser appUser, String newPassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        appUser.setPassword(encodedPassword);
+
+        appUser.setResetPasswordToken(null);
+        appUserRepository.save(appUser);
     }
 }
