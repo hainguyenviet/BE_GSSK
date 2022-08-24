@@ -701,8 +701,11 @@ public class GenogramService {
             if (!i.getName().isEmpty()){
                 attributes.add(i.getName());
             }
-            if (i.getIllName()!= null){
+            if (i.getIllName()!= null && i.getIllNameOther() == null){
                 illnessName.add(i.getIllName());
+            }
+            else if (i.getIllName() != null && i.getIllNameOther() != null){
+                illnessName.add(i.getIllNameOther());
             }
         }
         if(illnessName.isEmpty()){
@@ -790,8 +793,11 @@ public class GenogramService {
                 if (!i.getName().isEmpty()){
                     relativeAttributes.add(i.getName());
                 }
-                if (i.getIllName() != null){
+                if (i.getIllName() != null && i.getIllNameOther() == null){
                     illnessNameRelative.add(i.getIllName());
+                }
+                else if (i.getIllName() != null && i.getIllName() != null){
+                    illnessNameRelative.add(i.getIllNameOther());
                 }
             }
             if (illnessNameRelative.isEmpty()){
