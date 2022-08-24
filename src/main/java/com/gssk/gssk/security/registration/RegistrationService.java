@@ -150,7 +150,7 @@ public class RegistrationService {
             confirmationTokenService.saveConfirmationToken(confirmationEnableToken);
 
             String link = "http://localhost:4200/info;token=" + enabletoken;
-            emailSender.send(request.getEmail(), buildEmail(request.getFullName(), link));
+            emailSender.send(request.getEmail(), buildEmail(user.getFullName(), link));
 
             return enabletoken;
         }
