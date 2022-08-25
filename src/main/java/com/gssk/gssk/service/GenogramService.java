@@ -162,17 +162,17 @@ public class GenogramService {
                                 }
                                 // Nếu trực hệ 2 >= 50 tuổi
                                 else {
-                                    result.add("UNGTHUVU_THAP");
+                                    result.add("UNGTHUVU_TB");
                                 }
                             }
                             // Nếu ko cùng bên trực hệ 1
                             else{
-                                result.add("UNGTHUVU_THAP");
+                                result.add("UNGTHUVU_TB");
                             }
                         }
                         // ko phải cha/mẹ
                         else {
-                            result.add("UNGTHUVU_THAP");
+                            result.add("UNGTHUVU_TB");
                         }
                     }
 
