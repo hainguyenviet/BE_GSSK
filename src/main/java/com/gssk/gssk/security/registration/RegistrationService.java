@@ -165,7 +165,7 @@ public class RegistrationService {
 //                user.setResetPasswordToken(token);
 //                appUserRepository.save(user);
 
-                String resetPasswordLink = "http://localhost:4200/info;token=" + token;
+                String resetPasswordLink = "http://localhost:4200/confirm;token=" + token;
                 emailSender.send(email, buildResetEmail(email, resetPasswordLink));
 
                 return token;
