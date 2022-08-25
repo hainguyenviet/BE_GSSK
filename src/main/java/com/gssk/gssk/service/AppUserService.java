@@ -152,12 +152,8 @@ public class AppUserService implements UserDetailsService {
 
     public void updateResetPasswordToken(String token, String email) throws AppUserNotFoundException {
         AppUser appUser = appUserRepository.findByEmail(email);
-        if (appUser != null) {
-            appUser.setResetPasswordToken(token);
-            appUserRepository.save(appUser);
-        } else {
-            throw new AppUserNotFoundException("User not found in DB");
-        }
+        appUser.setResetPasswordToken(token);
+        appUserRepository.save(appUser);
     }
 
     public AppUser getByResetPasswordToken(String token) {

@@ -52,18 +52,18 @@ public class AppUser implements UserDetails {
     @Column(name = "is_locked")
     private Boolean locked = false;
     @Column(name = "is_enabled")
-    private Boolean enabled = false;
+    private Boolean enabled = true;
 
     @Column(name = "reset_password_token")
     private String resetPasswordToken;
 
-     @NotNull
-     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-     @Column(name="created_at")
-     private LocalDateTime createdAt = LocalDateTime.now();
-     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-     @Column(name = "update_at")
-     private LocalDateTime updateAt = LocalDateTime.now();
+    @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+    @Column(name="created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+    @Column(name = "update_at")
+    private LocalDateTime updateAt = LocalDateTime.now();
 
     public AppUser(String email, String password, ERole role, Boolean locked, Boolean enabled){
         this.email = email;

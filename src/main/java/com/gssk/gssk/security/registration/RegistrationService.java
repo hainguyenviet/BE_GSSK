@@ -2,6 +2,7 @@ package com.gssk.gssk.security.registration;
 
 import com.gssk.gssk.model.AppUser;
 
+import com.gssk.gssk.repository.AppUserRepository;
 import com.gssk.gssk.security.validator.PasswordConstraintValidator;
 import com.gssk.gssk.security.validator.EmailValidator;
 import com.gssk.gssk.model.ResetPasswordRequest;
@@ -26,6 +27,7 @@ public class RegistrationService {
     private final AppUserService appUserService;
     private final EmailValidator emailValidator;
     private final ConfirmationTokenService confirmationTokenService;
+    private final AppUserRepository appUserRepository;
     private final EmailSender emailSender;
     private final PasswordConstraintValidator validator;
 
@@ -144,28 +146,34 @@ public class RegistrationService {
         String email = request.getEmail();
         AppUser user = appUserService.getAccount(email);
 
-        if (!user.getEnabled()){
-            String enabletoken = UUID.randomUUID().toString();
-            ConfirmationToken confirmationEnableToken = new ConfirmationToken(enabletoken, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15), user);
-            confirmationTokenService.saveConfirmationToken(confirmationEnableToken);
+        if (user != null){
+            if (!user.getEnabled()){
+                String enabletoken = UUID.randomUUID().toString();
+                ConfirmationToken confirmationEnableToken = new ConfirmationToken(enabletoken, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15), user);
+                confirmationTokenService.saveConfirmationToken(confirmationEnableToken);
 
-            String link = "http://localhost:4200/info;token=" + enabletoken;
-            emailSender.send(request.getEmail(), buildEmail(user.getFullName(), link));
+                String link = "http://localhost:4200/info;token=" + enabletoken;
+                emailSender.send(request.getEmail(), buildEmail(user.getFullName(), link));
 
-            return enabletoken;
+                return enabletoken;
+            }
+            else {
+                String token = UUID.randomUUID().toString();
+                ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15), user);
+                confirmationTokenService.saveConfirmationToken(confirmationToken);
+                appUserService.updateResetPasswordToken(token, email);
+//                user.setResetPasswordToken(token);
+//                appUserRepository.save(user);
+
+                String resetPasswordLink = "http://localhost:4200/info;token=" + token;
+                emailSender.send(email, buildResetEmail(email, resetPasswordLink));
+
+                return token;
+            }
         }
-
-        String token = UUID.randomUUID().toString();
-        ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15), user);
-        confirmationTokenService.saveConfirmationToken(confirmationToken);
-
-
-        appUserService.updateResetPasswordToken(token, email);
-
-        String resetPasswordLink = "http://localhost:4200/info;token=" + token;
-        emailSender.send(email, buildResetEmail(email, resetPasswordLink));
-
-        return token;
+        else{
+            throw new AppUserNotFoundException("User not found in DB");
+        }
     }
 
     public String confirmResetToken(String token){
