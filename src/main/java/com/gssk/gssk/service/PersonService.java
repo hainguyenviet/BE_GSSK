@@ -152,5 +152,10 @@ public class PersonService {
         Person person = personRepository.findById(id).get();
         personRepository.delete(person);
     }
+    
+    public Long countAll(){
+        Long count = personRepository.count();
+        return count;
+    }
 
 }
