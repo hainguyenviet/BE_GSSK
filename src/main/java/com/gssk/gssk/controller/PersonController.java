@@ -51,6 +51,12 @@ public class PersonController {
 //    @PreAuthorize("hasAuthority('ADMIN')")
 //    @DeleteMapping(value = "/delete/{id}")
 //    public void deletePerson(@PathVariable("id") Long id) { personService.deletePerson(id); }
+    
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping (value = "/total", produces = "application/json")
+    public Long countAll(){
+        return personService.countAll();
+    }
 
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     @PutMapping(value = "/update/{id}", produces = "application/json")
