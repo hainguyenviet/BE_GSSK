@@ -480,17 +480,17 @@ public class GenogramService {
                                 }
                                 // Nếu trực hệ 2 >= 50 tuổi
                                 else {
-                                    result.add("UNGTHUDAITRUCTRANG_THAP");
+                                    result.add("UNGTHUDAITRUCTRANG_TB");
                                 }
                             }
                             // Nếu ko cùng bên trực hệ 1
                             else{
-                                result.add("UNGTHUDAITRUCTRANG_THAP");
+                                result.add("UNGTHUDAITRUCTRANG_TB");
                             }
                         }
                         // ko phải cha/mẹ
                         else {
-                            result.add("UNGTHUDAITRUCTRANG_THAP");
+                            result.add("UNGTHUDAITRUCTRANG_TB");
                         }
                     }
 
