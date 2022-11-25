@@ -2,6 +2,10 @@ C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\security\f
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\GsskApplication.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\model\Relative.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\security\email\EmailSender.java
+<<<<<<< Updated upstream
+=======
+C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\model\ResetPasswordRequest.java
+>>>>>>> Stashed changes
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\security\account\CommandLineAppStartUpRunner.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\dto\GenogramDTO.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\service\PersonService.java
@@ -11,7 +15,10 @@ C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\security\r
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\security\config\WebMVCConfig.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\security\config\WebSecurityConfig.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\security\filter\CustomAuthorizationFilter.java
+<<<<<<< Updated upstream
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\security\registration\EmailValidator.java
+=======
+>>>>>>> Stashed changes
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\repository\RelativeRepository.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\security\OAuth2LoginSuccessHandler.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\model\HealthRecord.java
@@ -28,6 +35,10 @@ C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\security\r
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\service\AppUserService.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\service\RelativeService.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\model\Person.java
+<<<<<<< Updated upstream
+=======
+C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\security\validator\EmailValidator.java
+>>>>>>> Stashed changes
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\model\AppUser.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\controller\OAuthController.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\dto\PersonDTO.java
@@ -41,5 +52,15 @@ C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\model\Geno
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\security\account\ERole.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\controller\GenogramController.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\repository\GenogramRepository.java
+<<<<<<< Updated upstream
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\security\registration\RegistrationService.java
 C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\security\email\EmailService.java
+<<<<<<< Updated upstream
+=======
+=======
+C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\security\AppUserNotFoundException.java
+C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\security\registration\RegistrationService.java
+C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\security\validator\PasswordConstraintValidator.java
+C:\Users\Acer\Desktop\work\python\BE_GSSK\src\main\java\com\gssk\gssk\security\email\EmailService.java
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
