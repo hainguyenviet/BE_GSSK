@@ -1,14 +1,13 @@
 package com.gssk.gssk.service;
 
-import com.gssk.gssk.model.AppUser;
-import com.gssk.gssk.model.HealthRecord;
-import com.gssk.gssk.model.Person;
-import com.gssk.gssk.model.Relative;
+import com.gssk.gssk.model.*;
+import com.gssk.gssk.security.AppUserNotFoundException;
 import com.gssk.gssk.security.account.ERole;
 import com.gssk.gssk.security.registration.token.ConfirmationToken;
 import com.gssk.gssk.security.registration.token.ConfirmationTokenService;
 import com.gssk.gssk.repository.AppUserRepository;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +16,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -32,6 +36,8 @@ public class AppUserService implements UserDetailsService {
     private final ConfirmationTokenService confirmationTokenService;
 
     private final PersonService personService;
+    static final String Generator = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    static SecureRandom rnd = new SecureRandom();
 
 
     @Override
@@ -42,7 +48,8 @@ public class AppUserService implements UserDetailsService {
         }
         else {
             List<SimpleGrantedAuthority> authorities = null;
-            authorities = Arrays.asList(new SimpleGrantedAuthority(user.getRole().toString()));
+            assert user != null;
+            authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole().toString()));
             return new User(user.getUsername(), user.getPassword(), authorities);
         }
     }
@@ -61,11 +68,33 @@ public class AppUserService implements UserDetailsService {
         AppUser appUser = appUserRepository.findByEmail(user.getEmail());
 
         Person person = new Person();
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyMMdd");
+        String concat = date.format(dateTimeFormatter);
+        System.out.print(concat);
+
+        int len = 8;
+        StringBuilder sb = new StringBuilder(len);
+        for (int i=0; i<len; i++){
+            sb.append(Generator.charAt(rnd.nextInt(Generator.length())));
+        }
+        person.setAppID(concat+sb);
         person.setUsername(appUser.getUsername());
         person.setHealthRecord(new HealthRecord());
+        person.setEmail(appUser.getEmail());
+
         List<Relative> relativeList = new ArrayList<Relative>();
-        relativeList.add(new Relative());
+        Relative r = new Relative();
+        relativeList.add(r);
         person.setRelativeList(relativeList);
+
+        List<Illness> personIllness = new ArrayList<>();
+        personIllness.add(new Illness());
+        person.getHealthRecord().setIllnessList(personIllness);
+
+        List<Illness> relativeIllness = new ArrayList<>();
+        relativeIllness.add(new Illness());
+        r.setIllnessRelative(relativeIllness);
 
         personService.addNewPerson(person);
 
@@ -108,15 +137,35 @@ public class AppUserService implements UserDetailsService {
         appUserRepository.delete(appUser);
     }
 
-    public AppUser updateAccount(Long id, AppUser appUserRequest){
-        AppUser appUser = appUserRepository.findById(id).get();
+    public AppUser updateAccount(String username, AppUser appUserRequest){
+        AppUser appUser = appUserRepository.findByEmail(username);
         appUser.setFullName(appUserRequest.getFullName());
         appUser.setEmail(appUserRequest.getEmail());
         String encodedPassword = bCryptPasswordEncoder.encode(appUser.getPassword());
         appUser.setPassword(encodedPassword);
-//        appUser.setPassword(appUserRequest.getPassword());
         appUser.setEnabled(appUserRequest.getEnabled());
         appUser.setLocked(appUserRequest.getLocked());
+        appUser.setUpdateAt(LocalDateTime.now());
         return appUserRepository.save(appUser);
+    }
+
+
+    public void updateResetPasswordToken(String token, String email) throws AppUserNotFoundException {
+        AppUser appUser = appUserRepository.findByEmail(email);
+        appUser.setResetPasswordToken(token);
+        appUserRepository.save(appUser);
+    }
+
+    public AppUser getByResetPasswordToken(String token) {
+        return appUserRepository.findByResetPasswordToken(token);
+    }
+
+    public void updatePassword(AppUser appUser, String newPassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        appUser.setPassword(encodedPassword);
+
+        appUser.setResetPasswordToken(null);
+        appUserRepository.save(appUser);
     }
 }

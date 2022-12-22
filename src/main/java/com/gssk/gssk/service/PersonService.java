@@ -7,13 +7,12 @@ import com.gssk.gssk.model.Relative;
 import com.gssk.gssk.repository.PersonRepository;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
+import java.time.LocalDateTime;
+import java.util.*;
 
 
 @Service
@@ -21,8 +20,11 @@ public class PersonService {
     @Autowired
     PersonRepository personRepository;
 
-    public Iterable<Person> getAllPerson() {
-        return personRepository.findAll();
+
+    public List<Person> getAllPerson(Integer PageNo, Integer PageSize) {
+        org.springframework.data.domain.Pageable paging = (org.springframework.data.domain.Pageable) PageRequest.of(PageNo, PageSize);
+        Page<Person> result = personRepository.findAll((org.springframework.data.domain.Pageable) paging);
+        return result.getContent();
     }
 
     public Person getPersonByUsername(String username) {
@@ -32,6 +34,10 @@ public class PersonService {
     @SneakyThrows
     public Person addNewPerson(Person person) {
         return personRepository.save(person);
+    }
+
+    public Boolean containsRelation(final List<Relative> list, final String relation){
+        return list.stream().map(Relative::getRelation).anyMatch(relation::equals);
     }
 
     public Person updatePerson(String username, Person personRequest) {
@@ -44,6 +50,7 @@ public class PersonService {
         person.setPhoneNumber(personRequest.getPhoneNumber());
         person.setGender(personRequest.getGender());
         person.setUsername(username);
+        person.setUpdateAt(LocalDateTime.now());
 
         // update health record
         HealthRecord newHealthRecord = personRequest.getHealthRecord(), healthRecord = person.getHealthRecord();
@@ -72,56 +79,122 @@ public class PersonService {
         if (personRequest.getRelativeList() != null){
             List<Relative> newRelativeList = personRequest.getRelativeList();
             List<Relative> relativeList = person.getRelativeList();
-            List<Relative> toRemove = new ArrayList<>();
-            List<Relative> duplicate = new ArrayList<>();
+
+
 
             if (newRelativeList.isEmpty() && !relativeList.isEmpty()) {
                 relativeList.clear();
             } else if (!relativeList.isEmpty()) {
-                for (Relative r : relativeList) {
-                    for (Relative nr : newRelativeList) {
-                        if (Objects.equals(r.getRelation(), nr.getRelation())) {
-                            r.setName(nr.getName());
-                            r.setAge(nr.getAge());
-                            r.setGender(nr.getGender());
-                            r.setDeath_age(nr.getDeath_age());
-                            r.setDeathCause(nr.getDeathCause());
-                            r.setFamilyOrder(nr.getFamilyOrder());
-                            r.setFamilyOrderOther(nr.getFamilyOrderOther());
-                            r.setIsDead(nr.getIsDead());
-                            if (nr.getIllnessRelative() != null) {
-                                if (!r.getIllnessRelative().isEmpty()) {
-                                    List<Illness> oldList = r.getIllnessRelative(), newList = nr.getIllnessRelative();
-                                    Iterator<Illness> oldIt = oldList.iterator(), newIt = newList.iterator();
-                                    while (oldIt.hasNext() && newIt.hasNext()) {
-                                        newIt.next().setId(oldIt.next().getId());
-                                    }
-                                    r.setIllnessRelative(newList);
-                                } else {
-                                    r.setIllnessRelative(nr.getIllnessRelative());
-                                }
-                            } else {
-                                r.getIllnessRelative().clear();
-                            }
-                            duplicate.add(nr);
-                            break;
-                        } else if (newRelativeList.indexOf(nr) == (newRelativeList.size() - 1) && (!Objects.equals(r.getRelation(), nr.getRelation()))) {
-                            toRemove.add(r);
-                        }
+                Relative r = newRelativeList.get(0);
+                if (r.getName() == null){
+                    r.setRelation("Cha");
+                    r.setName("Không rõ tên");
+                    r.setGender("Nam");
+                    List<Illness> illness = r.getIllnessRelative();
+                    Illness i = illness.get(0);
+                    i.setName("");
+
+                    Relative mother = new Relative("Mẹ", "Không rõ tên", "Nữ");
+                    List<Illness> illness_m = new ArrayList<>();
+                    Illness i_m = new Illness();
+                    i_m.setName("");
+                    illness_m.add(i_m);
+                    mother.setIllnessRelative(illness_m);
+                    newRelativeList.add(mother);
+
+                    Relative p_grandfather = new Relative("Ông nội", "Không rõ tên", "Nam");
+                    List<Illness> illness_pg = new ArrayList<>();
+                    Illness i_pg = new Illness();
+                    i_pg.setName("");
+                    illness_pg.add(i_pg);
+                    p_grandfather.setIllnessRelative(illness_pg);
+                    newRelativeList.add(p_grandfather);
+
+                    Relative p_grandmother = new Relative("Bà nội", "Không rõ tên", "Nữ");
+                    List<Illness> illness_pgm = new ArrayList<>();
+                    Illness i_pgm = new Illness();
+                    i_pgm.setName("");
+                    illness_pgm.add(i_pgm);
+                    p_grandmother.setIllnessRelative(illness_pgm);
+                    newRelativeList.add(p_grandmother);
+
+                    Relative m_grandfather = new Relative("Ông ngoại", "Không rõ tên", "Nam");
+                    List<Illness> illness_mg = new ArrayList<>();
+                    Illness i_mg = new Illness();
+                    i_mg.setName("");
+                    illness_mg.add(i_mg);
+                    m_grandfather.setIllnessRelative(illness_mg);
+                    newRelativeList.add(m_grandfather);
+
+                    Relative m_grandmother = new Relative("Bà ngoại", "Không rõ tên", "Nữ");
+                    List<Illness> illness_mgm = new ArrayList<>();
+                    Illness i_mgm = new Illness();
+                    i_mgm.setName("");
+                    illness_mgm.add(i_mgm);
+                    m_grandmother.setIllnessRelative(illness_mgm);
+                    newRelativeList.add(m_grandmother);
+                }
+                else{
+                    if (!containsRelation(newRelativeList, "Cha")){
+                        Relative father = new Relative("Cha", "Không rõ tên", "Nam");
+                        List<Illness> illness = new ArrayList<>();
+                        Illness i = new Illness();
+                        i.setName("");
+                        illness.add(i);
+                        father.setIllnessRelative(illness);
+                        newRelativeList.add(father);
+                    }
+                    if (!containsRelation(newRelativeList, "Mẹ")){
+                        Relative mother = new Relative("Mẹ", "Không rõ tên", "Nữ");
+                        List<Illness> illness = new ArrayList<>();
+                        Illness i = new Illness();
+                        i.setName("");
+                        illness.add(i);
+                        mother.setIllnessRelative(illness);
+                        newRelativeList.add(mother);
+                    }
+                    if (!containsRelation(newRelativeList, "Ông nội")){
+                        Relative p_grandfather = new Relative("Ông nội", "Không rõ tên", "Nam");
+                        List<Illness> illness = new ArrayList<>();
+                        Illness i = new Illness();
+                        i.setName("");
+                        illness.add(i);
+                        p_grandfather.setIllnessRelative(illness);
+                        newRelativeList.add(p_grandfather);
+                    }
+                    if (!containsRelation(newRelativeList, "Bà nội")){
+                        Relative p_grandmother = new Relative("Bà nội", "Không rõ tên", "Nữ");
+                        List<Illness> illness = new ArrayList<>();
+                        Illness i = new Illness();
+                        i.setName("");
+                        illness.add(i);
+                        p_grandmother.setIllnessRelative(illness);
+                        newRelativeList.add(p_grandmother);
+                    }
+                    if (!containsRelation(newRelativeList, "Ông ngoại")){
+                        Relative m_grandfather = new Relative("Ông ngoại", "Không rõ tên", "Nam");
+                        List<Illness> illness = new ArrayList<>();
+                        Illness i = new Illness();
+                        i.setName("");
+                        illness.add(i);
+                        m_grandfather.setIllnessRelative(illness);
+                        newRelativeList.add(m_grandfather);
+                    }
+                    if (!containsRelation(newRelativeList, "Bà ngoại")){
+                        Relative m_grandmother = new Relative("Bà ngoại", "Không rõ tên", "Nữ");
+                        List<Illness> illness = new ArrayList<>();
+                        Illness i = new Illness();
+                        i.setName("");
+                        illness.add(i);
+                        m_grandmother.setIllnessRelative(illness);
+                        newRelativeList.add(m_grandmother);
                     }
                 }
-                relativeList.removeAll(toRemove);
-                newRelativeList.removeAll(duplicate);
-                relativeList.addAll(newRelativeList);
-            }
-            else {
+                
+
                 person.setRelativeList(newRelativeList);
+                }
             }
-        }
-        else {
-            List<Relative> relativeList = person.getRelativeList();
-            relativeList.clear();
-        }
 
         return personRepository.save(person);
     }
@@ -130,6 +203,11 @@ public class PersonService {
     public void deletePerson(Long id){
         Person person = personRepository.findById(id).get();
         personRepository.delete(person);
+    }
+    
+    public Long countAll(){
+        Long count = personRepository.count();
+        return count;
     }
 
 }

@@ -1,17 +1,15 @@
 package com.gssk.gssk.service;
 
 import com.gssk.gssk.dto.GenogramDTO;
+import com.gssk.gssk.dto.RelativeDTO;
 import com.gssk.gssk.model.Genogram;
 import com.gssk.gssk.model.Illness;
 import com.gssk.gssk.model.Person;
 import com.gssk.gssk.model.Relative;
-import com.gssk.gssk.dto.RelativeDTO;
 import com.gssk.gssk.repository.*;
-import org.apache.commons.lang3.ObjectUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.modelmapper.ModelMapper;
-
 
 import java.security.SecureRandom;
 import java.util.*;
@@ -164,17 +162,17 @@ public class GenogramService {
                                 }
                                 // Nếu trực hệ 2 >= 50 tuổi
                                 else {
-                                    result.add("UNGTHUVU_THAP");
+                                    result.add("UNGTHUVU_TB");
                                 }
                             }
                             // Nếu ko cùng bên trực hệ 1
                             else{
-                                result.add("UNGTHUVU_THAP");
+                                result.add("UNGTHUVU_TB");
                             }
                         }
                         // ko phải cha/mẹ
                         else {
-                            result.add("UNGTHUVU_THAP");
+                            result.add("UNGTHUVU_TB");
                         }
                     }
 
@@ -447,26 +445,26 @@ public class GenogramService {
         //Xét Trực hệ 3 trước vì Trực hệ 3 chỉ cần là số lượng
 
         if (cMaternal >= 3 || cPaternal >= 3){
-            result.add("UNGTHUVU_CAO");
+            result.add("UNGTHUDAITRUCTRANG_CAO");
         }
         else
 
             //Trực hệ 1 >= 2
             if (direct1.size() >= 2) {
-                result.add("UNGTHUVU_CAO");
+                result.add("UNGTHUDAITRUCTRANG_CAO");
             }
             //Trực hệ 1 = 1
             else if (direct1.size() == 1) {
                 // Khởi phát sớm (<50 tuổi)
                 if (direct1Age.stream().anyMatch(integer -> integer > 0) && direct1Age.stream().anyMatch(integer -> integer < 50)) {
-                    result.add("UNGTHUVU_CAO");
+                    result.add("UNGTHUDAITRUCTRANG_CAO");
                 }
                 // Khởi phát muộn (>=50 tuổi)
                 else {
 
                     // Nếu trực hệ 2 = 0 (chưa xong)
                     if (direct2.size() == 0) {
-                        result.add("UNGTHUVU_TB");
+                        result.add("UNGTHUDAITRUCTRANG_TB");
                     }
                     // Nếu trực hệ 2 = 1 (Tuấn Anh)
                     if (direct2.size() == 1){
@@ -478,21 +476,21 @@ public class GenogramService {
                             if ((direct1.stream().anyMatch(String -> Objects.equals(String, "Cha")) && direct2.stream().anyMatch(paternalSide::contains)) || (direct1.stream().anyMatch(String -> Objects.equals(String, "Mẹ")) && direct2.stream().anyMatch(maternalSide::contains))) {
                                 // Nếu trực hệ 2 < 50 tuổi
                                 if (direct2Age.stream().anyMatch(integer -> integer > 0) && direct2Age.stream().anyMatch(integer -> integer < 50)) {
-                                    result.add("UNGTHUVU_CAO");
+                                    result.add("UNGTHUDAITRUCTRANG_CAO");
                                 }
                                 // Nếu trực hệ 2 >= 50 tuổi
                                 else {
-                                    result.add("UNGTHUVU_THAP");
+                                    result.add("UNGTHUDAITRUCTRANG_TB");
                                 }
                             }
                             // Nếu ko cùng bên trực hệ 1
                             else{
-                                result.add("UNGTHUVU_THAP");
+                                result.add("UNGTHUDAITRUCTRANG_TB");
                             }
                         }
                         // ko phải cha/mẹ
                         else {
-                            result.add("UNGTHUVU_THAP");
+                            result.add("UNGTHUDAITRUCTRANG_TB");
                         }
                     }
 
@@ -515,12 +513,12 @@ public class GenogramService {
                             if (cMaternal == 1) {
                                 flag = true;
                                 if (Mark.get(0) < 50)
-                                    result.add("UNGTHUVU_CAO");
+                                    result.add("UNGTHUDAITRUCTRANG_CAO");
                                 else
-                                    result.add("UNGTHUVU_TB");
+                                    result.add("UNGTHUDAITRUCTRANG_TB");
                             }
                             if (cMaternal == 0) {
-                                result.add("UNGTHUVU_TB");
+                                result.add("UNGTHUDAITRUCTRANG_TB");
                             }
                         }
 
@@ -536,12 +534,12 @@ public class GenogramService {
                             if (cPaternal == 1) {
                                 flag = true;
                                 if (Mark.get(0) < 50)
-                                    result.add("UNGTHUVU_CAO");
+                                    result.add("UNGTHUDAITRUCTRANG_CAO");
                                 else
-                                    result.add("UNGTHUVU_TB");
+                                    result.add("UNGTHUDAITRUCTRANG_TB");
                             }
                             if (cPaternal == 0) {
-                                result.add("UNGTHUVU_TB");
+                                result.add("UNGTHUDAITRUCTRANG_TB");
 
                             }
                         }
@@ -557,9 +555,9 @@ public class GenogramService {
                             }
                             if (cPaternal == 2) {
                                 if (Mark.stream().anyMatch(integer -> integer > 0) && Mark.stream().anyMatch(integer -> integer < 50)) {
-                                    result.add("UNGTHUVU_CAO");
+                                    result.add("UNGTHUDAITRUCTRANG_CAO");
                                 } else
-                                    result.add("UNGTHUVU_TB");
+                                    result.add("UNGTHUDAITRUCTRANG_TB");
                             }
 
 
@@ -574,14 +572,14 @@ public class GenogramService {
 
                             if (cMaternal == 2) {
                                 if (Mark.stream().anyMatch(integer -> integer > 0) && Mark.stream().anyMatch(integer -> integer < 50)) {
-                                    result.add("UNGTHUVU_CAO");
+                                    result.add("UNGTHUDAITRUCTRANG_CAO");
                                 } else
-                                    result.add("UNGTHUVU_TB");
+                                    result.add("UNGTHUDAITRUCTRANG_TB");
                             }
 
                             if (cPaternal<2 && cMaternal<2)
                             {
-                                result.add("UNGTHUVU_TB");
+                                result.add("UNGTHUDAITRUCTRANG_TB");
                             }
 
 
@@ -601,7 +599,7 @@ public class GenogramService {
             else {
                 // Trực hệ 2 = 0
                 if (direct2.size() == 0 || direct2.size() == 1) {
-                    result.add("UNGTHUVU_THAP");
+                    result.add("UNGTHUDAITRUCTRANG_THAP");
                 }
 
 
@@ -609,13 +607,13 @@ public class GenogramService {
                 if (direct2.size() == 2) {
                     if (paternalSide.containsAll(direct2) || maternalSide.containsAll(direct2)) {
                         if (direct2Age.stream().anyMatch(integer -> integer > 0) && direct2Age.stream().anyMatch(integer -> integer < 50)) {
-                            result.add("UNGTHUVU_CAO");
+                            result.add("UNGTHUDAITRUCTRANG_CAO");
                         } else {
-                            result.add("UNGTHUVU_TB");
+                            result.add("UNGTHUDAITRUCTRANG_TB");
                         }
                     }
                     else
-                        result.add("UNGTHUVU_THAP");
+                        result.add("UNGTHUDAITRUCTRANG_THAP");
                 }
 
 
@@ -634,11 +632,11 @@ public class GenogramService {
                     {
                         if(Mark.stream().anyMatch(integer -> integer > 0)&&Mark.stream().anyMatch(integer -> integer < 50))
                         {
-                            result.add("UNGTHUVU_CAO");
+                            result.add("UNGTHUDAITRUCTRANG_CAO");
                         }
                         else
                         {
-                            result.add("UNGTHUVU_TB");
+                            result.add("UNGTHUDAITRUCTRANG_TB");
                         }
                     }
 
@@ -658,17 +656,17 @@ public class GenogramService {
                     {
                         if(Mark.stream().anyMatch(integer -> integer > 0)&&Mark.stream().anyMatch(integer -> integer < 50))
                         {
-                            result.add("UNGTHUVU_CAO");
+                            result.add("UNGTHUDAITRUCTRANG_CAO");
                         }
                         else
                         {
-                            result.add("UNGTHUVU_TB");
+                            result.add("UNGTHUDAITRUCTRANG_TB");
                         }
                     }
 
                     if (cPaternal<2 && cMaternal<2)
                     {
-                        result.add("UNGTHUVU_THAP");
+                        result.add("UNGTHUDAITRUCTRANG_THAP");
                     }
 
 
@@ -699,13 +697,15 @@ public class GenogramService {
         genogram.setKey(person.getId());
         List<Illness> illnessList =  person.getHealthRecord().getIllnessList();
         List<String> illnessName = new ArrayList<>();
-        for (Illness i:illnessList
-             ) {
+        for (Illness i:illnessList) {
             if (!i.getName().isEmpty()){
                 attributes.add(i.getName());
             }
-            if (!i.getIllName().isEmpty()){
+            if (i.getIllName()!= null && i.getIllNameOther() == null){
                 illnessName.add(i.getIllName());
+            }
+            else if (i.getIllName() != null && i.getIllNameOther() != null){
+                illnessName.add(i.getIllNameOther());
             }
         }
         if(illnessName.isEmpty()){
@@ -793,8 +793,11 @@ public class GenogramService {
                 if (!i.getName().isEmpty()){
                     relativeAttributes.add(i.getName());
                 }
-                if (!i.getIllName().isEmpty()){
+                if (i.getIllName() != null && i.getIllNameOther() == null){
                     illnessNameRelative.add(i.getIllName());
+                }
+                else if (i.getIllName() != null && i.getIllName() != null){
+                    illnessNameRelative.add(i.getIllNameOther());
                 }
             }
             if (illnessNameRelative.isEmpty()){

@@ -29,6 +29,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -40,6 +43,8 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
     @Autowired
     PersonService personService;
+    static final String Generator = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    static SecureRandom rnd = new SecureRandom();
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -53,10 +58,32 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
             Person person = new Person();
             person.setUsername(email);
+            LocalDate date = LocalDate.now();
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyMMdd");
+            String concat = date.format(dateTimeFormatter);
+            System.out.print(concat);
+
+            int len = 8;
+            StringBuilder sb = new StringBuilder(len);
+            for (int i=0; i<len; i++){
+                sb.append(Generator.charAt(rnd.nextInt(Generator.length())));
+            }
+            person.setAppID(concat+sb);
             person.setHealthRecord(new HealthRecord());
+            person.setEmail(email);
+
             List<Relative> relativeList = new ArrayList<Relative>();
-            relativeList.add(new Relative());
+            Relative r = new Relative();
+            relativeList.add(r);
             person.setRelativeList(relativeList);
+
+            List<Illness> personIllness = new ArrayList<>();
+            personIllness.add(new Illness());
+            person.getHealthRecord().setIllnessList(personIllness);
+
+            List<Illness> relativeIllness = new ArrayList<>();
+            relativeIllness.add(new Illness());
+            r.setIllnessRelative(relativeIllness);
 
             personService.addNewPerson(person);
         } else {
@@ -77,16 +104,15 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
         response.setHeader("access_token", access_token);
         response.setHeader("username", oAuth2User.getEmail());
+        String mail = oAuth2User.getEmail();
 
-
-        Cookie cookie = new Cookie("access_token", access_token);
-        Cookie cookie1 = new Cookie("email", oAuth2User.getEmail());
-        cookie.setPath("/");
-        cookie1.setPath("/");
-        response.addCookie(cookie);
-        response.addCookie(cookie1);
-        response.sendRedirect("http://localhost:4200");
-
+//        Cookie cookie = new Cookie("access_token", access_token);
+//        Cookie cookie1 = new Cookie("email", oAuth2User.getEmail());
+//        cookie.setPath("/");
+//        cookie1.setPath("/");
+//        response.addCookie(cookie);
+//        response.addCookie(cookie1);
+        response.sendRedirect("http://localhost:4200/info;email="+mail+";token="+access_token);
 
     }
 

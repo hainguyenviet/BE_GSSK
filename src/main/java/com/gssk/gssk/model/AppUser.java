@@ -1,17 +1,19 @@
 package com.gssk.gssk.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gssk.gssk.security.account.ERole;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
+
 
 @Data
 @AllArgsConstructor
@@ -20,22 +22,26 @@ import java.util.UUID;
 @Table (name = "users", uniqueConstraints = {@UniqueConstraint(name = "email_register", columnNames = "email")})
 public class AppUser implements UserDetails {
 
-//    @SequenceGenerator(
-//            name = "account_sequence",
-//            sequenceName = "account_sequence",
-//            allocationSize = 1
-//    )
+    @SequenceGenerator(
+            name = "account_sequence",
+            sequenceName = "account_sequence",
+            allocationSize = 1
+    )
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "account_sequence"
+    )
+
     @Column(name = "id")
-    private String id;
+    private Long id;
     @NotNull
     @Column(name = "full_name")
     private String fullName;
     @NotNull
     @Column(name = "email")
     private String email;
+
     @NotNull
     @Column(name = "password")
     private String password;
@@ -46,15 +52,18 @@ public class AppUser implements UserDetails {
     @Column(name = "is_locked")
     private Boolean locked = false;
     @Column(name = "is_enabled")
-    private Boolean enabled = false;
+    private Boolean enabled = true;
 
-//    @OneToOne(mappedBy = "appUser_id", cascade = CascadeType.ALL)
-//    private Person person_id;
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
 
-//    @OneToOne(targetEntity = Person.class, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "person_id", referencedColumnName = "id")
-//    private Person person;
-
+    @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+    @Column(name="created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+    @Column(name = "update_at")
+    private LocalDateTime updateAt = LocalDateTime.now();
 
     public AppUser(String email, String password, ERole role, Boolean locked, Boolean enabled){
         this.email = email;
@@ -62,6 +71,7 @@ public class AppUser implements UserDetails {
         this.role = role;
         this.locked = locked;
         this.enabled = enabled;
+        //this.createdAt = createdAt;
     }
 
 
@@ -98,7 +108,7 @@ public class AppUser implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return !locked;
+        return locked;
     }
 
     @Override

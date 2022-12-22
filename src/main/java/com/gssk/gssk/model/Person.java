@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.text.DateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Data
@@ -16,13 +19,16 @@ public class Person {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "app_id")
+    private String appID;
+
     @Column(name="first_name")
     private String firstName;
 
     @Column(name="last_name")
     private String lastName;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone="GMT")
     @Column(name = "birthday")
     private Date dateOfBirth;
 
@@ -48,10 +54,13 @@ public class Person {
 
     @Column(name= "username")
     private String username;
-
-
-//    @OneToOne(targetEntity = AppUser.class, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "user_id", referencedColumnName = "id")
-//    private AppUser appUser_id;
+    
+    @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+    @Column(name="created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+    @Column(name = "update_at")
+    private LocalDateTime updateAt = LocalDateTime.now();
 
 }
